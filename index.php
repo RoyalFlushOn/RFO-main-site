@@ -1,3 +1,5 @@
+<?php session_start();?>
+
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -11,7 +13,7 @@ and open the template in the editor.
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		 <link rel="stylesheet" href="css/theme.css">
 
 
@@ -20,8 +22,8 @@ and open the template in the editor.
  
   <?php 
   
-  		session_start();
   		
+  	include('appClass/Autoloader.php');	
 		include('plugins/CommentsPlugin.php');
 		include('plugins/UserStatusPlugin.php');
 
@@ -157,29 +159,26 @@ and open the template in the editor.
     </div>
 
   </div>
-
+  <?php include('plugins/articleTopThree.php'); ?>
   <hr/>
 
   <div class="row" id="newsFeed">
     <div class="col-sm-4">
-      <img class="img-circle img-responsive img-center" src="http://placehold.it/300x300" alt="">
-      <h2>Recent Announcement #1</h2>
-      <p>Snap shot of current, up and coming events, projects, new etc.
-        <br/> Will be displayed here.
+      <img class="img-circle img-responsive img-center" src="<?php echo $ra1['thumbnail']; ?>" alt="http://placehold.it/300x300">
+      <h2><?php echo $ra1['headline']; ?></h2>
+      <p><?php echo $ra1['tagline']; ?>
       </p>
     </div>
     <div class="col-sm-4">
-      <img class="img-circle img-responsive img-center" src="http://placehold.it/300x300" alt="">
-      <h2>Recent Announcement #2</h2>
-      <p>Snap shot of current, up and coming events, projects, new etc.
-        <br/> Will be displayed here.
+      <img class="img-circle img-responsive img-center" src="<?php echo $ra2['thumbnail']; ?>" alt="http://placehold.it/300x300">
+      <h2><?php echo $ra2['headline'] ?></h2>
+      <p><?php echo $ra2['tagline']; ?>
       </p>
     </div>
     <div class="col-sm-4">
-      <img class="img-circle img-responsive img-center" src="http://placehold.it/300x300" alt="">
-      <h2>Recent Announcement #3</h2>
-      <p>Snap shot of current, up and coming events, projects, new etc.
-        <br/> Will be displayed here.
+      <img class="img-circle img-responsive img-center" src="<?php echo $ra3['thumbnail']; ?>" alt="http://placehold.it/300x300">
+      <h2><?php echo $ra3['headline'] ?></h2>
+      <p><?php echo $ra3['tagline']; ?>
       </p>
     </div>
   </div>
@@ -226,6 +225,6 @@ and open the template in the editor.
 </body>
 
 
-<script src="js/site.js"></script>
+<!--<script src="js/site.js"></script>-->
 <?php echo $loginStat; ?>
 </html>

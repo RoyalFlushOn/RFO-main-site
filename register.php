@@ -14,7 +14,9 @@ and open the template in the editor.
 		<link rel="stylesheet" href="css/theme.css">
       
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>		
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>		
+		
 
 		<?php 
 			function dobDay(){
@@ -306,9 +308,9 @@ and open the template in the editor.
 	 <br/>
 	 <br/>
 	 
-      <div class="row">
+      <div class="row" onload="setUp()">
         
-        <form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
+        <form class="form-horizontal" method="post" action="register.php" enctype="multipart/form-data">
           
           <div class="form-group" id="username">
             <label class="control-lable col-md-2 col-sm-2 col-md-offset-2" for="user">*Username: </label>
@@ -384,10 +386,17 @@ and open the template in the editor.
 				</div>
 						<label class="control-lable"><?php echo $errDOB; ?></label>
 			</div>
-          
+          <div class="form-group" id="iRobot">
+						<div class="col-md-10 col-md-offset-4">
+							<div class="g-recaptcha" data-sitekey="6LeEhiMUAAAAAI2RhHbWDCwbJhNtxKiKRmk0Zzki"
+										data-theme="dark" data-callback="iRobot"></div>
+							<label id="test"></label>
+						</div>
+					</div>
           <div class="form-group" id="submitButton">
             <div class="col-md-10 col-md-offset-4">
-              <input type="submit" class="btn btn-success" value="Submit" >
+              <input type="submit" class="btn btn-success" value="Submit" 
+							name="sbmtBtn" id="sbmtBtn">
             </div>
           </div>  
           
@@ -401,11 +410,12 @@ and open the template in the editor.
       </div>
     </section>
     <footer class="container">
-      <p>&COPY; 2016 Royalflush </p>
+      <p>&COPY; 2017 Royalflush </p>
     </footer>
   </div>
 	 
 	<script src="js/register.js"></script>		 
+	<script src="js/recaptcha.js"></script>
 	 
   </body>
 </html>

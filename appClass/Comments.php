@@ -2,7 +2,7 @@
 
   //require('appClass/Collection.php');
   //include('appData/DataAccess.php');
-  include('appClass/Comment.php');
+  // include('appClass/Comment.php');
   class Comments{
     
     private $main;

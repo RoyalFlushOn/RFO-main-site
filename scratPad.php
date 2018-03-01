@@ -1,22 +1,138 @@
- <?php 
-	//namespace Emojione;
-	session_start();
-	
-	session_destroy();
-?>
+<?php  //session_start(); ?>-->
 
 <html>
+
+ <?php 
+
+
+	//namespace Emojione;
+	// session_start();
+	
+	// session_destroy();
+
+	// if(!$_GET['npsw'] == null ){
+	// 	  echo 'found get';
+	//   } else {
+	// 	  header("Location:index.php?msg=Ooow+sorry+that+is+not+allowed.+Bye&type=info");
+	//   }
+?>
 	
 	<head>
 		  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <!--         <link rel="stylesheet" href="css/bootstrap-theme-dark.css">  -->
        <link rel="stylesheet" href="css/theme.css">
+	   
       
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		
 				
 	</head>
   <?php 
+
+
+
+// include 'appClass/Autoloader.php';
+
+// if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+	// $fileJson = $_POST['file'];
+
+	// print_r($fileJson);
+
+	// $fileObj - json_decode($fileJson);
+
+	// print_r($fileObj);
+
+	
+
+// 		if(!empty($_POST['txtBxTest'])){
+// 			echo $_POST['txtBxTest'];
+// 		}
+		
+		if(isset($_FILES['file'])){
+
+			if($_FILES['file']['size'][0] > 0){
+				$nameArr = $_FILES['file']['name'];
+				$tmp_name = $_FILES['file']['tmp_name'];
+				$errArr = $_FILES['file']['error'];
+
+				$temp = basename($nameArr[0]);
+
+				echo $temp;
+				echo'</br>';
+				echo $nameArr[0];
+				echo'</br>';
+				echo $tmp_name[1];
+				echo'</br>';
+				echo $ext =  pathinfo($temp, PATHINFO_EXTENSION);
+
+				if($ext == 'html'){
+					echo '<br/> files .html';
+				} else if($ext == 'txt'){
+					echo '<br/> files .txt';
+				} else {
+					echo '<br/> should not see this yet';
+				}
+
+				// if (strcmp($ext, 'txt') != 0 OR strcmp($ext, 'html') != 0){
+				// 	echo '<br/> hmmm why did it work this time?';
+				// } else {
+				// 	echo '<br/> smeg, try again';
+				// }
+			} else {
+				echo 'no file present';
+			}
+
+			
+		}
+
+		// if(!empty($_POST['txtBxTest2'])){
+		// 	echo '</br>' . $_POST['txtBxTest2'];
+		// }
+// }
+
+// echo __DIR__;
+
+// echo "</br>" . subStr(__DIR__, 0,strlen(__DIR__) - strlen('/testing'));
+
+
+
+
+
+// $temp = $_SESSION['topArticles'];
+
+// $art = $temp->getItem('RA1');
+
+// //   echo $filename = dirname(__FILE__).DIRECTORY_SEPARATOR.'Article.php';
+  
+//   echo $art->insertArticle($art2);
+  
+//   echo '<br/>';
+// 	$temp = $art->topThreeArticles();
+//   print_r($temp);
+
+//   echo '</br>';
+
+//   $art =  $temp->getItem('RA1');
+//   print_r($art);
+
+//   echo '</br>';
+
+//   echo $art->getId();
+
+//   echo '</br>';
+
+//   echo $art->getHeadline();
+
+  	// if(!$_GET['npsw'] == null ){
+	// 	  echo 'found get';
+	//   } else {
+	// 	  header("Location:index.php?msg=Ooow+sorry+that+is+not+allowed.+Bye&type=info");
+	//   }
  		//include('appData/DataAccess.php');
 	
 // 		$dtAcc  = new DataAccess();
@@ -122,6 +238,79 @@
 			<br/>
 			
 		<br/>
+
+		
+
+		<!--<p id="file"></p>-->
+
+		<!--<script>
+			function jsonTest(){
+				var files = $('#fileTest').prop('files');
+
+				var reader = new FileReader();
+
+				reader.onload = function(){
+					var text = reader.result;
+
+					$('#output').text(text);
+				};
+				reader.readAsText(files[0]);
+			}
+		</script>
+
+		<div id="input">
+			<form id="form" class="form-horizontal">
+				<div class="form-group">
+				<input type="file" name="fileTest" id="fileTest" class="form-control-file" onchange="jsonTest()">
+				<img src="images/site-images/file-uploads/appbar.page.check.png" class="img">
+				</div>
+			</form>
+		</div>
+
+		<div>
+			<label id="output"></label>
+		</div>-->
+		<!--<form method="post" action="scratPad.php" enctype="multipart/form-data" class="form-horizontal">
+
+			<div class="panel" id="testPnl">
+			<script>
+				$('#testPnl').load('scratInject.php');
+				var test = "fingers crossed";
+			</script>
+
+				
+			</div>
+
+			<div class="form-group">
+				<input type="submit" name="submit" value="Submit "class="form-control">
+			</div>
+		</form>-->
+
+		<form method="post" action="scratPad.php" enctype="multipart/form-data" class="form-horizontal">
+
+		<div class="panel">
+
+			<div class="form-group">
+				<input type="text" name="txtBxTest" id="txtBxTest" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<input type="file" name="file[]" id="filestuff" class="form-control-file">
+			</div>
+
+			<div class="form-group">
+				<input type="file" name="file[]" id="imageStuff" class="form-control-file">
+			</div>
+
+			<div class="form-group">
+				<input type="text" name="txtBxTest2" id="txtBxTest" class="form-control">
+			</div>
+
+			<div class="form-group">
+				<input type="submit" name="submit" value="Submit "class="form-control">
+			</div>
+			</div>
+		</form>
 		<!--	<form class="form-horizontal col-sm-6 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-offset-3 col-lg-6" 
 						method="get" action="scratPad.php">
 				
@@ -144,7 +333,25 @@
 			</form>-->
 			
 			<br/>
-			
+			<script>
+			var nothing = "";
+			var something = 'text';
+
+			var nLen = nothing.length;
+			var sLen = something.length;
+
+			if(nothing.length > 0){
+				$('#txtBxTest').val('thats not right');
+			} else {
+				$('#txtBxTest').val('thats wat I wanted to see');
+			}
+
+			if(something.length == 0){
+				$('#txtBxTest2').val('thats not right');
+			} else {
+				$('#txtBxTest2').val('thats wat I wanted to see');
+			}
+		</script>
 			
 
 
@@ -154,10 +361,10 @@
 		
 		//include "appData/DataAccess.php";
 		
-			require 'appClass/Member.php';
+			// require 'appClass/Member.php';
 			
 			
-			echo password_hash('cheese', PASSWORD_DEFAULT);	
+			//echo password_hash('cheese', PASSWORD_DEFAULT);	
 				
 				
 		
@@ -374,6 +581,6 @@
 	
   </body>
 
-	<script src="js/site.js"></script>
+	<!--<script src="js/site.js"></script>-->
 	
 </html>

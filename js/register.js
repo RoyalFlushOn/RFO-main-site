@@ -4,34 +4,49 @@ var $dayBtn = $("#dayChoice");
   var $hiddenDay = $("#dayVal");
   var $hiddenMonth = $("#monthVal");
   var $hiddenYear = $("#yearVal");
-  
-  $("#daysDropdown li a").on("click", function(e){
 
-    e.preventDefault();
-    var $choice = $(this).text();
-    
-   $dayBtn.text($choice);
-   $hiddenDay.val($choice);
+//   $('#sbmtBtn').hide();
+
+  $dayBtn.on('click', function(event){
+      event.preventDefault();
+  })
+
+  $monthBtn.on('click', function(event){
+      event.preventDefault();
+  })
+
+  $yearBtn.on('click', function(event){
+      event.preventDefault();
+  })
+  
+  $("#daysDropdown li a").on("click", function(){
+      
+      var $choice = $(this).text();
+        
+      $dayBtn.text($choice);
+      $hiddenDay.val($choice);
+
+      $(this).preventDefault();
   });
   
   
-  $("#monthDropdown li a").on("click", function(e){
-
-      e.preventDefault();
+  $("#monthDropdown li a").on("click", function(){
+      
     var $choice = $(this).text();
     
     $monthBtn.text($choice);
     $hiddenMonth.val($choice);
+
+    $(this).preventDefault();
   });
   
-  $("#yearDropdown li a").on("click", function(e){
-    
-    e.preventDefault();
+  $("#yearDropdown li a").on("click", function(){
     var $choice = $(this).text();
     
     $yearBtn.text($choice);
     $hiddenYear.val($choice);
     
+    $(this).preventDefault();
   });
   
   var $pass = $("#pass");
@@ -49,3 +64,5 @@ var $dayBtn = $("#dayChoice");
       $errPassChk.text('Passwords match.');
     }
   });
+
+  

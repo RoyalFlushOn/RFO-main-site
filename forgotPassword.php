@@ -22,13 +22,16 @@
 	
 		$focus = "<script>$('#password input').focus();</script>";
 	
-		if($_GET['npsw'] == 'true'){
-		 	
-			$npsw = $_GET['npsw'];
-			$ver = $_GET['ver'];
-			$vstr = $_GET['vstr'];
-			
-			$_SESSION['forgotPassword'] = array( $npsw, $ver, $vstr);
+		if(!$_GET['npsw'] == null ){
+
+			if($_GET['npsw'] == 'true'){
+				
+				$npsw = $_GET['npsw'];
+				$ver = $_GET['ver'];
+				$vstr = $_GET['vstr'];
+				
+				$_SESSION['forgotPassword'] = array( $npsw, $ver, $vstr);
+			}
 		}
 	
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -184,8 +187,8 @@
 				header("Location:index.php?msg=Hmmm this is highly irregular captain, please contact star fleet(thats us) @ support@royalflush.online if this continues&type=warning");
 			}
 		} else { 
-			echo "getter em is not set hmmm";
-			//header("Location:index.php?msg=Ooow sorry that is not allowed. Bye&type=info");
+			//echo "getter em is not set hmmm";
+			header("Location:index.php?msg=Ooow sorry that is not allowed. Bye&type=info", ture);
 		}
     
   ?>
@@ -217,7 +220,7 @@
     </section>
     <hr />
     <footer class="container">
-      <p>&COPY; 2016 Royalflush </p>
+      <p>&COPY; <?php echo date('Y');?> Royalflush </p>
     </footer>
   </div>
 

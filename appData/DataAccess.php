@@ -18,9 +18,13 @@
     
     function dbConnection(){
       
+      // $this->serverName = 'localhost';
+      // $this->username = 'root';
+      // $this->password = '';
+
       $this->serverName = 'localhost';
-      $this->username = 'royalflushonline';
-      $this->password = 'FullHouse1985';
+      $this->username = 'root';
+      $this->password = 'root';
       
       try{
         $this->dbConn = new PDO("mysql:host=$this->serverName;dbname=RFO", $this->username, $this->password);
@@ -31,6 +35,16 @@
       catch (PDOException $e){
         return 'woops: ' . $e->getMessage();
       }
+    }
+
+    function getDbConn(){
+
+      return $this->dbConn;
+    }
+
+    function closeConnection(){
+
+      $this->dbConn = null;
     }
     
     function returnQuery($query){
@@ -44,6 +58,8 @@
       } else {
         return null;
       }
+
+      $this->dbConn = null;
     }
     
     public function insertStatement($query){
@@ -233,6 +249,8 @@
        
       $this->dbConn = null;
     }
+
+
     
   }
 ?>
