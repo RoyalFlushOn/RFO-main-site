@@ -3,7 +3,7 @@ include('appData/DataAccess.php');
 
 class Article{
   
-  private $artID
+  private $artID;
   private $headline;
   private $mainText;
   private $author;
