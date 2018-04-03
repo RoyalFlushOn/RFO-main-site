@@ -66,40 +66,44 @@
                 
                 $temp = $member->getUserData($userNm);
                 
-//                 foreach($temp as $item){
-//                       $newMember = new Member(
-//                       $item['first'],
-//                       $item['second'],
-//                       $item['D_O_B'],
-//                       $item['email'],
-//                       $item['username'],
-//                       $item['creation'],
-//                       $item['status'],
-//                       $item['level'],
-//                       $item['dis_pic']);
-//                     }
-                
-//                 if($newMember->getStatus() !== 'verified'){
-								 foreach($temp as $item){
+								// foreach($temp as $item){
                       
-                    	$login['fName'] = $item['first'];
-                      $login['lName'] = $item['second'];
-                      $login['DOB'] = $item['D_O_B'];
-                      $login['email'] = $item['email'];
-                      $login['user'] = $item['username'];
-                      $login['cDate'] = $item['creation'];
-                      $login['status'] = $item['status'];
-                      $login['level'] = $item['level'];
-                      $login['dPic'] = $item['dis_pic'];
-                    }
+                //     	$login['fName'] = $item['first'];
+                //       $login['lName'] = $item['second'];
+                //       $login['DOB'] = $item['D_O_B'];
+                //       $login['email'] = $item['email'];
+                //       $login['user'] = $item['username'];
+                //       $login['cDate'] = $item['creation'];
+                //       $login['status'] = $item['status'];
+                //       $login['level'] = $item['level'];
+                //       $login['dPic'] = $item['dis_pic'];
+                // }
+
+                $jsonUser = '{ "user" : {';
+                foreach($temp as $item){
+                  
+                  $jsonUser += '"fName" : "' . $item['first'] . '",' .
+                  '"lName" : "' . $item['second'] . '",' .
+                  '"DOB" : "' . $item['D_O_B'] . '",' .
+                  '"email" : "' . $item['email'] . '",' .
+                  '"user" : "' . $item['username'] . '",' .
+                  '"cDate" : "' . $item['creation'] . '",' .
+                  '"status" : "' . $item['status'] . '",' .
+                  '"level" : "' . $item['level'] . '",' .
+                  '"dPic" : "' . $item['dis_pic'] . '"'; 
+                }
                 
-                if($login['status'] !== 'verified'){
+                $jsonUser += '}}';
+
+                $user = json_decode($jsonUser);
+
+                if($user->status !== 'verified'){
                  $unverfied = '<div class="alert alert-warning fade-out">
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 				<strong>Notice</strong>This account has not been verified yet. Please verify via emailed link. If this link has timed out then please click <a href="activation.php?trigger=yes&email='. $login['email'] . '">here</a>
 			</div>';
                 } else {
-                  $_SESSION['user'] = $login;
+                  $_SESSION['user'] = json_encode($user);
                 
                 $page = $_SESSION['login_location'];
                 $_SESSION['login_location'] = ' ';

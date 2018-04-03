@@ -99,7 +99,7 @@ and open the template in the editor.
             } else {
 				$member = new Member();
 				$tempStr = $_POST['user'];
-                $usrChk = $member->userCheck($tempStr);
+                $usrChk = $member->userCheck($tempStr);//future change to rest API
                 
                 if($usrChk){
                     $errUsrNm = '<h6 class="text-danger">Username already in use, please choose another.</h6>';
@@ -123,7 +123,7 @@ and open the template in the editor.
 						$errEm = '<h6 class="text-warning">Please enter Valid email address eg: <i>youraddress@provider.com</i></h6>';
 					} else {
                 		$member = new Member();
-						$emChk = $member->emailCheck($_POST['email']);
+						$emChk = $member->emailCheck($_POST['email']);//future change to rest API
 								
                 		if($emChk == true){
                     		$errEm = '<h6 class="text-danger">Email already in use, please choose another</h6>';

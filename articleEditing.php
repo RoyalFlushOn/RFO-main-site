@@ -1,13 +1,36 @@
 <?php session_start();
 	include 'appClass/Autoloader.php';
+	include 'plugins/UserStatusPlugin.php';
 
-	$headline = $tagline = $page = $finalImgPth = $artFilePath = $imagePath = $finalArtFile = '';
+	$result = $headline = $tagline = $page = $finalImgPth = $artFilePath = $imagePath = $finalArtFile = '';
 
 	$hdLnErr = $artFlErr = $thmbErr = $tagErr = $upldFrmErr = '';
 
 	$fileNms = $tmpLoc = $errors = array();
 
 	$formStat = false;
+
+	$result = pageloadUserCheck();
+
+	if($result->login == 'true'){
+
+		$temp = $_SESSION['user'];
+		$user = json_decode($temp);
+
+		if($user->level != 10){
+			
+			header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']) . 'index.php?msg=Sorry+you+must+logged+in+to+use+this+page.&type=warning');
+			//dev only
+			//header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php?msg=Sorry+you+must+be+a+&type=warning');
+	
+		}
+
+	} else {
+		header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']) . 'index.php?msg=Sorry+you+must+logged+in+to+use+this+page.&type=warning');
+		//dev only
+		//header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php?msg=Sorry+you+must+logged+in+to+use+this+page.&type=warning');
+	
+	}
 
 	if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
@@ -33,8 +56,8 @@
 
 		$baseDir = __DIR__;
 		$formStat = false;
-		$user = 'testUser';
-		$artId = 'AR1040';
+		$user = 'someOneNew';
+		$artId = 'AR1052';
 
 		if(!empty($_POST['headline'])){
 			$headline = htmlspecialchars($_POST['headline']);

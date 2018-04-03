@@ -1,4 +1,5 @@
-<?php  //session_start(); ?>-->
+<?php  session_start();
+	include "appClass/Autoloader.php" ?>
 
 <html>
 
@@ -53,42 +54,42 @@
 // 			echo $_POST['txtBxTest'];
 // 		}
 		
-		if(isset($_FILES['file'])){
+		// if(isset($_FILES['file'])){
 
-			if($_FILES['file']['size'][0] > 0){
-				$nameArr = $_FILES['file']['name'];
-				$tmp_name = $_FILES['file']['tmp_name'];
-				$errArr = $_FILES['file']['error'];
+		// 	if($_FILES['file']['size'][0] > 0){
+		// 		$nameArr = $_FILES['file']['name'];
+		// 		$tmp_name = $_FILES['file']['tmp_name'];
+		// 		$errArr = $_FILES['file']['error'];
 
-				$temp = basename($nameArr[0]);
+		// 		$temp = basename($nameArr[0]);
 
-				echo $temp;
-				echo'</br>';
-				echo $nameArr[0];
-				echo'</br>';
-				echo $tmp_name[1];
-				echo'</br>';
-				echo $ext =  pathinfo($temp, PATHINFO_EXTENSION);
+		// 		echo $temp;
+		// 		echo'</br>';
+		// 		echo $nameArr[0];
+		// 		echo'</br>';
+		// 		echo $tmp_name[1];
+		// 		echo'</br>';
+		// 		echo $ext =  pathinfo($temp, PATHINFO_EXTENSION);
 
-				if($ext == 'html'){
-					echo '<br/> files .html';
-				} else if($ext == 'txt'){
-					echo '<br/> files .txt';
-				} else {
-					echo '<br/> should not see this yet';
-				}
+		// 		if($ext == 'html'){
+		// 			echo '<br/> files .html';
+		// 		} else if($ext == 'txt'){
+		// 			echo '<br/> files .txt';
+		// 		} else {
+		// 			echo '<br/> should not see this yet';
+		// 		}
 
-				// if (strcmp($ext, 'txt') != 0 OR strcmp($ext, 'html') != 0){
-				// 	echo '<br/> hmmm why did it work this time?';
-				// } else {
-				// 	echo '<br/> smeg, try again';
-				// }
-			} else {
-				echo 'no file present';
-			}
+		// 		// if (strcmp($ext, 'txt') != 0 OR strcmp($ext, 'html') != 0){
+		// 		// 	echo '<br/> hmmm why did it work this time?';
+		// 		// } else {
+		// 		// 	echo '<br/> smeg, try again';
+		// 		// }
+		// 	} else {
+		// 		echo 'no file present';
+		// 	}
 
 			
-		}
+		// }
 
 		// if(!empty($_POST['txtBxTest2'])){
 		// 	echo '</br>' . $_POST['txtBxTest2'];
@@ -224,10 +225,20 @@
 // 	 }
 	 
 //  }	
-	
-	
 
+	$jsonStr = '{ "user" : { "status" : "verified" } }';
+
+	$_SESSION['user'] = $jsonStr;
 	
+	include "/Applications/MAMP/htdocs/RFO-main-site/plugins/UserStatusPlugin.php";
+
+	$result = pageloadUserCheck();
+
+	if($result->login == 'true'){
+		echo 'boom done';
+	} else {
+		echo 'hmmm';
+	}
 	
 	
 	?>
@@ -334,23 +345,23 @@
 			
 			<br/>
 			<script>
-			var nothing = "";
-			var something = 'text';
+			// var nothing = "";
+			// var something = 'text';
 
-			var nLen = nothing.length;
-			var sLen = something.length;
+			// var nLen = nothing.length;
+			// var sLen = something.length;
 
-			if(nothing.length > 0){
-				$('#txtBxTest').val('thats not right');
-			} else {
-				$('#txtBxTest').val('thats wat I wanted to see');
-			}
+			// if(nothing.length > 0){
+			// 	$('#txtBxTest').val('thats not right');
+			// } else {
+			// 	$('#txtBxTest').val('thats wat I wanted to see');
+			// }
 
-			if(something.length == 0){
-				$('#txtBxTest2').val('thats not right');
-			} else {
-				$('#txtBxTest2').val('thats wat I wanted to see');
-			}
+			// if(something.length == 0){
+			// 	$('#txtBxTest2').val('thats not right');
+			// } else {
+			// 	$('#txtBxTest2').val('thats wat I wanted to see');
+			// }
 		</script>
 			
 

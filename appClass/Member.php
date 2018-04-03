@@ -1,8 +1,6 @@
 <?php 
 
-  require_once('appData/DataAccess.php');
-	require_once('appClass/Email.php');
-	include 'appClass/EmailContent.php';
+  include 'appClass/Autoloader.php';
 
   class Member{
     

@@ -27,13 +27,13 @@ and open the template in the editor.
 		include('plugins/CommentsPlugin.php');
 		include('plugins/UserStatusPlugin.php');
 
-		$login = pageload();
+		$login = pageloadUserCheck();
 		$regStat = '';
 	
 				
-		if($login['login']){
+		if($login->login){
 			
-			if($login['regStat']){
+			if($login->regStat){
 				
 				$loginStat = '<script>$("#login a").hide(); 
 				$("#reg a").hide();</script>';	

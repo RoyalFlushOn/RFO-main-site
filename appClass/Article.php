@@ -1,5 +1,5 @@
 <?php
-
+include 'Autoloader.php';
 
 class Article{
   
@@ -150,15 +150,24 @@ class Article{
         $i++;
       }
 
-      $pre->execute($tempArr);
+      /**
+       * start of transaction to add the article data from the form, then update the recent article table
+       * by deleting the oldest entry from the table and adding the id from the new one.
+       */
+      
+      $pre->execute($tempArr);  //adding form data to Article table 
       $log->logEntry("Inserted record into Articles matching id: " . $article->getId());
 
+      //adding the forms article if to the recent_article Table.
       $trans->exec("insert into Recent_Articles values(null, '" . $article->getId() . "')");
       $log->logEntry('Inserted into Recent_Articles, article id: '. $article->getId());
 
+      //using the minimum Recent_articles id from above to delete that entry from the recent_articles 
+      //table
       $trans->exec("delete from Recent_Articles where tracker_id =" . $trkId['min']);
       $log->logEntry('Record deleted from Recent_Articles');
 
+      //Commit these changes to the DB
       $trans->commit();
       $log->logEntry('Transaction completed, process flag set to true for return');
 
@@ -168,8 +177,7 @@ class Article{
       
       $log->enter($ex->getMessage());
 
-      //echo $ex->getMessage();
-
+      //problem with db commands so transaction is being rolled back
       $trans->rollBack();
 
       $flag = false;
