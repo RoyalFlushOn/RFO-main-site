@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +18,7 @@
 	
 		$focus = "<script>$('#username input').focus();</script>";
   
-    session_start();
+    
 	
 		require 'appClass/Member.php';
   
@@ -79,7 +80,7 @@
                 //       $login['dPic'] = $item['dis_pic'];
                 // }
 
-                $jsonUser = '{ "user" : {';
+                $jsonUser = '{';
                 foreach($temp as $item){
                   
                   $jsonUser += '"fName" : "' . $item['first'] . '",' .
@@ -93,7 +94,7 @@
                   '"dPic" : "' . $item['dis_pic'] . '"'; 
                 }
                 
-                $jsonUser += '}}';
+                $jsonUser += '}';
 
                 $user = json_decode($jsonUser);
 

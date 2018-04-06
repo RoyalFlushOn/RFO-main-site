@@ -23,49 +23,33 @@ and open the template in the editor.
         include('appClass/Autoloader.php');
         include('plugins/CommentsPlugin.php');
 				include('plugins/UserStatusPlugin.php');
-        // include('appClass/Article.php');
 	
-				$login = pageload();
-				$regStat = '';
+				$login = pageloadUserCheck();
+				$regStat = $loginStat = '';
 	
-			if($login['login']){
-				if($login['regStat']){
-					$loginStat = '<script>$("#login a").hide(); 
-					$("#reg a").hide();</script>';	
-				} else {
-					$loginStat = '<script>$("#logout a").hide();</script>';
-					$regStat = '<div class="alert alert-warning fade in">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Notice</strong> This account is registered but not activated. Please check email or click on this link, <a href="activation.php">Activate</a>
-			</div>';
-				}
-			} else {
-				$loginStat = '<script>$("#logout a").hide();
-				$("#login a").show();
-				$("#reg a").show();</script>';
-			}
-	
-	$page = $_SERVER['PHP_SELF'];
-	
-	echo $regStat;
-	
-	if(isset($_GET['msg'])){
-		$msg = htmlspecialchars($_GET['msg']);
-		$type = htmlspecialchars($_GET['type']);
-		
-		echo  '<div class="alert alert-' . $type .  ' fade-out">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Notice</strong> ' . $msg .'
-			</div>';
-		
-	}
+			// if($login['login']){
+			// 	if($login['regStat']){
+			// 		$loginStat = '<script>$("#login a").hide(); 
+			// 		$("#reg a").hide();</script>';	
+			// 	} else {
+			// 		$loginStat = '<script>$("#logout a").hide();</script>';
+			// 		$regStat = '<div class="alert alert-warning fade in">
+			// 	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			// 	<strong>Notice</strong> This account is registered but not activated. Please check email or click on this link, <a href="activation.php">Activate</a>
+			// </div>';
+			// 	}
+			// } else {
+			// 	$loginStat = '<script>$("#logout a").hide();
+			// 	$("#login a").show();
+			// 	$("#reg a").show();</script>';
+			// }
 
   if(isset($_GET['id'])){
 
     $id = htmlspecialchars($_GET['id']);
     
-    $art = new Article();
-    $article = $art->getArticle($id);
+    // $art = new Article();
+    // $article = $art->getArticle($id);
 
 
   } 
@@ -129,12 +113,13 @@ and open the template in the editor.
 
     </div>
   </nav>
-  	<div class="container">
+  	<div class="container" id="articleContent">
 
-      <?php echo $article->getMaintext();
+      <?php //echo $article->getMaintext();
        ?>
     </div>
     
   </body>
-<script src='js/site.js'></script>
+<script src='js/articleDisplay.js'></script>
+<?php echo "<script> getArticleContent('" . $id . "'); </script>" ; ?>
 </html>

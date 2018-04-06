@@ -12,23 +12,36 @@
 
 	$result = pageloadUserCheck();
 
-	if($result->login == 'true'){
+	if($result->login == 'true' && $result->regStat == 'true'){
 
 		$temp = $_SESSION['user'];
 		$user = json_decode($temp);
 
-		if($user->level != 10){
-			
-			header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']) . 'index.php?msg=Sorry+you+must+logged+in+to+use+this+page.&type=warning');
+		if($user->level != 99){
+
+			$message = new Message('Sorry you must logged in to use this page.', 'warning');
+
+			$_SESSION['message'] = $message->getJsonString();
+
+			//header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']));
 			//dev only
-			//header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php?msg=Sorry+you+must+be+a+&type=warning');
+			// header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php');
+			$link =  htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php';
+			header('location:' . $link);
 	
 		}
 
 	} else {
-		header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']) . 'index.php?msg=Sorry+you+must+logged+in+to+use+this+page.&type=warning');
+
+		$message = new Message('Sorry you must logged in to use this page.', 'warning');
+
+		$_SESSION['message'] = $message->getJsonString();
+
+		//header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']));
 		//dev only
-		//header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php?msg=Sorry+you+must+logged+in+to+use+this+page.&type=warning');
+		// header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php');
+		$link =  htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php';
+		header('location:http://' . $link);
 	
 	}
 

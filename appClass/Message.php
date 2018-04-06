@@ -28,9 +28,9 @@
             $this->createJsonObject();
         }
 
-        private function createJson(){
+        private function createJsonString(){
 
-            $this->jsonString = '{ "message" : { "content" : "' . $this->massge . '", "type" : "' . $this->type . '" }}';
+            $this->jsonString = '{ "content" : "' . $this->content . '", "type" : "' . $this->type . '" }';
         }
 
         private function createJsonObject(){

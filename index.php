@@ -25,44 +25,55 @@ and open the template in the editor.
   		
   	include('appClass/Autoloader.php');	
 		include('plugins/CommentsPlugin.php');
-		include('plugins/UserStatusPlugin.php');
-
-		$login = pageloadUserCheck();
-		$regStat = '';
-	
+    include('plugins/UserStatusPlugin.php');
+    
+		$regStat = $loginStat = '';
+    pageloadUserCheck();
 				
-		if($login->login){
+		// if($login->login){
 			
-			if($login->regStat){
+		// 	if($login->regStat){
 				
-				$loginStat = '<script>$("#login a").hide(); 
-				$("#reg a").hide();</script>';	
-			} else {
-				$loginStat = '<script>$("#logout a").hide();</script>';
-				$regStat = '<div class="alert alert-warning fade in">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Notice</strong> This account is registered but not activated. Please check email or click on this link, <a href="activation.php">Activate</a>
-			</div>';
-				}
-		} else {
+		// 		$loginStat = '<script>$("#login a").hide(); 
+		// 		$("#reg a").hide();</script>';	
+		// 	} else {
+		// 		$loginStat = '<script>$("#logout a").hide();</script>';
+		// 		$regStat = '<div class="alert alert-warning fade in">
+		// 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		// 		<strong>Notice</strong> This account is registered but not activated. Please check email or click on this link, <a href="activation.php">Activate</a>
+		// 	</div>';
+		// 		}
+		// } else {
 			
-			$loginStat = '<script>$("#logout a").hide();
-			$("#login a").show();
-			$("#reg a").show();</script>';
-		}
+		// 	$loginStat = '<script>$("#logout a").hide();
+		// 	$("#login a").show();
+		// 	$("#reg a").show();</script>';
+		// }
 	
-	$page = $_SERVER['PHP_SELF'];
+	// $page = htmlspecialchars($_SERVER['PHP_SELF']);
 	
-	echo $regStat;
+	// echo $regStat;
   
-  if(isset($_GET['msg'])){
-		$msg = htmlspecialchars($_GET['msg']);	 // look into alt as format
-		$type = htmlspecialchars($_GET['type']); // of messages are changed
-		
-		echo  '<div class="alert alert-' . $type .  ' fade-out">
+  if(isset($_SESSION['message'])){
+    $message = json_decode($_SESSION['message']);
+    
+    if($message->type != null){
+      if($message->content != null){
+
+        echo  '<div class="alert alert-' . $message->type .  ' fade-out">
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Notice</strong> ' . $msg .'
-			</div>';
+        <strong>Notice</strong> ' . $message->content .'
+        </div>';
+      
+        //unset($_SESSION['message']);
+      } else {
+        echo 'hmmm';
+      }
+    } else {
+      //record in the log error with messages
+      echo 'thats not right';
+    }
+    unset($_SESSION['message']);
 		
 	}
 	?>
@@ -221,10 +232,10 @@ and open the template in the editor.
     <footer class="container">
       <p>&COPY; 2016 Royalflush </p>
     </footer>
-            </div>
+  </div>
 </body>
 
 
-<!--<script src="js/site.js"></script>-->
+<script src="js/login.js"></script>
 <?php echo $loginStat; ?>
 </html>

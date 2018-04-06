@@ -226,19 +226,33 @@
 	 
 //  }	
 
-	$jsonStr = '{ "user" : { "status" : "verified" } }';
+	// $jsonStr = '{ "user" : { "status" : } }';
 
-	$_SESSION['user'] = $jsonStr;
+	// //$_SESSION['user'] = $jsonStr;
 	
-	include "/Applications/MAMP/htdocs/RFO-main-site/plugins/UserStatusPlugin.php";
+	// // include "/Applications/MAMP/htdocs/RFO-main-site/plugins/UserStatusPlugin.php";
 
-	$result = pageloadUserCheck();
+	// // $result = pageloadUserCheck();
 
-	if($result->login == 'true'){
-		echo 'boom done';
-	} else {
-		echo 'hmmm';
-	}
+	// $result = json_decode($jsonStr);
+
+	// if($result->status == null){
+	// 	echo 'boom done';
+	// } else {
+	// 	echo 'hmmm';
+	// }
+
+	// $message = new Message('Sorry you must logged in to use this page.', 'warning');
+
+	// echo $message->getJsonString();
+
+	//print_r($_SESSION['message']);
+	$temp = $_SESSION['message'];
+	$message = json_decode($temp);
+
+	print_r($message);
+	echo '<br>';
+	//echo $message->content;
 	
 	
 	?>
