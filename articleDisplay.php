@@ -1,3 +1,23 @@
+<?php
+session_start();
+require('appClass/Autoloader.php');
+
+if(isset($_GET['id'])){
+
+  $id = htmlspecialchars($_GET['id']);
+
+} else {
+  $search = true;
+}
+
+
+include('plugins/CommentsPlugin.php');
+include('plugins/UserStatusPlugin.php');
+	
+$login = pageloadUserCheck();
+$regStat = $loginStat = '';
+        
+?>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -11,21 +31,23 @@ and open the template in the editor.
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- version 3 -->
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-		 <link rel="stylesheet" href="css/theme.css">
+  <!-- version 4 -->
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+	<link rel="stylesheet" href="css/theme.css">
 
+
+  <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   
 	<?php
   
-        include('appClass/Autoloader.php');
-        include('plugins/CommentsPlugin.php');
-				include('plugins/UserStatusPlugin.php');
-	
-				$login = pageloadUserCheck();
-				$regStat = $loginStat = '';
+        
 	
 			// if($login['login']){
 			// 	if($login['regStat']){
@@ -42,77 +64,65 @@ and open the template in the editor.
 			// 	$loginStat = '<script>$("#logout a").hide();
 			// 	$("#login a").show();
 			// 	$("#reg a").show();</script>';
-			// }
-
-  if(isset($_GET['id'])){
-
-    $id = htmlspecialchars($_GET['id']);
-    
-    // $art = new Article();
-    // $article = $art->getArticle($id);
-
-
-  } 
-	
-    
+			// }  
 	?>
 </head>
 
   <body>
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
-      <!-- sets up the menu toggle when page is viewed on a small screen id mobile. -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navOptions">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                </button>
-        <a class="navbar-brand" href=".">Royalflush</a>
-        <!-- adds the home logo link to bar -->
-      </div>
-      <!-- adds the navigation links -->
-      <div class="collapse navbar-collapse" id="navOptions">
-        <ul class="nav navbar-nav">
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact Us</a></li>
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="dropDev"> 
-                      Dev Pages
-                      <span class="caret"></span>
-                    </a>
-            <ul class="dropdown-menu" id="devList">
-              <li><a href="scratPad.php?page=<?php echo $page ?>">Scratch Pad</a></li>
-              <li><a href="indexBootstrapDemo.html">Bootstap</a></li>
-              <li><a href="LoginPage.php">Login</a></li>
-              <li><a href="Register.php">Registration</a></li>
-              <li><a href="examplePage.html">Example</a></li>
-              <li><a href="twitterFeed.php">Twitter</a></li>
-               <li><a href="canvasDemo.html">canvas</a></li>
-              <li><a href="CommentsPlugin.php">comment</a></li>
-            </ul>
-          </li>
-        </ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li id="reg"><a href="Register.php"
-								 data-toggle="tooltip" 
-								 data-placement="bottom" 
-								 title="Register"><span class="glyphicon glyphicon-user"></span></a></li>
-					<li id="login"><a href="LoginPage.php?page=<?php echo $page; ?>" 
-								 data-toggle="tooltip" 
-								 data-placement="bottom" 
-								 title="Log In">
-							<span class="glyphicon glyphicon-log-in"></span></a></li>
-					<li id="logout"><a href="plugins/logout.php?page=<?php echo $page; ?>" 
-								 data-toggle="tooltip" 
-								 data-placement="bottom" 
-								 title="Log Out">
-							<span class="glyphicon glyphicon-log-out"></span></a></li>
-					
-				</ul>
-      </div>
+    <!-- <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        sets up the menu toggle when page is viewed on a small screen id mobile.
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navOptions">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                  </button>
+          <a class="navbar-brand" href=".">Royalflush</a>
+          adds the home logo link to bar
+        </div>
+        adds the navigation links
+        <div class="collapse navbar-collapse" id="navOptions">
+          <ul class="nav navbar-nav">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="dropDev"> 
+                        Dev Pages
+                        <span class="caret"></span>
+                      </a>
+              <ul class="dropdown-menu" id="devList">
+                <li><a href="scratPad.php?page=<?php echo $page ?>">Scratch Pad</a></li>
+                <li><a href="indexBootstrapDemo.html">Bootstap</a></li>
+                <li><a href="LoginPage.php">Login</a></li>
+                <li><a href="Register.php">Registration</a></li>
+                <li><a href="examplePage.html">Example</a></li>
+                <li><a href="twitterFeed.php">Twitter</a></li>
+                <li><a href="canvasDemo.html">canvas</a></li>
+                <li><a href="CommentsPlugin.php">comment</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li id="reg"><a href="Register.php"
+                  data-toggle="tooltip" 
+                  data-placement="bottom" 
+                  title="Register"><span class="glyphicon glyphicon-user"></span></a></li>
+            <li id="login"><a href="LoginPage.php?page=<?php echo $page; ?>" 
+                  data-toggle="tooltip" 
+                  data-placement="bottom" 
+                  title="Log In">
+                <span class="glyphicon glyphicon-log-in"></span></a></li>
+            <li id="logout"><a href="plugins/logout.php?page=<?php echo $page; ?>" 
+                  data-toggle="tooltip" 
+                  data-placement="bottom" 
+                  title="Log Out">
+                <span class="glyphicon glyphicon-log-out"></span></a></li>
+            
+          </ul>
+        </div>
 
-    </div>
-  </nav>
+      </div>
+  </nav> -->
   	<div class="container" id="articleContent">
 
       <?php //echo $article->getMaintext();
@@ -121,5 +131,10 @@ and open the template in the editor.
     
   </body>
 <script src='js/articleDisplay.js'></script>
-<?php echo "<script> getArticleContent('" . $id . "'); </script>" ; ?>
+<?php if($search){
+        echo "<script> search(); </script>";     
+      } else {
+        echo "<script> getArticleContent('". $id ."'); </script>";
+      }
+?>
 </html>
