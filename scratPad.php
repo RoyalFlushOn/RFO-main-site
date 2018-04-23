@@ -247,23 +247,100 @@
 	// echo $message->getJsonString();
 
 	//print_r($_SESSION['message']);
-	$temp = $_SESSION['message'];
-	$message = json_decode($temp);
+	// $temp = $_SESSION['message'];
+	// $message = json_decode($temp);
 
-	print_r($message);
-	echo '<br>';
-	//echo $message->content;
+	// print_r($message);
+
+	$test = array();
+	$arr = array();
+
+	// $arr['input1'] = 'cheese';
+	// $arr['input2'] = 'cheese';
+	// $arr['input3'] = 'cheese';
+
+	// $test['key1'] = true;
+	// $test['key2'] = $arr;
+	// $test['key3'] = 4;
+	$column = 'headline';
+	$criteria = 'Test Article';
 	
+	$dtAcc = new DataAccess();
+
+	$temp = $dtAcc->returnQuery('Select article_id, author From Articles where ' . 
+								$column . " like '%" . $criteria . "%'");
+
+	$article = $temp->fetchAll(PDO::FETCH_ASSOC);
+
+
+	print_r($article);
+	echo '<br>';
+	echo count($article);
+	echo '<br>';
+	$responce->exist = true;
+	$responce->results = $article;
+	$responce->found = count($article);
+
+	$json = json_encode($responce);
+	// $json = json_encode($article);
+	echo $json;
+	echo '<br>';
+	$jsonDec = json_decode($json);
+
+	print_r($jsonDec);
+
+	// $json = json_encode($test);
+
+	// print_r($json);
+	// echo '<br>';
+	// print_r(json_decode($json));
+	//echo $message->content;
+
+	// echo $_SERVER['DOCUMENT_ROOT'];
+	// echo '<br>';
+	// echo __DIR__;\
+
+	// $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/private/paths.json');
+
+	// $paths = json_decode($json);
+
+	// echo $paths->articles->validated;
+
+	// $dtAcc = new DataAccess();
+
+	// $temp = $dtAcc->returnQuery("select min(tracker_id) as 'min' from Recent_Articles");
+
+	// $trkId = $temp->fetch(PDO::FETCH_ASSOC);
+    // echo $trkId['min'];
 	
 	?>
   <body>
 
 		<div class="container">
 			<a href=".">Home</a>
+			<div id="testLbl"></div>
 			<br/>
 			
 		<br/>
+		<button class="btn btn-success" id="testBtn">click</button>
 
+		<script>
+		$('#testBtn').on('click', function(){
+
+			// $('#test').load('plugins/articleSearch.php');
+			json = '{"exist":true,"results":[{"article_id":"AR1001","author":"MrGavtastic"},{"article_id":"AR1002","author":"MrGavtastic"},{"article_id":"AR1003","author":"MrGavtastic"},{"article_id":"AR1004","author":"MrGavtastic"},{"article_id":"AR1005","author":"MrGavtastic"},{"article_id":"AR1006","author":"MrGavtastic"},{"article_id":"AR1007","author":"MrGavtastic"}],"found":7}';
+
+			jsonObj = JSON.parse(json);
+
+			articles = jsonObj.results;
+
+			$.each(articles, function(key, value){
+				$("#testLbl").append("id = " + value.article_id + " autor: " + value.author);
+				$("#testLbl").append('</br>');
+			});
+
+		});
+		</script>
 		
 
 		<!--<p id="file"></p>-->
@@ -313,7 +390,7 @@
 
 		<form method="post" action="scratPad.php" enctype="multipart/form-data" class="form-horizontal">
 
-		<div class="panel">
+		<div class="panel" id="test">
 
 			<div class="form-group">
 				<input type="text" name="txtBxTest" id="txtBxTest" class="form-control">

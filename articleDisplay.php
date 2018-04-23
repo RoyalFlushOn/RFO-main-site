@@ -69,18 +69,18 @@ and open the template in the editor.
 </head>
 
   <body>
-    <!-- <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
-        sets up the menu toggle when page is viewed on a small screen id mobile.
+        <!-- sets up the menu toggle when page is viewed on a small screen id mobile. -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navOptions">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                   </button>
           <a class="navbar-brand" href=".">Royalflush</a>
-          adds the home logo link to bar
+          <!-- adds the home logo link to bar -->
         </div>
-        adds the navigation links
+        <!-- adds the navigation links -->
         <div class="collapse navbar-collapse" id="navOptions">
           <ul class="nav navbar-nav">
             <li><a href="#">About</a></li>
@@ -122,7 +122,7 @@ and open the template in the editor.
         </div>
 
       </div>
-  </nav> -->
+  </nav>
   	<div class="container" id="articleContent">
 
       <?php //echo $article->getMaintext();

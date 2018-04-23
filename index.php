@@ -230,7 +230,7 @@ and open the template in the editor.
 
   <div class="row">
     <footer class="container">
-      <p>&COPY; 2016 Royalflush </p>
+      <p>&COPY; <?php echo date('Y'); ?> Royalflush </p>
     </footer>
   </div>
 </body>

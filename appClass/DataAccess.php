@@ -1,7 +1,5 @@
 <?php
 
-// include_once("appClass/Member.php");
-
   class DataAccess{
     
     
@@ -20,7 +18,7 @@
       
       $server = $_SERVER['SERVER_NAME'];
 
-      $json = file_get_contents("../private/dbConfig.json");
+      $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] ."/private/dbConfig.json");
 
       $obj = json_decode($json);
 
@@ -60,21 +58,34 @@
 
       $this->dbConn = null;
     }
-    
     function returnQuery($query){
       
       $this->dbConnection();
-     
-      $temp = $this->dbConn->query($query);
       
-      if($temp->rowcount() > 0){
-        return $temp;
+      $stmt = $this->dbConn->prepare($query);
+      
+      if($stmt->execute()){
+          return $stmt;
       } else {
-        return null;
+          return null;
       }
-
       $this->dbConn = null;
-    }
+  }
+  
+    // function returnQuery($query){
+      
+    //   $this->dbConnection();
+     
+    //   $temp = $this->dbConn->query($query);
+      
+    //   if($temp->rowcount() > 0){
+    //     return $temp;
+    //   } else {
+    //     return null;
+    //   }
+
+    //   $this->dbConn = null;
+    // }
     
     public function insertStatement($query){
       
