@@ -17,7 +17,8 @@ searchDropDown.on("click", function(){
 
     searchCriteria = $(this).text();
 
-    searchDropDownButton.text(searchCriteria);
+    // searchDropDownButton.text(searchCriteria);
+    searchDropDownButton.html(searchCriteria + ' <span class="caret"></span>');
 
     $(this).preventDefault();
 });
@@ -26,13 +27,13 @@ $("#srchBtn").on("click", function(){
     errorLabel.hide();
     searchText = searchTextbox.val();
 
-    getArticleLocation(searchText, searchCriteria);
-    if(result != null){
-        displayArticle();
+    console.log('Search value is: ' + searchText);
+
+    if(searchText === ""){
+        errorMsg('please enter text, before searching');
     } else {
-        notfound();
+        getArticleLocation(searchText, searchCriteria);
     }
-    
 
 });
 
@@ -40,14 +41,14 @@ searchResultsClose.on('click', function(){
     resultsTable.hide();
     searchRow.show();
     resultsTableBody.empty();
-    result = null;
 });
 
-function notfound(){
+function errorMsg(msg){
     errorLabel.show();
     errorLabel.css("color", "#E74C3C");
-    errorLabel.text("No results found!!")
+    errorLabel.text(msg)
     searchTextbox.text(searchText);
-    searchDropDownButton.text(searchCriteria);
+    // searchDropDownButton.text(searchCriteria);
+    searchDropDownButton.html(searchCriteria + ' <span class="caret"></span>');
 
 }

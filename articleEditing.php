@@ -1,8 +1,7 @@
 <?php session_start();
 	include 'appClass/Autoloader.php';
-	include 'plugins/UserStatusPlugin.php';
 
-	$result = $headline = $tagline = $page = $finalImgPth = $artFilePath = $imagePath = $finalArtFile = '';
+	$user = $headline = $tagline = $page = $finalImgPth = $artFilePath = $imagePath = $finalArtFile = '';
 
 	$hdLnErr = $artFlErr = $thmbErr = $tagErr = $upldFrmErr = '';
 
@@ -10,32 +9,29 @@
 
 	$formStat = false;
 
-	$result = pageloadUserCheck();
-
-	if($result->login == 'true' && $result->regStat == 'true'){
+	if(isset($_SESSION['user'])){
 
 		$temp = $_SESSION['user'];
 		$user = json_decode($temp);
 
 		if($user->level != 99){
 
-			$message = new Message('Sorry you must logged in to use this page.', 'warning');
-
-			$_SESSION['message'] = $message->getJsonString();
+			$message = new Message('You must have the right user level to access page, if you wish to please contact admin@royalflush.online.', 'info');
+			$message->addMessageToSession();
 
 			//header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']));
 			//dev only
 			// header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php');
-			$link =  htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php';
-			header('location:' . $link);
+			// $link =  htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php';
+			// header('location:' . $link);
+			header('location: index.php');
 	
 		}
 
 	} else {
 
 		$message = new Message('Sorry you must logged in to use this page.', 'warning');
-
-		$_SESSION['message'] = $message->getJsonString();
+		$message->addMessageToSession();
 
 		//header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']));
 		//dev only
@@ -69,8 +65,8 @@
 
 		$baseDir = __DIR__;
 		$formStat = false;
-		$user = 'someOneNew';
-		$artId = 'AR1052';
+		// $user = 'someOneNew';
+		// $artId = 'AR1052';
 
 		if(!empty($_POST['headline'])){
 			$headline = htmlspecialchars($_POST['headline']);
@@ -214,11 +210,9 @@
 
 		
 		if($formStat){
-			$article = new Article($artId,
-									$headline,
+			$article = new Article(	$headline,
 									$finalArtFile,
-									$user,
-									date('Y/m/d'),
+									$user->user,
 									null,
 									null,
 									$finalImgPth,
@@ -298,7 +292,7 @@ and open the template in the editor.
 			<link rel="stylesheet" href="css/dropzone.css">
 
 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -557,7 +551,7 @@ and open the template in the editor.
 		</div>
 		
   </body>
-<!-- 	<script src="js/site.js"></script> -->
+	<script src="js/login.js"></script>
 	<script src="js/articleEdit.js"></script>
 	<script src="js/articleForms/upload.js"></script>
 	<script src="js/recaptcha.js"></script>

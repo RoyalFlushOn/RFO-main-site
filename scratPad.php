@@ -252,42 +252,42 @@
 
 	// print_r($message);
 
-	$test = array();
-	$arr = array();
+	// $test = array();
+	// $arr = array();
 
-	// $arr['input1'] = 'cheese';
-	// $arr['input2'] = 'cheese';
-	// $arr['input3'] = 'cheese';
+	// // $arr['input1'] = 'cheese';
+	// // $arr['input2'] = 'cheese';
+	// // $arr['input3'] = 'cheese';
 
-	// $test['key1'] = true;
-	// $test['key2'] = $arr;
-	// $test['key3'] = 4;
-	$column = 'headline';
-	$criteria = 'Test Article';
+	// // $test['key1'] = true;
+	// // $test['key2'] = $arr;
+	// // $test['key3'] = 4;
+	// $column = 'headline';
+	// $criteria = 'Test Article';
 	
-	$dtAcc = new DataAccess();
+	// $dtAcc = new DataAccess();
 
-	$temp = $dtAcc->returnQuery('Select article_id, author From Articles where ' . 
-								$column . " like '%" . $criteria . "%'");
+	// $temp = $dtAcc->returnQuery('Select article_id, author From Articles where ' . 
+	// 							$column . " like '%" . $criteria . "%'");
 
-	$article = $temp->fetchAll(PDO::FETCH_ASSOC);
+	// $article = $temp->fetchAll(PDO::FETCH_ASSOC);
 
 
-	print_r($article);
-	echo '<br>';
-	echo count($article);
-	echo '<br>';
-	$responce->exist = true;
-	$responce->results = $article;
-	$responce->found = count($article);
+	// print_r($article);
+	// echo '<br>';
+	// echo count($article);
+	// echo '<br>';
+	// $responce->exist = true;
+	// $responce->results = $article;
+	// $responce->found = count($article);
 
-	$json = json_encode($responce);
-	// $json = json_encode($article);
-	echo $json;
-	echo '<br>';
-	$jsonDec = json_decode($json);
+	// $json = json_encode($responce);
+	// // $json = json_encode($article);
+	// echo $json;
+	// echo '<br>';
+	// $jsonDec = json_decode($json);
 
-	print_r($jsonDec);
+	// print_r($jsonDec);
 
 	// $json = json_encode($test);
 
@@ -311,7 +311,16 @@
 	// $temp = $dtAcc->returnQuery("select min(tracker_id) as 'min' from Recent_Articles");
 
 	// $trkId = $temp->fetch(PDO::FETCH_ASSOC);
-    // echo $trkId['min'];
+	// echo $trkId['min'];
+
+	if(isset($_SESSION['user'])){
+		print_r($_SESSION['user']);
+		echo '</br>';
+		$user = json_decode($_SESSION['user']);
+		print_r($user);
+	}
+	
+	
 	
 	?>
   <body>

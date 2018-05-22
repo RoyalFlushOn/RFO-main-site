@@ -23,22 +23,29 @@
             
             $this->content = $a1;
             $this->type = $a2;
-
-            $this->createJsonString();
-            $this->createJsonObject();
         }
 
-        private function createJsonString(){
+        public function createJsonString(){
 
             $this->jsonString = '{ "content" : "' . $this->content . '", "type" : "' . $this->type . '" }';
         }
 
-        private function createJsonObject(){
+        public function createJsonObject(){
 
             $this->jsonObject = json_decode($this->jsonString);
         }
 
+        public function addMessageToSession(){
+            if(isset($_SESSION['message'])){
+                unset($_SESSION['message']);   
+            }
+
+            $_SESSION['message'] = $this->getJsonString();
+        }
+
         public function getJsonString(){
+
+            $this->createJsonString();
             return $this->jsonString;
         }
 

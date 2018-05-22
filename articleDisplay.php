@@ -1,6 +1,7 @@
 <?php
 session_start();
 require('appClass/Autoloader.php');
+require('plugins/SetupPage.php');
 
 if(isset($_GET['id'])){
 
@@ -12,10 +13,6 @@ if(isset($_GET['id'])){
 
 
 include('plugins/CommentsPlugin.php');
-include('plugins/UserStatusPlugin.php');
-	
-$login = pageloadUserCheck();
-$regStat = $loginStat = '';
         
 ?>
 <!DOCTYPE html>
@@ -32,18 +29,23 @@ and open the template in the editor.
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- version 3 -->
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_ONLINE; ?>">
   <!-- version 4 -->
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
-	<link rel="stylesheet" href="css/theme.css">
+	<!-- <link rel="stylesheet" href="css/theme.css"> -->
+  <link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME; ?>">
 
 
   <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
+
+  <script src="<?php echo BOOTSTRAP_JQUERY3_ONLINE; ?>"></script>
+  <script src="<?php echo BOOTSTRAP_JS_ONLINE; ?>"></script>
   
 	<?php
   
@@ -124,17 +126,15 @@ and open the template in the editor.
       </div>
   </nav>
   	<div class="container" id="articleContent">
-
-      <?php //echo $article->getMaintext();
-       ?>
     </div>
     
   </body>
-<script src='js/articleDisplay.js'></script>
-<?php if($search){
-        echo "<script> search(); </script>";     
-      } else {
-        echo "<script> getArticleContent('". $id ."'); </script>";
-      }
-?>
+  <script src='js/login.js'></script>
+  <script src='js/articleDisplay.js'></script>
+  <?php if($search){
+          echo "<script> search(); </script>";     
+        } else {
+          echo "<script> getArticleContent('". $id ."'); </script>";
+        }
+  ?>
 </html>

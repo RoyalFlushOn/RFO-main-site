@@ -62,7 +62,7 @@
 
                 if(is_array($article)){
                     if(count($article) > 0){
-                        $responce->location = $_SERVER['DOCUMENT_ROOT']. '/'. $articlePath->validated;
+                        $responce->location = $articlePath->validated;
                         $responce->exist = true;
                         $responce->results = $article;
                         $responce->found = count($article);

@@ -23,36 +23,12 @@ and open the template in the editor.
   <?php 
   
   		
-  	include('appClass/Autoloader.php');	
+    include('appClass/Autoloader.php');	
+    // include('plugins/UserStatusPlugin.php');
 		include('plugins/CommentsPlugin.php');
-    include('plugins/UserStatusPlugin.php');
     
-		$regStat = $loginStat = '';
-    pageloadUserCheck();
-				
-		// if($login->login){
-			
-		// 	if($login->regStat){
-				
-		// 		$loginStat = '<script>$("#login a").hide(); 
-		// 		$("#reg a").hide();</script>';	
-		// 	} else {
-		// 		$loginStat = '<script>$("#logout a").hide();</script>';
-		// 		$regStat = '<div class="alert alert-warning fade in">
-		// 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		// 		<strong>Notice</strong> This account is registered but not activated. Please check email or click on this link, <a href="activation.php">Activate</a>
-		// 	</div>';
-		// 		}
-		// } else {
-			
-		// 	$loginStat = '<script>$("#logout a").hide();
-		// 	$("#login a").show();
-		// 	$("#reg a").show();</script>';
-		// }
-	
-	// $page = htmlspecialchars($_SERVER['PHP_SELF']);
-	
-	// echo $regStat;
+		// $regStat = $loginStat = '';
+    // pageloadUserCheck();
   
   if(isset($_SESSION['message'])){
     $message = json_decode($_SESSION['message']);
@@ -64,8 +40,6 @@ and open the template in the editor.
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong>Notice</strong> ' . $message->content .'
         </div>';
-      
-        //unset($_SESSION['message']);
       } else {
         echo 'hmmm';
       }
@@ -75,7 +49,9 @@ and open the template in the editor.
     }
     unset($_SESSION['message']);
 		
-	}
+  }
+  
+  $page = htmlspecialchars($_SERVER['PHP_SELF']);
 	?>
 	
 </head>
@@ -101,7 +77,7 @@ and open the template in the editor.
           
         </ul>
         <ul class="nav navbar-nav navbar-right">
-					<li id="login"><a href="loginPage.php?page=<?php echo $page; ?>" 
+					<!-- <li id="login"><a href="loginPage.php?page=<?php //echo $page; ?>" 
 								 data-toggle="tooltip" 
 								 data-placement="bottom" 
 								 title="Log In">
@@ -110,10 +86,26 @@ and open the template in the editor.
 								 data-toggle="tooltip" 
 								 data-placement="bottom" 
 								 title="Register"><span class="glyphicon glyphicon-user"></span></a></li>
-					<li id="logout"><a href="plugins/logout.php?page=<?php echo $page; ?>" 
+					<li id="logout"><a href="plugins/logout.php?page=<?php //echo $page; ?>" 
 								 data-toggle="tooltip" 
 								 data-placement="bottom" 
 								 title="Log Out">
+							<span class="glyphicon glyphicon-log-out"></span></a></li> -->
+
+              <li id="login"><a href="loginPage.php?page=<?php echo $page; ?>" 
+								 data-toggle="tooltip" 
+								 data-placement="bottom" 
+								 title="Log In">
+							<span class="glyphicon glyphicon-log-in"></span></a></li>
+					<li id="reg"><a href="register.php"
+								 data-toggle="tooltip" 
+								 data-placement="bottom" 
+								 title="Register"><span class="glyphicon glyphicon-user"></span></a></li>
+					<li id="logout"><a href="" 
+								 data-toggle="tooltip" 
+								 data-placement="bottom" 
+								 title="Log Out"
+                 hidden="true">
 							<span class="glyphicon glyphicon-log-out"></span></a></li>
 					
 				</ul>
@@ -179,18 +171,21 @@ and open the template in the editor.
       <h2><?php echo $ra1['headline']; ?></h2>
       <p><?php echo $ra1['tagline']; ?>
       </p>
+      <a role="button" class="btn btn-success" href="articleDisplay.php?id=<?php echo$ra1['article_id']; ?>">View Article</a>
     </div>
     <div class="col-sm-4">
       <img class="img-circle img-responsive img-center" src="<?php echo $ra2['thumbnail']; ?>" alt="http://placehold.it/300x300">
       <h2><?php echo $ra2['headline'] ?></h2>
       <p><?php echo $ra2['tagline']; ?>
       </p>
+      <a role="button" class="btn btn-success" href="articleDisplay.php?id=<?php echo$ra2['article_id']; ?>">View Article</a>
     </div>
     <div class="col-sm-4">
       <img class="img-circle img-responsive img-center" src="<?php echo $ra3['thumbnail']; ?>" alt="http://placehold.it/300x300">
       <h2><?php echo $ra3['headline'] ?></h2>
       <p><?php echo $ra3['tagline']; ?>
       </p>
+      <a role="button" class="btn btn-success" href="articleDisplay.php?id=<?php echo$ra3['article_id']; ?>">View Article</a>
     </div>
   </div>
   
@@ -237,5 +232,5 @@ and open the template in the editor.
 
 
 <script src="js/login.js"></script>
-<?php echo $loginStat; ?>
+<?php //echo $loginStat; ?>
 </html>
