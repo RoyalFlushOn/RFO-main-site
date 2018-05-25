@@ -12,6 +12,7 @@ class Article{
   private $commId;
   private $thumbnail;
   private $tagline;
+  private $isValidated;
   
   
   function __construct(){
@@ -43,7 +44,7 @@ class Article{
 
   public function __construct7($a1, $a2, $a3, $a4,$a5, $a6, $a7){
     
-    $this->artID = createID();;
+    $this->artID = $this->createID();
     $this->headline = $a1;
     $this->mainText = $a2;
     $this->author = $a3;
@@ -61,11 +62,27 @@ class Article{
     $this->headline = $a2;
     $this->mainText = $a3;
     $this->author = $a4;
+    $this->publish = date('Y/m/d');
+    $this->tags = $a5;
+    $this->commId = $a6;
+    $this->thumbnail = $a7;
+    $this->tagline = $a8;
+    $this->isValidated = $a9;
+
+  }
+
+  public function __construct10($a1, $a2, $a3, $a4,$a5, $a6, $a7, $a8, $a9, $a10){
+    
+    $this->artID = $a1;
+    $this->headline = $a2;
+    $this->mainText = $a3;
+    $this->author = $a4;
     $this->publish = $a5;
     $this->tags = $a6;
     $this->commId = $a7;
     $this->thumbnail = $a8;
     $this->tagline = $a9;
+    $this->isValidated = $a10;
 
   }
 
@@ -77,13 +94,13 @@ class Article{
     
      if($preID != null ){
 
-       $temp = $preID->fetch(PDO::FETCH_ASSOC);
+        $temp = $preID->fetch(PDO::FETCH_ASSOC);
 
-      $oldID = substr($temp["article_id"],2);
+        $oldID = substr($temp["article_id"],2);
 
-      $oldID++;
+        $oldID++;
 
-      $newId = 'AR' .  $oldID;
+        $newId = 'AR' .  $oldID;
       } else {
         $newId = 'AR1001';
       }
@@ -123,14 +140,14 @@ class Article{
 
   Public function insertArticle($article){
 
-    $log = new Logger();
-    $log->startLog();
+    // $log = new Logger();
+    // $log->startLog();
 
     $dtAcc = new DataAccess();
     $temp = $dtAcc->returnQuery("select min(tracker_id) as 'min' from Recent_Articles");
 
     $trkId = $temp->fetch(PDO::FETCH_ASSOC);
-    $log->logEntry('ID = ' .$trkId['min']);
+    // $log->logEntry('ID = ' .$trkId['min']);
 
     $dtAcc->dbConnection();
 
@@ -139,7 +156,7 @@ class Article{
     $trans->beginTransaction();
 
     Try{
-      $pre = $trans->prepare('insert into articles values ( ?,?,?,?,?,?,?,?,?)');
+      $pre = $trans->prepare('insert into articles values ( ?,?,?,?,?,?,?,?,?,?)');
       // $log->logEntry($pre);
 
       $tempAre = Array();
@@ -156,37 +173,41 @@ class Article{
        */
       
       $pre->execute($tempArr);  //adding form data to Article table 
-      $log->logEntry("Inserted record into Articles matching id: " . $article->getId());
+      // $log->logEntry("Inserted record into Articles matching id: " . $article->getId());
 
       //adding the forms article if to the recent_article Table.
       $trans->exec("insert into Recent_Articles values(null, '" . $article->getId() . "')");
-      $log->logEntry('Inserted into Recent_Articles, article id: '. $article->getId());
+      // $log->logEntry('Inserted into Recent_Articles, article id: '. $article->getId());
 
       //using the minimum Recent_articles id from above to delete that entry from the recent_articles 
       //table
       $trans->exec("delete from Recent_Articles where tracker_id =" . $trkId['min']);
-      $log->logEntry('Record deleted from Recent_Articles');
+      // $log->logEntry('Record deleted from Recent_Articles');
 
       //Commit these changes to the DB
       $trans->commit();
-      $log->logEntry('Transaction completed, process flag set to true for return');
+      // $log->logEntry('Transaction completed, process flag set to true for return');
 
       $flag = true;
     }
     catch (Exception $ex){
       
-      $log->enter($ex->getMessage());
+      // $log->enter($ex->getMessage());
+
+      $respoce = array();
+      $respoce[0] = $ex->getMessage();
 
       //problem with db commands so transaction is being rolled back
       $trans->rollBack();
 
-      $flag = false;
+      // $flag = false;
+      $respoce[1] = false;
     }
-    $log->endLog();
+    // $log->endLog();
 
     $dtAcc->closeConnection();
 
-    Return $flag;
+    Return $respoce;
   }
 
   public function topThreeArticles(){

@@ -12,9 +12,9 @@
 	if(isset($_SESSION['user'])){
 
 		$temp = $_SESSION['user'];
-		$user = json_decode($temp);
+		$userDetails = json_decode($temp);
 
-		if($user->level != 99){
+		if($userDetails->level != 99){
 
 			$message = new Message('You must have the right user level to access page, if you wish to please contact admin@royalflush.online.', 'info');
 			$message->addMessageToSession();
@@ -65,8 +65,11 @@
 
 		$baseDir = __DIR__;
 		$formStat = false;
-		// $user = 'someOneNew';
-		// $artId = 'AR1052';
+		
+		$articleID = new Article();
+		$artId = $articleID->createID();
+
+		$user = $userDetails->user;
 
 		if(!empty($_POST['headline'])){
 			$headline = htmlspecialchars($_POST['headline']);
@@ -206,17 +209,25 @@
 			
 		}
 
+		if($userDetails->level == 99){
+			$isValid = 'Y';
+		} else {
+			$isValid = 'N';
+		}
+
 		
 
 		
 		if($formStat){
-			$article = new Article(	$headline,
-									$finalArtFile,
-									$user->user,
+			$article = new Article(	$artId,
+									$headline,
+									$nameArr[0],
+									$user,
 									null,
 									null,
 									$finalImgPth,
-									$tagline
+									$tagline,
+									$isValid
 									);
 			
 
@@ -244,25 +255,28 @@
 		//linked to the second disabled button
 	}
 
-	function insert($article){
+	function insert($article, $InserType){
 
 		$inArt = new Article();
 
 		$res = $inArt->insertArticle($article);
 
-		if($res){
-			header('location:localhost:8888/index.php?msg=Article+has+been+uploaded,+an+email+will+be+sent+once+it+has+been+vetted.&type=info');
+		if($res[1]){
+			$message = new Message('Article has been uploaded, an email will be sent once it has been vetted', 'info');
+			$message->addMessageToSession();
+			header('location:index.php');
 		} else {
-			if( $res == 'upload'){
-				echo '<script type="text/javascript">
-					alert("There has been a problem with the saving of your article, please click ok and go back to the upload article screen");
-				</script>';
-			} else {
-				echo '<script type="text/javascript">
-					alert("There has been a problem with the saving of your article, please click ok and go back to create article screen");
-				</script>';
-			}
+			// if( $res == 'upload'){
+			// 	echo '<script type="text/javascript">
+			// 		alert("There has been a problem with the saving of your article, please click ok and go back to the upload article screen");
+			// 	</script>';
+			// } else {
+			// 	echo '<script type="text/javascript">
+			// 		alert("There has been a problem with the saving of your article, please click ok and go back to create article screen");
+			// 	</script>';
+			// }
 
+			echo $res[0];
 		
 		}
 			
@@ -471,12 +485,12 @@ and open the template in the editor.
 						</div>
 				</div>-->
 
-		<div class="form-group" id="iRobot">
+		<!-- <div class="form-group" id="iRobot">
 				<div class="col-md-10 col-md-offset-4" id="recaptchaDiv">
 					<div class="g-recaptcha" data-sitekey="6LeEhiMUAAAAAI2RhHbWDCwbJhNtxKiKRmk0Zzki"
 								data-theme="dark" data-callback="iRobot"></div>
 				</div>
-			</div>
+			</div> -->
 		<!-- <div class="form-group" id="rstBtnDiv" hidden="true">
 			<div class="col-md-10 col-md-offset-4">
               <a role="button" id="rfshRct" onclick="refreshRecp(this)">
@@ -484,7 +498,7 @@ and open the template in the editor.
 			</a>
             </div> -->
 		</div>			
-          <div class="form-group" id="submitButton" hidden="true">
+          <div class="form-group" id="submitButton">
            	 <div class="col-md-10 col-md-offset-4">
               <input type="submit" class="btn btn-success" value="Submit" 
 							name="sbmtBtn" id="sbmtBtn">
