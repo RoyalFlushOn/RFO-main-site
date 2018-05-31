@@ -23,12 +23,9 @@ and open the template in the editor.
   <?php 
   
   		
-    include('appClass/Autoloader.php');	
-    // include('plugins/UserStatusPlugin.php');
+    include('appClass/Autoloader.php');
 		include('plugins/CommentsPlugin.php');
-    
-		// $regStat = $loginStat = '';
-    // pageloadUserCheck();
+
   
   if(isset($_SESSION['message'])){
     $message = json_decode($_SESSION['message']);
@@ -77,21 +74,6 @@ and open the template in the editor.
           
         </ul>
         <ul class="nav navbar-nav navbar-right">
-					<!-- <li id="login"><a href="loginPage.php?page=<?php //echo $page; ?>" 
-								 data-toggle="tooltip" 
-								 data-placement="bottom" 
-								 title="Log In">
-							<span class="glyphicon glyphicon-log-in"></span></a></li>
-					<li id="reg"><a href="register.php"
-								 data-toggle="tooltip" 
-								 data-placement="bottom" 
-								 title="Register"><span class="glyphicon glyphicon-user"></span></a></li>
-					<li id="logout"><a href="plugins/logout.php?page=<?php //echo $page; ?>" 
-								 data-toggle="tooltip" 
-								 data-placement="bottom" 
-								 title="Log Out">
-							<span class="glyphicon glyphicon-log-out"></span></a></li> -->
-
               <li id="login"><a href="loginPage.php?page=<?php echo $page; ?>" 
 								 data-toggle="tooltip" 
 								 data-placement="bottom" 
@@ -167,21 +149,24 @@ and open the template in the editor.
 
   <div class="row" id="newsFeed">
     <div class="col-sm-4">
-      <img class="img-circle img-responsive img-center" src="<?php echo $ra1['thumbnail']; ?>" alt="http://placehold.it/300x300">
+      <img class="img-circle img-responsive img-center artImg" src="<?php echo $ra1['thumbnail']; ?>" alt="http://placehold.it/300x300"
+        style="height:300px; width:300px;">
       <h2><?php echo $ra1['headline']; ?></h2>
       <p><?php echo $ra1['tagline']; ?>
       </p>
       <a role="button" class="btn btn-success" href="articleDisplay.php?id=<?php echo$ra1['article_id']; ?>">View Article</a>
     </div>
     <div class="col-sm-4">
-      <img class="img-circle img-responsive img-center" src="<?php echo $ra2['thumbnail']; ?>" alt="http://placehold.it/300x300">
+      <img class="img-circle img-responsive img-center" src="<?php echo $ra2['thumbnail']; ?>" alt="http://placehold.it/300x300"
+        style="height:300px; width:300px;"> 
       <h2><?php echo $ra2['headline'] ?></h2>
       <p><?php echo $ra2['tagline']; ?>
       </p>
       <a role="button" class="btn btn-success" href="articleDisplay.php?id=<?php echo$ra2['article_id']; ?>">View Article</a>
     </div>
     <div class="col-sm-4">
-      <img class="img-circle img-responsive img-center" src="<?php echo $ra3['thumbnail']; ?>" alt="http://placehold.it/300x300">
+      <img class="img-circle img-responsive img-center" src="<?php echo $ra3['thumbnail']; ?>" alt="http://placehold.it/300x300" 
+        style="height:300px; width:300px;">
       <h2><?php echo $ra3['headline'] ?></h2>
       <p><?php echo $ra3['tagline']; ?>
       </p>

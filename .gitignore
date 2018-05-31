@@ -1,3 +1,7 @@
-/fonts/temp glyph
-glyphicons-halfings*
-article-files/unvalidated/*
+/fonts
+/article-files/
+scratPad.php
+*.old
+error_log
+/logs
+/images/articles/

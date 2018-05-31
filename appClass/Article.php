@@ -65,8 +65,8 @@ class Article{
     $this->publish = date('Y/m/d');
     $this->tags = $a5;
     $this->commId = $a6;
-    $this->thumbnail = $a7;
-    $this->tagline = $a8;
+    $this->tagline = $a7;
+    $this->thumbnail = $a8;
     $this->isValidated = $a9;
 
   }
@@ -80,8 +80,8 @@ class Article{
     $this->publish = $a5;
     $this->tags = $a6;
     $this->commId = $a7;
-    $this->thumbnail = $a8;
-    $this->tagline = $a9;
+    $this->tagline = $a8;
+    $this->thumbnail = $a9;
     $this->isValidated = $a10;
 
   }
@@ -138,7 +138,7 @@ class Article{
     return $article;
   }
 
-  Public function insertArticle($article){
+  Public function insertArticle($article, $userLevel){
 
     // $log = new Logger();
     // $log->startLog();
@@ -175,39 +175,43 @@ class Article{
       $pre->execute($tempArr);  //adding form data to Article table 
       // $log->logEntry("Inserted record into Articles matching id: " . $article->getId());
 
-      //adding the forms article if to the recent_article Table.
+      if($userLevel == 99){
+        //adding the forms article if to the recent_article Table.
       $trans->exec("insert into Recent_Articles values(null, '" . $article->getId() . "')");
       // $log->logEntry('Inserted into Recent_Articles, article id: '. $article->getId());
 
       //using the minimum Recent_articles id from above to delete that entry from the recent_articles 
       //table
       $trans->exec("delete from Recent_Articles where tracker_id =" . $trkId['min']);
+      }
       // $log->logEntry('Record deleted from Recent_Articles');
 
       //Commit these changes to the DB
       $trans->commit();
       // $log->logEntry('Transaction completed, process flag set to true for return');
 
-      $flag = true;
+      if($userLevel == 99){
+        unset($_SESSION['topArticles']);
+      }
+      $responce->flag = true;
     }
     catch (Exception $ex){
       
       // $log->enter($ex->getMessage());
 
-      $respoce = array();
-      $respoce[0] = $ex->getMessage();
+      $responce->errormsg = $ex->getMessage();
 
       //problem with db commands so transaction is being rolled back
       $trans->rollBack();
 
       // $flag = false;
-      $respoce[1] = false;
+      $responce->flag = false;
     }
     // $log->endLog();
 
     $dtAcc->closeConnection();
 
-    Return $respoce;
+    Return $responce;
   }
 
   public function topThreeArticles(){

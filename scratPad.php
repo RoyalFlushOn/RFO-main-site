@@ -313,14 +313,38 @@
 	// $trkId = $temp->fetch(PDO::FETCH_ASSOC);
 	// echo $trkId['min'];
 
-	if(isset($_SESSION['user'])){
-		print_r($_SESSION['user']);
-		echo '</br>';
-		$user = json_decode($_SESSION['user']);
-		print_r($user);
-	}
+	// if(isset($_SESSION['user'])){
+	// 	print_r($_SESSION['user']);
+	// 	echo '</br>';
+	// 	$user = json_decode($_SESSION['user']);
+	// 	print_r($user);
+	// }
 	
+
+		// $path = '/Applications/MAMP/htdocs/RFO-main-site/images/articles/User1/AR1054/905-10.jpg';
+
+		// $slashPosistion = strrpos($path, '/');
+		// $newPath = substr($path, 0, strrpos($path, '/'));
+		
+		// echo $slashPosistion . '<br/>';
+		// echo $newPath;
+
+		// unlink($path);
+		// rmdir(substr($path, 0, strrpos($path, '/')));
 	
+
+		$egg = 'hey yall';
+
+		function test(){
+			$egg = 'smeg';
+		}
+
+		echo $egg;
+
+		test();
+
+		echo '<br>' . $egg;
+		
 	
 	?>
   <body>

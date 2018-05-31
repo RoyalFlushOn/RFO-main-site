@@ -1,7 +1,7 @@
 <?php session_start();
 	include 'appClass/Autoloader.php';
 
-	$user = $headline = $tagline = $page = $finalImgPth = $artFilePath = $imagePath = $finalArtFile = '';
+	$user = $userDetails = $headline = $tagline = $page = $finalImgPth = $artFilePath = $imagePath = $finalArtFile = '';
 
 	$hdLnErr = $artFlErr = $thmbErr = $tagErr = $upldFrmErr = '';
 
@@ -65,11 +65,17 @@
 
 		$baseDir = __DIR__;
 		$formStat = false;
+		$userDetails = json_decode($_SESSION['user']);
+		$json = file_get_contents($_SERVER['DOCUMENT_ROOT'] .'/private/paths.json');
+		$paths = json_decode($json);
+		$articlePaths = $paths->articles;
 		
 		$articleID = new Article();
 		$artId = $articleID->createID();
 
-		$user = $userDetails->user;
+
+		echo $user = $userDetails->user;
+		echo $userDetails->level;
 
 		if(!empty($_POST['headline'])){
 			$headline = htmlspecialchars($_POST['headline']);
@@ -109,7 +115,11 @@
 					$formStat = false;
 				} else {
 				
-					$artFilePath = $baseDir . '/article-files/unvalidated/' . $user;
+					if($userDetails->level == 99){
+						$artFilePath = $baseDir . '/'. $articlePaths->validated .'/' . $user;
+					} else {
+						$artFilePath = $baseDir . '/'. $articlePaths->unvalidated .'/' . $user;
+					}
 					
 					if(!is_dir($artFilePath)){
 						mkdir($artFilePath);
@@ -155,7 +165,7 @@
 
 			if(getimagesize($tmp_name[1])){
 
-				$imagePath = $baseDir. '/images/articles/' . $user;
+				$imagePath = $baseDir. '/'. $articlePaths->images .'/' . $user;
 
 				if(!is_dir($imagePath)){
 					mkdir($imagePath);
@@ -172,8 +182,8 @@
 
 				if($formStat){
 					if(move_uploaded_file($tmp_name[1], $finalImgPth)){
-						
 						$formStat  = true;
+						$dbImagePath = $articlePaths->images .'/' . $user . '/' . $artId . '/' . $nameArr[1];
 					} else {
 						$formStat = false;
 
@@ -225,14 +235,14 @@
 									$user,
 									null,
 									null,
-									$finalImgPth,
+									$dbImagePath,
 									$tagline,
 									$isValid
 									);
 			
 
 			
-			insert($article, 'upload');
+			insert($article, 'upload', $userDetails->level, $finalArtFile, $finalImgPth);
 			
 		} else {
 
@@ -255,33 +265,50 @@
 		//linked to the second disabled button
 	}
 
-	function insert($article, $InserType){
+	function insert($article, $InserType, $userLevel, $articlePath, $imagePath){
 
 		$inArt = new Article();
 
-		$res = $inArt->insertArticle($article);
+		$res = $inArt->insertArticle($article, $userLevel);
 
-		if($res[1]){
+		if($res->flag){
 			$message = new Message('Article has been uploaded, an email will be sent once it has been vetted', 'info');
 			$message->addMessageToSession();
-			header('location:index.php');
+			header('location: index.php');
 		} else {
-			// if( $res == 'upload'){
-			// 	echo '<script type="text/javascript">
-			// 		alert("There has been a problem with the saving of your article, please click ok and go back to the upload article screen");
-			// 	</script>';
-			// } else {
-			// 	echo '<script type="text/javascript">
-			// 		alert("There has been a problem with the saving of your article, please click ok and go back to create article screen");
-			// 	</script>';
-			// }
-
-			echo $res[0];
-		
+			removeFiles($articlePath, $imagePath);
+			if( $res == 'upload'){
+				echo '<script type="text/javascript">
+					alert("There has been a problem with the saving of your article, please click ok and go back to the upload article screen");
+				</script>';
+			} else {
+				echo '<script type="text/javascript">
+					alert("There has been a problem with the saving of your article, please click ok and go back to create article screen");
+				</script>';
+			}
 		}
 			
 
+	}
+
+	function removeFiles($article, $image){
+		try{
+			unlink($image);
+			rmdir(substr($image, 0, strrpos($image, '/')));
 		}
+		catch(Exception $ex){
+			echo $ex->getMessage();
+		}
+
+		try{
+			unlink($article);
+			rmdir(substr($article, 0, strrpos($article, '/')));
+		} 
+		catch(Exception $ex){
+			echo $ex->getMessage();
+		}
+
+	}
 			
 	
 	
@@ -485,12 +512,12 @@ and open the template in the editor.
 						</div>
 				</div>-->
 
-		<!-- <div class="form-group" id="iRobot">
+		<div class="form-group" id="iRobot">
 				<div class="col-md-10 col-md-offset-4" id="recaptchaDiv">
 					<div class="g-recaptcha" data-sitekey="6LeEhiMUAAAAAI2RhHbWDCwbJhNtxKiKRmk0Zzki"
 								data-theme="dark" data-callback="iRobot"></div>
 				</div>
-			</div> -->
+			</div>
 		<!-- <div class="form-group" id="rstBtnDiv" hidden="true">
 			<div class="col-md-10 col-md-offset-4">
               <a role="button" id="rfshRct" onclick="refreshRecp(this)">
@@ -498,10 +525,10 @@ and open the template in the editor.
 			</a>
             </div> -->
 		</div>			
-          <div class="form-group" id="submitButton">
+          <div class="form-group" id="submitButton" hidden="true">
            	 <div class="col-md-10 col-md-offset-4">
               <input type="submit" class="btn btn-success" value="Submit" 
-							name="sbmtBtn" id="sbmtBtn">
+							name="sbmtBtn" id="sbmtBtn" >
             </div>
 
 				
