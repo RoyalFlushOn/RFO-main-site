@@ -1,11 +1,6 @@
 <?php session_start();?>
 
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
 
 <head>
@@ -24,7 +19,17 @@ and open the template in the editor.
   
   		
     include('appClass/Autoloader.php');
-		include('plugins/CommentsPlugin.php');
+    include('plugins/CommentsPlugin.php');
+    
+    if(!isset($_SESSION['user'])){
+
+      if(isset($_SESSION['login_location'])){
+        unset($_SESSION['login_location']);
+      }
+
+      $_SESSION['login_location'] = htmlspecialchars($_SERVER['PHP_SELF']);
+  
+    }
 
   
   if(isset($_SESSION['message'])){
@@ -47,54 +52,13 @@ and open the template in the editor.
     unset($_SESSION['message']);
 		
   }
-  
-  $page = htmlspecialchars($_SERVER['PHP_SELF']);
 	?>
 	
 </head>
 
 <body>
 	
-	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
-      <!-- sets up the menu toggle when page is viewed on a small screen id mobile. -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navOptions">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                </button>
-        <a class="navbar-brand" href=".">Royalflush</a>
-        <!-- adds the home logo link to bar -->
-      </div>
-      <!-- adds the navigation links -->
-      <div class="collapse navbar-collapse" id="navOptions">
-        <ul class="nav navbar-nav">
-          <li><a href="about.php">About</a></li>
-          <!--<li><a href="#">Contact Us</a></li>-->
-          
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-              <li id="login"><a href="loginPage.php?page=<?php echo $page; ?>" 
-								 data-toggle="tooltip" 
-								 data-placement="bottom" 
-								 title="Log In">
-							<span class="glyphicon glyphicon-log-in"></span></a></li>
-					<li id="reg"><a href="register.php"
-								 data-toggle="tooltip" 
-								 data-placement="bottom" 
-								 title="Register"><span class="glyphicon glyphicon-user"></span></a></li>
-					<li id="logout"><a href="" 
-								 data-toggle="tooltip" 
-								 data-placement="bottom" 
-								 title="Log Out"
-                 hidden="true">
-							<span class="glyphicon glyphicon-log-out"></span></a></li>
-					
-				</ul>
-				
-      </div>
-
-    </div>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar" name="navbar">
   </nav>
   <!-- custom addition to bootstrap, business-header -->
   <header class="business-header">
@@ -177,9 +141,28 @@ and open the template in the editor.
   <hr/>
   
   <div class="row">
-    <div class="col-md-4 col-sm-6 col-xs-12 fb-comments" data-href="https://www.facebook.com/royalflush.online/" data-numposts="5">
-<!--     <span class="fb-comments" data-href="https://www.facebook.com/royalflush.online/" data-numposts="5"></span> -->
-    </div>
+  <div class="col-md-4 col-sm-6 col-xs-12"></div>
+  <!-- facebook feed -->
+  <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div id="fb-root"></div>
+                            <script>(function(d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0];
+                                if (d.getElementById(id)) return;
+                                js = d.createElement(s); js.id = id;
+                                js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.10";
+                                fjs.parentNode.insertBefore(js, fjs);
+                                }(document, 'script', 'facebook-jssdk'));</script>
+                            <div class="fb-page" data-href="https://www.facebook.com/royalflush.online" 
+                                    data-tabs="timeline" data-small-header="true" 
+                                    data-adapt-container-width="true" data-hide-cover="true" 
+                                    data-show-facepile="false" data-height="350">
+                                <blockquote cite="https://www.facebook.com/royalflush.online" 
+                                            class="fb-xfbml-parse-ignore">
+                                <a href="https://www.facebook.com/royalflush.online">RoyalFlush.Online</a>
+                                </blockquote>
+                            </div>
+
+                        </div>
     <div class="col-md-4 col-sm-6 col-xs-12">
     <a class="twitter-timeline" 
 					 data-height="350"
@@ -216,6 +199,6 @@ and open the template in the editor.
 </body>
 
 
-<script src="js/login.js"></script>
-<?php //echo $loginStat; ?>
+<!-- <script src="js/login.js"></script> -->
+<script src="js/navbar.js"></script>
 </html>

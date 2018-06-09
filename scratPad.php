@@ -333,18 +333,7 @@
 		// rmdir(substr($path, 0, strrpos($path, '/')));
 	
 
-		$egg = 'hey yall';
-
-		function test(){
-			$egg = 'smeg';
-		}
-
-		echo $egg;
-
-		test();
-
-		echo '<br>' . $egg;
-		
+		print_r($_SESSION['login_location']);
 	
 	?>
   <body>

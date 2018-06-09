@@ -345,18 +345,15 @@ and open the template in the editor.
 
   <body>
 	
-	  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-			<div class="container">
-				<!-- sets up the menu toggle when page is viewed on a small screen id mobile. -->
+	  <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar" name="navbar">
+			<!-- <div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navOptions">
 										<span class="sr-only">Toggle navigation</span>
 										<span class="icon-bar"></span>
 									</button>
 					<a class="navbar-brand" href=".">Royalflush</a>
-					<!-- adds the home logo link to bar -->
 				</div>
-				<!-- adds the navigation links -->
 				<div class="collapse navbar-collapse" id="navOptions">
 					<ul class="nav navbar-nav">
 						<li><a href="#">About</a></li>
@@ -367,12 +364,12 @@ and open the template in the editor.
 									data-toggle="tooltip" 
 									data-placement="bottom" 
 									title="Register"><span class="glyphicon glyphicon-user"></span></a></li>
-						<li id="login"><a href="LoginPage.php?page=<?php echo $page; ?>" 
+						<li id="login"><a href="LoginPage.php?page=<?php //echo $page; ?>" 
 									data-toggle="tooltip" 
 									data-placement="bottom" 
 									title="Log In">
 								<span class="glyphicon glyphicon-log-in"></span></a></li>
-						<li id="logout"><a href="plugins/logout.php?page=<?php echo $page; ?>" 
+						<li id="logout"><a href="plugins/logout.php?page=<?php //echo $page; ?>" 
 									data-toggle="tooltip" 
 									data-placement="bottom" 
 									title="Log Out">
@@ -387,7 +384,6 @@ and open the template in the editor.
 										<span class="icon-bar"></span>
 									</button>
 					<a class="navbar-brand" href="#">Insert Option</a>
-					<!-- adds the home logo link to bar -->
 				</div>
 
 					<div class="collapse navbar-collapse" id="artOptions">
@@ -418,8 +414,7 @@ and open the template in the editor.
 				</div>
 
 
-			</div>
-  
+			</div> -->
 	  </nav>
 
 	  <div class="container" id="choiceDiv">
@@ -592,7 +587,8 @@ and open the template in the editor.
 		</div>
 		
   </body>
-	<script src="js/login.js"></script>
+	<!-- <script src="js/login.js"></script> -->
+	<script src="js/navbar.js"></script>
 	<script src="js/articleEdit.js"></script>
 	<script src="js/articleForms/upload.js"></script>
 	<script src="js/recaptcha.js"></script>

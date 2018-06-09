@@ -24,14 +24,14 @@ require('plugins/SetupPage.php');
 	
 		$focus = "<script>$('#username input').focus();</script>";
   
-    if(isset($_GET['page'])){ 
-      $_SESSION['login_location'] = $_GET['page'];
-    } else {
-      if(!isset($_SESSION['login_location'])){
-        $_SESSION['login_location'] = htmlspecialchars($_SERVER['PHP_SELF']);
-      }
+    // if(isset($_GET['page'])){ 
+    //   $_SESSION['login_location'] = $_GET['page'];
+    // } else {
+    //   if(!isset($_SESSION['login_location'])){
+    //     $_SESSION['login_location'] = htmlspecialchars($_SERVER['PHP_SELF']);
+    //   }
       
-    }
+    // }
   
     if(isset($_SESSION['user'])){
 
@@ -93,6 +93,9 @@ require('plugins/SetupPage.php');
                 
                   $page = $_SESSION['login_location'];
                   unset($_SESSION['login_location']);
+
+                  $message = new Message('You are now logged in, Yay!', 'info');
+                  $message->addMessageToSession();
                   header('Location:' . $page);
                 }
               } else {
@@ -112,30 +115,8 @@ require('plugins/SetupPage.php');
 
 <body>
   <div id="page">
-    <header class="container">
-      <div id="menu" class="navbar navbar-default navbar-fixed-top">
-        <div class="navbar-header">
-          <button class="btn btn-success navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="glyphicon glyphicon-chevron-down"></span>
-          </button>
-          <div id="logo">
-            <a href='.'>
-              <img class="image-responsive" src="" alt="royalflush logo">
-            </a>
-          </div>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li class="nav"><a href=".">Home</a>
-            </li>
-             <li class="nav"><a href="about.html">About</a>
-            </li>
-     <!--       <li class="nav active"><a href="contact.html">Contact</a>
-            </li> -->
-          </ul>
-        </div>
-      </div>
-    </header>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar" name="navbar">
+    </nav>
     <section id="body" class="container">
       <h1>Login page</h1>
       <p>Please enter your registered Username and Password</p>
@@ -144,7 +125,7 @@ require('plugins/SetupPage.php');
       <?php echo $unverfied ?>
       
       <div class="row">
-        <form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <form class="form-horizontal" method="post" action="<?php htmlspecialchars($_SERVER['PHP_SELF']); ?>">
           
           <div class="form-group" id="username">
             <label for="username" class="control-label col-md-2 col-sm-2 col-md-offset-2">Username</label>
@@ -186,5 +167,5 @@ require('plugins/SetupPage.php');
     </footer>
   </div>
 </body>
-
+<script src="js/navbar.js"></script>
 </html>
