@@ -6,9 +6,13 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+.hidden{
+  display:none;
+}
+
 .business-header {
     height: 400px;
-    background: url('/images/RoyalFlush_UnderConstruction.png') center center no-repeat scroll;
+    background: url('images/905-10.jpg') center center no-repeat scroll;
     -webkit-background-size: 100% 100%;
     -moz-background-size: 100% 100%;
     background-size: 100% 100%;
@@ -25,6 +29,7 @@
 .img-center {
     margin: 0 auto;
 }
+
 
 
 html {
@@ -1597,6 +1602,12 @@ pre code {
   margin-left: auto;
   padding-left: 15px;
   padding-right: 15px;
+}
+@media (min-width: 320px){
+  .container{
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 }
 @media (min-width: 768px) {
   .container {
@@ -3546,6 +3557,8 @@ tbody.collapse.in {
   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   background-clip: padding-box;
+  max-height: 200px;
+  overflow-x: hidden;
 }
 .dropdown-menu.pull-right {
   right: 0;

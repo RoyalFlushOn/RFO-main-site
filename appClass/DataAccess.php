@@ -1,7 +1,5 @@
 <?php
 
-// include_once("appClass/Member.php");
-
   class DataAccess{
     
     
@@ -18,33 +16,76 @@
     
     function dbConnection(){
       
-      $this->serverName = 'localhost';
-      $this->username = 'royalflushonline';
-      $this->password = 'FullHouse1985';
+      $server = $_SERVER['SERVER_NAME'];
+
+      $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] ."/private/dbConfig.json");
+
+      $obj = json_decode($json);
+
+      switch ($server){
+        case "localhost":
+            $dbDetails = $obj->dev;
+          break;
+        case "serverdev-dukelionstt664249.codeanyapp.com":
+            $dbDetails = $obj->sit;
+        break;
+        case "www.royalflush.online":
+            $dbDetails = $obj->prod;
+        break;
+      }
+
+      $this->serverName = $dbDetails->serverName;
+      $this->username = $dbDetails->username;
+      $this->password = $dbDetails->password;
       
       try{
-        $this->dbConn = new PDO("mysql:host=$this->serverName;dbname=RFO", $this->username, $this->password);
+        $this->dbConn = new PDO("mysql:host=$this->serverName;dbname=$dbDetails->dbName", $this->username, $this->password);
         $this->dbConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        return 'done and dusted';
+        return true;
       }
       catch (PDOException $e){
-        return 'woops: ' . $e->getMessage();
+        return 'Connection error: ' . $e->getMessage();
       }
     }
-    
+
+    function getDbConn(){
+
+      return $this->dbConn;
+    }
+
+    function closeConnection(){
+
+      $this->dbConn = null;
+    }
     function returnQuery($query){
       
       $this->dbConnection();
-     
-      $temp = $this->dbConn->query($query);
       
-      if($temp->rowcount() > 0){
-        return $temp;
+      $stmt = $this->dbConn->prepare($query);
+      
+      if($stmt->execute()){
+          return $stmt;
       } else {
-        return null;
+          return null;
       }
-    }
+      $this->dbConn = null;
+  }
+  
+    // function returnQuery($query){
+      
+    //   $this->dbConnection();
+     
+    //   $temp = $this->dbConn->query($query);
+      
+    //   if($temp->rowcount() > 0){
+    //     return $temp;
+    //   } else {
+    //     return null;
+    //   }
+
+    //   $this->dbConn = null;
+    // }
     
     public function insertStatement($query){
       
@@ -233,6 +274,8 @@
        
       $this->dbConn = null;
     }
+
+
     
   }
 ?>

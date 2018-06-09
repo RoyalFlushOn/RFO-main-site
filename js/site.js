@@ -260,6 +260,10 @@
    $dayBtn.text($choice);
    $hiddenDay.val($choice);
   });
+	
+	$("#daysDropdown li a").on('close', function(){
+			$("#monthDropdown li a").focus();
+	})
   
   
   $("#monthDropdown li a").on("click", function(){
