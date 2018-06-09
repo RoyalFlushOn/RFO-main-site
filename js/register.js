@@ -5,19 +5,7 @@ var $dayBtn = $("#dayChoice");
   var $hiddenMonth = $("#monthVal");
   var $hiddenYear = $("#yearVal");
 
-//   $('#sbmtBtn').hide();
-
-  $dayBtn.on('click', function(event){
-      event.preventDefault();
-  })
-
-  $monthBtn.on('click', function(event){
-      event.preventDefault();
-  })
-
-  $yearBtn.on('click', function(event){
-      event.preventDefault();
-  })
+  $('#submitButton').hide();
   
   $("#daysDropdown li a").on("click", function(){
       
@@ -25,8 +13,6 @@ var $dayBtn = $("#dayChoice");
         
       $dayBtn.text($choice);
       $hiddenDay.val($choice);
-
-      $(this).preventDefault();
   });
   
   
@@ -35,9 +21,7 @@ var $dayBtn = $("#dayChoice");
     var $choice = $(this).text();
     
     $monthBtn.text($choice);
-    $hiddenMonth.val($choice);
-
-    $(this).preventDefault();
+    $hiddenMonth.val($choice)
   });
   
   $("#yearDropdown li a").on("click", function(){
@@ -45,8 +29,7 @@ var $dayBtn = $("#dayChoice");
     
     $yearBtn.text($choice);
     $hiddenYear.val($choice);
-    
-    $(this).preventDefault();
+
   });
   
   var $pass = $("#pass");

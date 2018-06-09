@@ -14,6 +14,8 @@ require_once '../appClass/Autoloader.php';
       case 'logout':
         logUserOut();
         break;
+      case 'location':
+        setLocation($_POST['location']);
     }
     
   }
@@ -54,6 +56,17 @@ require_once '../appClass/Autoloader.php';
     $message->addMessageToSession();
     
     echo json_encode($responce);
+  }
+
+  function setLocation($location){
+      if(isset($_SESSION['login_location'])){
+        unset($_SESSION['login_location']);
+      }
+
+      $_SESSION['login_location'] = $location;
+      $responce->location = $location;
+
+      echo json_encode($responce);
   }
 
 

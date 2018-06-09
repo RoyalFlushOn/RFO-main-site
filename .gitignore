@@ -5,3 +5,11 @@ scratPad.php
 error_log
 /logs
 /images/articles/
+
+/js/bootstrap.js
+/js/boostrap.min.js
+/js/jquery-2.0.3.min.js
+/js/jquery-3.3.1.min.js
+/js/jquery-3.3.1.slim.min.js
+/js/temp*
+/js/svgxuse.js

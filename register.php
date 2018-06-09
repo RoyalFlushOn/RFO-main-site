@@ -13,7 +13,8 @@ and open the template in the editor.
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/theme.css">
       
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> -->
+		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="https://www.google.com/recaptcha/api.js" async defer></script>		
 		
@@ -21,14 +22,14 @@ and open the template in the editor.
 		<?php 
 			function dobDay(){
 			$dayList = '<div class="dropdown">
-								<button class="btn btn-success" id="dayChoice" data-toggle="dropdown">
+								<a class="btn btn-success dropdown-toggle" id="dayChoice" data-toggle="dropdown">
 									Day
 									<span class="caret"></span>
-								</button>
+								</a>
 								<ul class="dropdown-menu" id="daysDropdown">';
 
 					for($i = 1; $i<32; $i++){
-							$dayList .= '<li><a href="#" tabindex="-1">'. $i . '</a></li>';
+							$dayList .= '<li><a tabindex="-1">'. $i . '</a></li>';
 					}
 
 					$dayList .= '</ul>
@@ -39,14 +40,14 @@ and open the template in the editor.
 
 			function dobMonth(){
 				$monthList = '<div class="dropdown">
-							<button class="btn btn-success" id="monthChoice" data-toggle="dropdown">
+							<a class="btn btn-success dropdown-toggle" id="monthChoice" data-toggle="dropdown">
 								Month
 								<span class="caret"></span>
-							</button>
+							</a>
 							<ul class="dropdown-menu" id="monthDropdown">';
 
 				for($i = 1; $i<13; $i++){
-						$monthList .= '<li><a href="#" tabindex="-1">'. $i . '</a></li>';
+						$monthList .= '<li><a tabindex="-1">'. $i . '</a></li>';
 				}
 
 				$monthList .= '</ul>
@@ -57,17 +58,17 @@ and open the template in the editor.
 
 			function dobYear(){
 				$yearList = '<div class="dropdown">
-							<button class="btn btn-success" id="yearChoice" data-toggle="dropdown">
+							<a class="btn btn-success dropdown-toggle" id="yearChoice" data-toggle="dropdown">
 								Year
 								<span class="caret"></span>
-							</button>
+							</a>
 							<ul class="dropdown-menu" id="yearDropdown">';
 
 				 date_default_timezone_set("UTC");
 				$minAge =  date('Y') - 14;
 
 				for($i = $minAge; $i >= date("Y")-100; $i--){ 
-						$yearList .= '<li><a href="#" tabindex="-1">'. $i . '</a></li>';
+						$yearList .= '<li><a tabindex="-1">'. $i . '</a></li>';
 				}
 
 				$yearList .= '</ul>
@@ -303,7 +304,7 @@ and open the template in the editor.
     <section id="body" class="container">
       <h1>Registration</h1>
 			<hr/>
-      <p class="lead">Please enter the details you wish to store in our system. All details are kept securly on our system and never shared with anyone else other than my Gran, she loves a good gossip.</br/>Thanks for taking the time to join our little gang and hope to continue to hear more from you</p> <h5> All fields market with an astrix(*) next to their lable are manditory information.</h5>
+      <p class="lead">Please enter the details you wish to store in our system. All details are kept securly on our system and never shared with anyone else other than my Gran, she loves a good gossip.</br/>Thanks for taking the time to join our little gang and hope to continue to hear more from you.</p> <h5> All fields market with an astrix(*) next to their lable are manditory information.</h5>
 	
 	 <br/>
 	 <br/>
@@ -367,25 +368,44 @@ and open the template in the editor.
             </div>
             <label class="control-lable"><?php echo $errDP; ?></label>
           </div>
-          
-          <div class="form-group" id="DateofBirth">
-				<label class="control-lable col-md-2 col-md-offset-2 col-sm-2"> *Date of Birth</label>
-				<div class="col-md-4 col-sm-4">
-					<div class="btn-group btn-group-md">
-						<?php echo dobDay()?>
-            <input type="hidden" name="dayVal" id="dayVal" class="form-control">
-					</div>
-					<div class="btn-group btn-group-md">
-						<?php echo dobMonth()?>
-            <input type="hidden" name="monthVal" id="monthVal" class="form-control">
-					</div>
-          <div class="btn-group btn-group-md">
-						<?php echo dobYear()?>
-            <input type="hidden" name="yearVal" id="yearVal" class="form-control">
-					</div>
-				</div>
+
+					<div class="form-group" id="DateofBirth">
+						<label class="control-lable col-md-2 col-md-offset-2 col-sm-2"> *Date of Birth</label>
+						<div class="col-md-4 col-sm-4">
+							<div class="col-md-4 col-sm-4">
+								<?php echo dobDay()?>
+								<input type="hidden" name="dayVal" id="dayVal" class="form-control">
+							</div>
+							<div class="col-md-4 col-sm-4">
+								<?php echo dobMonth()?>
+								<input type="hidden" name="monthVal" id="monthVal" class="form-control">
+							</div>
+							<div class="col-md-4 col-sm-4">
+								<?php echo dobYear()?>
+								<input type="hidden" name="yearVal" id="yearVal" class="form-control">
+							</div>
+						</div>
 						<label class="control-lable"><?php echo $errDOB; ?></label>
 			</div>
+          
+          <!-- <div class="form-group" id="DateofBirth">
+						<label class="control-lable col-md-2 col-md-offset-2 col-sm-2"> *Date of Birth</label>
+						<div class="col-md-4 col-sm-4">
+							<div class="btn-group btn-group-md">
+								<?php //echo dobDay()?>
+								<input type="hidden" name="dayVal" id="dayVal" class="form-control">
+							</div>
+							<div class="btn-group btn-group-md">
+								<?php //echo dobMonth()?>
+								<input type="hidden" name="monthVal" id="monthVal" class="form-control">
+							</div>
+							<div class="btn-group btn-group-md">
+								<?php //echo dobYear()?>
+								<input type="hidden" name="yearVal" id="yearVal" class="form-control">
+							</div>
+						</div>
+						<label class="control-lable"><?php echo $errDOB; ?></label>
+			</div> -->
           <div class="form-group" id="iRobot">
 						<div class="col-md-10 col-md-offset-4">
 							<div class="g-recaptcha" data-sitekey="6LeEhiMUAAAAAI2RhHbWDCwbJhNtxKiKRmk0Zzki"
@@ -393,10 +413,10 @@ and open the template in the editor.
 							<label id="test"></label>
 						</div>
 					</div>
-          <div class="form-group" id="submitButton">
+          <div class="form-group" id="submitButtonFrmGrp">
             <div class="col-md-10 col-md-offset-4">
               <input type="submit" class="btn btn-success" value="Submit" 
-							name="sbmtBtn" id="sbmtBtn">
+							name="submitButton" id="submitButton">
             </div>
           </div>  
           
@@ -410,7 +430,7 @@ and open the template in the editor.
       </div>
     </section>
     <footer class="container">
-      <p>&COPY; 2017 Royalflush </p>
+		<p>&COPY; <?php echo date('Y'); ?> Royalflush </p>
     </footer>
   </div>
 	 

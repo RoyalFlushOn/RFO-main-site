@@ -1,4 +1,5 @@
 
+
 $(function(){
     $.post(
         'services/loginStatus.php',
@@ -6,34 +7,33 @@ $(function(){
             request : 'status'
         },
         function(data){
-            if(data.status != ''){
-                loginNavBtnConfig(data.status);
-            } else {
-                loginNavBtnConfig();
-            } 
+            loginNavBtnConfig(data.status);
         },
         'json'
     )
 });
 
-$('#logout a').on('click', function(){
+function locationUpdate(location){
 
-    $.post(
-        'services/loginStatus.php',
-        {
-            request : 'logout'
-        },
-        function(data){
-            if(data.status == 'success'){
-                loginNavBtnConfig(data.status);
-            } else {
-                logoutErrorMsg();
-            }
-        },
-        'json'
-    )
+    if(location.includes('login')){
+        i = temp.lastIndexOf('/');
+        location = location.substring(0, i+1);
+    }
+        $.post(
+            'services/loginStatus.php',
+            {
+                request : 'location',
+                location : location
+            },
+            function(data, success){
+                if(success == "success"){
+                }
+            },
+            'json'
+        );
+}
 
-});
+
 
 function logoutErrorMsg(){
 
@@ -55,6 +55,20 @@ function logoutErrorMsg(){
 }
 
 
+function logout(){
+    $.post(
+        'services/loginStatus.php',
+        {
+            request : 'logout'
+        },
+        function(data){
+            loginNavBtnConfig(data.status);
+            location.reload();
+        },
+        'json'
+    );
+}
+
 function loginNavBtnConfig(status){
     
     switch(status){
@@ -72,6 +86,7 @@ function loginNavBtnConfig(status){
             $("#logout a").hide();
             $("#login a").show();
             $("#reg a").show();
+            locationUpdate(page);
             break;
     }
 
