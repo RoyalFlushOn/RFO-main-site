@@ -1,3 +1,31 @@
+<?php 
+session_start();
+require('appClass/Autoloader.php');
+
+$server = $_SERVER['SERVER_NAME'];
+
+$json = file_get_contents($_SERVER['DOCUMENT_ROOT'] ."/private/recaptcha.json");
+
+echo $json;
+
+$obj = json_decode($json);
+
+$recaptDetails = new RecaptDetails();
+
+switch ($server){
+  case "localhost":
+      $recaptDetails = $obj->dev;
+    break;
+  case "rfo-main-site-admin73522.codeanyapp.com":
+      $recaptDetails = $obj->sit;
+  break;
+  case "www.royalflush.online":
+      $recaptDetails = $obj->prod;
+  break;
+}
+
+
+?>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -10,13 +38,23 @@ and open the template in the editor.
 		<meta charset="UTF-8">
 		<title></title>
 
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/theme.css">
-      
-		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> -->
-		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<script src="https://www.google.com/recaptcha/api.js" async defer></script>		
+<!-- 		<link rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
+        crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+   <link rel="stylesheet" href="css/theme.css">
+
+
+<!--   <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+			    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+          integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+          crossorigin="anonymous"></script> -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>  
+    <script src='https://www.google.com/recaptcha/api.js'></script>	
 		
 
 		<?php 
@@ -81,7 +119,7 @@ and open the template in the editor.
  <body>
  
     <?php
-        include_once 'appClass/Member.php';
+//         include_once 'appClass/Member.php';
  
 	 			$user = $firstName = $lastName = $email = $day = $month = $year
 						= $dob = $pass = $passChk = $result = $disPic = $tempStr = "";
@@ -268,7 +306,9 @@ and open the template in the editor.
 								$member->registerUser($memberAdd);
 							}
 							catch (Exception $e){
-								header('Location: index.php?type=warning&msg=Ah Smeg, this has gone a bit roung and sadly you will need to do re-enter you details again. If this happens again please contact us at admin@royalflush.online to report this possible gremlin.', true);
+                $message = new Message("Ah Smeg, this has gone a bit roung and sadly you will need to do re-enter you details again. If this happens again please contact us at admin@royalflush.online to report this possible gremlin.", "warning");
+       
+								header('Location: index.php', true);
 							}
 							
 							if($disPic !== null){	
@@ -278,10 +318,13 @@ and open the template in the editor.
 							$res = $member->sendAct($email);
 							
 							if($res['status']){
-								header('Location: index.php?type=success&msg=You details has been logged in our system, Yay!! To complete the process please check you email and activate your account. ***Please note that at present our emails are getting suck in peoples junk mail so, double check there.***', true);
-								
+                
+                $message = new Message("You details has been logged in our system, Yay!! To complete the process please check you email and activate your account. ***Please note that at present our emails are getting suck in peoples junk mail so, double check there.***", "success");
+								header('Location: index.php', true);
+							
 							} else {
-								header('Location: index.php?type=warning&msg=Oh dear, I believe in computer jargen something has gone tits up. You details have been saved but you activation email has been stuck down in its prime, please try and log in to trigger another. If this presists please contact admin@royalflush.online for assistance.', true);
+                $message = new Message('Oh dear, I believe in computer jargen something has gone tits up. You details have been saved but you activation email has been stuck down in its prime, please try and log in to trigger another. If this presists please contact admin@royalflush.online for assistance.', 'warning');
+								header('Location: index.php', true);
 								
 							}
 							
@@ -408,7 +451,7 @@ and open the template in the editor.
 			</div> -->
           <div class="form-group" id="iRobot">
 						<div class="col-md-10 col-md-offset-4">
-							<div class="g-recaptcha" data-sitekey="6LeEhiMUAAAAAI2RhHbWDCwbJhNtxKiKRmk0Zzki"
+							<div class="g-recaptcha" data-sitekey="<?php echo $recaptDetails->siteKey; ?>"
 										data-theme="dark" data-callback="iRobot"></div>
 							<label id="test"></label>
 						</div>
@@ -425,7 +468,7 @@ and open the template in the editor.
       <h3>Issues contact</h3>
       <div>
         <address>
-          <strong>Support:</strong> <a href="mailto:Support@fakelebowskifansite.com">Support@royalflush.online</a>
+          <strong>Support:</strong> <a href="mailto:support@royalflush.online">Support@royalflush.online</a>
         </address>
       </div>
     </section>

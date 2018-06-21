@@ -35,7 +35,7 @@
             ?>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li id="reg"><a href="Register.php"
+            <li id="reg"><a href="register.php"
                   data-toggle="tooltip" 
                   data-placement="bottom" 
                   title="Register"><span class="glyphicon glyphicon-user"></span></a></li>

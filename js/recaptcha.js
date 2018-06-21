@@ -2,18 +2,18 @@ function iRobot(res){
 
       var verified = false;
 
-      $.post('appAjax/recaptchaCall.php',
-                {secret: '6LeEhiMUAAAAAIphWxeF9zTCfReCWUyhGxGvb6yj',
-                response: res},
-                function (result){
-                    var verfiction = JSON.parse(result);
+      $.post(
+        'appAjax/recaptchaCall.php',
+        {
+          response: res
+        },
+        function (result){
+          var verfiction = JSON.parse(result);
 
-                    verified = verfiction.success;
+          verified = verfiction.success;
 
-                    if(verified){
-                       
-                         $('#submitButton').show();
-                        
-                    }
-                });
+          if(verified){
+               $('#submitButton').show();
+          }
+      });
   }

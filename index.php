@@ -1,4 +1,7 @@
-<?php session_start();?>
+<?php 
+session_start();
+require('appClass/Autoloader.php');
+?>
 
 <!DOCTYPE html>
 <html>
@@ -8,17 +11,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		 <link rel="stylesheet" href="css/theme.css">
+<!--   <link rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
+        crossorigin="anonymous">
+   <link rel="stylesheet" href="css/theme.css">
 
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+			    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+          integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+          crossorigin="anonymous"></script> -->
+  
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/theme.css">
+  
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
  
   <?php 
   
   		
-    include('appClass/Autoloader.php');
+    
     include('plugins/CommentsPlugin.php');
     
     if(!isset($_SESSION['user'])){
@@ -113,28 +129,28 @@
 
   <div class="row" id="newsFeed">
     <div class="col-sm-4">
-      <img class="img-circle img-responsive img-center artImg" src="<?php echo $ra1['thumbnail']; ?>" alt="http://placehold.it/300x300"
+      <img class="img-circle img-responsive img-center artImg" src="<?php echo $ra1['thumbnail']; ?>" alt="https://placeimg.com/300/300/tech/grayscale"
         style="height:300px; width:300px;">
       <h2><?php echo $ra1['headline']; ?></h2>
       <p><?php echo $ra1['tagline']; ?>
       </p>
-      <a role="button" class="btn btn-success" href="articleDisplay.php?id=<?php echo$ra1['article_id']; ?>">View Article</a>
+      <a role="button" class="btn btn-success" href="articleDisplay.php?id=<?php echo $ra1['article_id']; ?>">View Article</a>
     </div>
     <div class="col-sm-4">
-      <img class="img-circle img-responsive img-center" src="<?php echo $ra2['thumbnail']; ?>" alt="http://placehold.it/300x300"
+      <img class="img-circle img-responsive img-center" src="<?php echo $ra2['thumbnail']; ?>" alt="https://placeimg.com/300/300/tech/grayscale"
         style="height:300px; width:300px;"> 
       <h2><?php echo $ra2['headline'] ?></h2>
       <p><?php echo $ra2['tagline']; ?>
       </p>
-      <a role="button" class="btn btn-success" href="articleDisplay.php?id=<?php echo$ra2['article_id']; ?>">View Article</a>
+      <a role="button" class="btn btn-success" href="articleDisplay.php?id=<?php echo $ra2['article_id']; ?>">View Article</a>
     </div>
     <div class="col-sm-4">
-      <img class="img-circle img-responsive img-center" src="<?php echo $ra3['thumbnail']; ?>" alt="http://placehold.it/300x300" 
+      <img class="img-circle img-responsive img-center" src="<?php echo $ra3['thumbnail']; ?>" alt="https://placeimg.com/300/300/tech/grayscale" 
         style="height:300px; width:300px;">
       <h2><?php echo $ra3['headline'] ?></h2>
       <p><?php echo $ra3['tagline']; ?>
       </p>
-      <a role="button" class="btn btn-success" href="articleDisplay.php?id=<?php echo$ra3['article_id']; ?>">View Article</a>
+      <a role="button" class="btn btn-success" href="articleDisplay.php?id=<?php echo $ra3['article_id']; ?>">View Article</a>
     </div>
   </div>
   
@@ -144,7 +160,7 @@
   <div class="col-md-4 col-sm-6 col-xs-12"></div>
   <!-- facebook feed -->
   <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div id="fb-root"></div>
+<!--                             <div id="fb-root"></div>
                             <script>(function(d, s, id) {
                                 var js, fjs = d.getElementsByTagName(s)[0];
                                 if (d.getElementById(id)) return;
@@ -160,15 +176,15 @@
                                             class="fb-xfbml-parse-ignore">
                                 <a href="https://www.facebook.com/royalflush.online">RoyalFlush.Online</a>
                                 </blockquote>
-                            </div>
+                            </div> -->
 
                         </div>
     <div class="col-md-4 col-sm-6 col-xs-12">
-    <a class="twitter-timeline" 
+<!--     <a class="twitter-timeline" 
 					 data-height="350"
 					 data-theme="dark" 
 					 href="https://twitter.com/RoyalFlushOn_">Tweets by RoyalFlushOn_</a>
-			<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+			<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script> -->
 			</div>
     </div>
   </div>

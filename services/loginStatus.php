@@ -2,6 +2,8 @@
 session_start();
 require_once '../appClass/Autoloader.php'; 
 
+$responce = new Responce();
+
   if(empty($_POST['request'])){
     
     $responce->status = 'default';
@@ -9,18 +11,18 @@ require_once '../appClass/Autoloader.php';
   } else {
     switch($_POST['request']){
       case 'status':
-        returnUserStatus();
+        returnUserStatus($responce);
         break;
       case 'logout':
-        logUserOut();
+        logUserOut($responce);
         break;
       case 'location':
-        setLocation($_POST['location']);
+        setLocation($_POST['location'], $responce);
     }
     
   }
 
-  function returnUserStatus(){
+  function returnUserStatus($responce){
 
     if(isset($_SESSION['user'])){
 
@@ -44,7 +46,7 @@ require_once '../appClass/Autoloader.php';
 
   }
 
-  function logUserOut(){
+  function logUserOut($responce){
 
     if(isset($_SESSION['user'])){
       unset($_SESSION['user']);
@@ -58,7 +60,7 @@ require_once '../appClass/Autoloader.php';
     echo json_encode($responce);
   }
 
-  function setLocation($location){
+  function setLocation($location, $responce){
       if(isset($_SESSION['login_location'])){
         unset($_SESSION['login_location']);
       }
@@ -68,41 +70,4 @@ require_once '../appClass/Autoloader.php';
 
       echo json_encode($responce);
   }
-
-
-  // if(isset($_SESSION['user'])){
-
-  //   $user = json_decode($_SESSION['user']);
-
-  //   if($user->status == 'verified'){
-  //     $result->login = true;
-  //     $result->regStat = false;
-  //   } else {
-  //     $result->login = true;
-  //     $result->regStat = false;
-  //   }
-  // } 
-
-  // if($result->login){
-			
-  //   if($result->regStat){
-      
-  //     $loginStat = '<script> loginNavBtnConfig("logged");</script>';	
-  //   } else {
-  //     $loginStat = '<script> loginNavBtnConfig("registration");</script>';
-  //     $regStat = '<div class="alert alert-warning fade in">
-  //     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  //     <strong>Notice</strong> This account is registered but not activated. Please check email or click on this link, <a href="activation.php">Activate</a>
-  //   </div>';
-  //     }
-  // } else {
-    
-  //   $loginStat = '<script> loginNavBtnConfig("default");</script>';
-  // }
-
-  // $page = htmlspecialchars($_SERVER['PHP_SELF']);
-	
-	// echo $regStat;
-
-  // return $result;
 ?>

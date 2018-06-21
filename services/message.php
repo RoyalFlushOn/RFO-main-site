@@ -2,6 +2,8 @@
 session_start();
 require_once '../appClass/Autoloader.php'; 
 
+$responce = new Responce();
+
 if(!empty($_POST['message'])){
 
     if(isset($_SESSION['message'])){
@@ -19,10 +21,10 @@ if(!empty($_POST['message'])){
 
     $message->addMessageToSession();
 
-    $responce->completed = true;
+    $responce->status = true;
 
 } else {
-     $responce->completed = false;
+     $responce->status = false;
      $responce->errorMsg = 'no messsage was sent with post';
 }
 

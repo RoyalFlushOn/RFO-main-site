@@ -59,7 +59,9 @@
 
                 $article = $temp->fetchAll(PDO::FETCH_ASSOC);
                 $i = 0;
-
+                
+                $responce = new Responce();
+                
                 if(is_array($article)){
                     if(count($article) > 0){
                         $responce->location = $articlePath->validated;

@@ -6,13 +6,31 @@
 
     // $log->startLog();
 
+    $server = $_SERVER['SERVER_NAME'];
+
+    $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] ."/private/recaptcha.json");
+
+    $obj = json_decode($json);
+
+    switch ($server){
+      case "localhost":
+          $recaptDetails = $obj->dev;
+        break;
+      case "rfo-main-site-admin73522.codeanyapp.com":
+          $recaptDetails = $obj->sit;
+      break;
+      case "www.royalflush.online":
+          $recaptDetails = $obj->prod;
+      break;
+    }
+
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         // $log->logEntry('Post method present, containing: ' . $_POST['response']);
 
         $response = $_POST['response'];
         $url = 'https://www.google.com/recaptcha/api/siteverify';
-        $secret = '6LeEhiMUAAAAAIphWxeF9zTCfReCWUyhGxGvb6yj';
+        $secret = $recaptDetails->secretKey;
 
         // $log->logEntry('Variables Set; response, url, secret ');
 

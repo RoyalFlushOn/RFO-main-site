@@ -6,6 +6,8 @@ var $dayBtn = $("#dayChoice");
   var $hiddenYear = $("#yearVal");
 
   $('#submitButton').hide();
+
+
   
   $("#daysDropdown li a").on("click", function(){
       

@@ -1,5 +1,3 @@
-
-
 $(function(){
     $.post(
         'services/loginStatus.php',
@@ -13,8 +11,8 @@ $(function(){
     )
 });
 
-function locationUpdate(location){
-
+function locationUpdate(location){  
+  
     if(location.includes('login')){
         i = temp.lastIndexOf('/');
         location = location.substring(0, i+1);

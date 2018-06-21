@@ -1,5 +1,25 @@
 <?php session_start();
-	include 'appClass/Autoloader.php';
+	require('appClass/Autoloader.php');
+
+  $server = $_SERVER['SERVER_NAME'];
+
+  $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] ."/private/recaptcha.json");
+
+  $obj = json_decode($json);
+
+  $recaptDetails = new RecaptDetails();
+
+  switch ($server){
+    case "localhost":
+        $recaptDetails = $obj->dev;
+      break;
+    case "rfo-main-site-admin73522.codeanyapp.com":
+        $recaptDetails = $obj->sit;
+    break;
+    case "www.royalflush.online":
+        $recaptDetails = $obj->prod;
+    break;
+  }
 
 	$user = $userDetails = $headline = $tagline = $page = $finalImgPth = $artFilePath = $imagePath = $finalArtFile = '';
 
@@ -270,11 +290,20 @@
 		$inArt = new Article();
 
 		$res = $inArt->insertArticle($article, $userLevel);
+    
+    print_r($res);
 
 		if($res->flag){
-			$message = new Message('Article has been uploaded, an email will be sent once it has been vetted', 'info');
-			$message->addMessageToSession();
-			header('location: index.php');
+      if($userDetails->level == 99){
+        $message = new Message('Article has been uploaded successfully, please review below\'s Article highlights.', 'success');
+			  $message->addMessageToSession();
+			  header('location: index.php');
+      } else {
+        $message = new Message('Article has been uploaded, an email will be sent once it has been vetted', 'info');
+			  $message->addMessageToSession();
+			  header('location: index.php');
+      }
+			
 		} else {
 			removeFiles($articlePath, $imagePath);
 			if( $res == 'upload'){
@@ -328,7 +357,7 @@ and open the template in the editor.
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<!-- 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 			<link rel="stylesheet" href="css/theme.css">
 			<link rel="stylesheet" href="css/dropzone.css">
 
@@ -336,7 +365,13 @@ and open the template in the editor.
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
+    
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/theme.css">
+  
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
 		<script src="https://www.google.com/recaptcha/api.js" async defer></script>	
 
   
@@ -346,75 +381,7 @@ and open the template in the editor.
   <body>
 	
 	  <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar" name="navbar">
-			<!-- <div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navOptions">
-										<span class="sr-only">Toggle navigation</span>
-										<span class="icon-bar"></span>
-									</button>
-					<a class="navbar-brand" href=".">Royalflush</a>
-				</div>
-				<div class="collapse navbar-collapse" id="navOptions">
-					<ul class="nav navbar-nav">
-						<li><a href="#">About</a></li>
-						<li><a href="#">Contact Us</a></li>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li id="reg"><a href="Register.php"
-									data-toggle="tooltip" 
-									data-placement="bottom" 
-									title="Register"><span class="glyphicon glyphicon-user"></span></a></li>
-						<li id="login"><a href="LoginPage.php?page=<?php //echo $page; ?>" 
-									data-toggle="tooltip" 
-									data-placement="bottom" 
-									title="Log In">
-								<span class="glyphicon glyphicon-log-in"></span></a></li>
-						<li id="logout"><a href="plugins/logout.php?page=<?php //echo $page; ?>" 
-									data-toggle="tooltip" 
-									data-placement="bottom" 
-									title="Log Out">
-								<span class="glyphicon glyphicon-log-out"></span></a></li>
-						
-					</ul>
-				</div>
-				<div class="row" id="artNavbar" hidden="true">
-					<div class="navbar-header" >
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#artOptions">
-										<span class="sr-only">Toggle navigation</span>
-										<span class="icon-bar"></span>
-									</button>
-					<a class="navbar-brand" href="#">Insert Option</a>
-				</div>
-
-					<div class="collapse navbar-collapse" id="artOptions">
-					<ul class="nav navbar-nav">
-						<li id="btnTxtBx"><a href="#" class="btn-success">Text</a></li>
-						<li class="dropdown">
-							<a class="dropdown-toggle btn-success" data-toggle="dropdown" href="#" id="btnPicChoice"> 
-												Picture
-												<span class="caret"></span>
-											</a>
-							<ul class="dropdown-menu" id="picDropDown">
-									<li><a href="#" tabindex="-1">Stand Alone</a></li>
-									<li><a href="#" tabindex="-1">Inline Right</a></li>
-									<li><a href="#" tabindex="-1">Inline Left</a></li>
-							</ul>
-						</li>
-						<li id="btnLnkBx" class="btn-success"><a href="#">Link</a></li>
-						<label id="lnkMsg" class="text-warning"></label>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li id="btnUndo"><a href="#"
-									data-toggle="tooltip" 
-									data-placement="bottom" 
-									title="Register"
-									class="btn-success">Undo</a></li>
-						
-					</ul>
-				</div>
-
-
-			</div> -->
+			
 	  </nav>
 
 	  <div class="container" id="choiceDiv">
@@ -509,8 +476,8 @@ and open the template in the editor.
 
 		<div class="form-group" id="iRobot">
 				<div class="col-md-10 col-md-offset-4" id="recaptchaDiv">
-					<div class="g-recaptcha" data-sitekey="6LeEhiMUAAAAAI2RhHbWDCwbJhNtxKiKRmk0Zzki"
-								data-theme="dark" data-callback="iRobot"></div>
+					<div class="g-recaptcha" data-sitekey="<?php echo $recaptDetails->siteKey; ?>"
+										data-theme="dark" data-callback="iRobot"></div>
 				</div>
 			</div>
 		<!-- <div class="form-group" id="rstBtnDiv" hidden="true">

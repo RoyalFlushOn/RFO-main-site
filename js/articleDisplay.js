@@ -25,8 +25,8 @@ function displayArticle(result){
     if(result != null){
         if(result.found == 1){
             temp = result.results[0];
-            articles[0] = result.location + '/'+ temp['author'] + '/' + temp['article_id'] + '/' + temp['file_name'];
-            loadArticle(0);
+            articles[0] = result.location + '/'+ temp.author + '/' + temp.article_id + '/' + temp.file_name;
+            loadArticle(0, false);
         } else if(result.found > 1){
             i = 0;
             $.each(result.results, function(key, val){
@@ -101,7 +101,7 @@ function getArticleLocation(search, type){
 }
 
 
-function loadArticle(index){
+function loadArticle(index, tableResults){
     
     $("#articleContent").load(articles[index], function(responseTxt, statusTxt, xhr){
         if(statusTxt == 'error'){
@@ -116,7 +116,7 @@ function loadArticle(index){
                     type : 'info'
                 },
                 function(data){
-                    if(data.completed){
+                    if(data.status){
                         console.log('message was a success, hoping to redirect');
                         window.location = 'index.php';
                     } else {
@@ -131,7 +131,7 @@ function loadArticle(index){
             console.log('article found and loaded');
         }
     });
-    if(resultsTable != 'undefined'){
+    if(tableResults){
         resultsTable.hide();
         resultsTableBody.empty();
     }    

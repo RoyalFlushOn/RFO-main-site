@@ -23,7 +23,7 @@
 <div class="form-group">
     <label class="control-label col-md-3" for="headline">Headline</label>
     <div class="col-md-8">
-        <input type="text" class="form-control" id="headline" name="headline" placeholder="Add headline here" value="<?php echo $headline; ?>">
+        <input type="text" class="form-control" id="headline" name="headline" placeholder="Add headline here">
         <label id="hdLnErr" name="hdLnErr" class="control-label text-warning small" ></label>
     </div>
     

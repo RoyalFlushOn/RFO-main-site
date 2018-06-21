@@ -5,7 +5,7 @@
 
  <?php 
 
-
+  unset($_SESSION['topArticles']);
 	//namespace Emojione;
 	// session_start();
 	
@@ -35,7 +35,8 @@
   <?php 
 
 
-
+  echo __DIR__;
+  echo '</br>' . $_SERVER['DOCUMENT_ROOT'];
 // include 'appClass/Autoloader.php';
 
 // if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -321,19 +322,23 @@
 	// }
 	
 
-		// $path = '/Applications/MAMP/htdocs/RFO-main-site/images/articles/User1/AR1054/905-10.jpg';
+// 		$path = $_SERVER['DOCUMENT_ROOT'] . '/article-files/validated/User1/AR1057/register.html';
 
-		// $slashPosistion = strrpos($path, '/');
-		// $newPath = substr($path, 0, strrpos($path, '/'));
+// 		$slashPosistion = strrpos($path, '/');
+// 		$newPath = substr($path, 0, strrpos($path, '/'));
 		
-		// echo $slashPosistion . '<br/>';
-		// echo $newPath;
+// 		echo $slashPosistion . '<br/>';
+// 		echo $newPath;
 
-		// unlink($path);
-		// rmdir(substr($path, 0, strrpos($path, '/')));
+// 		unlink($path);
+// 		rmdir(substr($path, 0, strrpos($path, '/')));
 	
 
-		print_r($_SESSION['login_location']);
+//     if(!is_dir(__DIR__. '/article-files/validated/User1')){
+//       mkdir(__DIR__. '/article-files/validated/User1');
+//     } else {
+//       echo 'true';
+//     }
 	
 	?>
   <body>

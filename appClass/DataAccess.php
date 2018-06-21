@@ -26,7 +26,7 @@
         case "localhost":
             $dbDetails = $obj->dev;
           break;
-        case "serverdev-dukelionstt664249.codeanyapp.com":
+        case "rfo-main-site-admin73522.codeanyapp.com":
             $dbDetails = $obj->sit;
         break;
         case "www.royalflush.online":

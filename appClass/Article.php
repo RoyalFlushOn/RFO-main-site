@@ -142,6 +142,8 @@ class Article{
 
     // $log = new Logger();
     // $log->startLog();
+    
+    $responce = new Responce();
 
     $dtAcc = new DataAccess();
     $temp = $dtAcc->returnQuery("select min(tracker_id) as 'min' from Recent_Articles");
@@ -156,12 +158,12 @@ class Article{
     $trans->beginTransaction();
 
     Try{
-      $pre = $trans->prepare('insert into articles values ( ?,?,?,?,?,?,?,?,?,?)');
+      $pre = $trans->prepare('insert into Articles values ( ?,?,?,?,?,?,?,?,?,?)');
       // $log->logEntry($pre);
 
       $tempAre = Array();
       $i= 0;
-      Foreach($article as $art){
+      foreach($article as $art){
         $tempArr[$i] = $art;
 
         $i++;
@@ -211,7 +213,7 @@ class Article{
 
     $dtAcc->closeConnection();
 
-    Return $responce;
+    return $responce;
   }
 
   public function topThreeArticles(){
@@ -225,28 +227,51 @@ class Article{
 
     $temp->setFetchMode(PDO::FETCH_ASSOC);
     $arts = $temp->fetchAll();
-
+    
     $i = 1;
 
     if(is_array($arts)){
-      foreach($arts as $art){
+      if(count($arts) > 0){
+          foreach($arts as $art){
 
-        // $article = new Article($art['article_id'],
-        //                         $art['headline'],
-        //                         $art['author'],
-        //                         $art['publish'],
-        //                         $art["tagline"],
-        //                         $art['thumbnail']);
+            $artCol[ 'RA' . $i] = $art;
 
-        $artCol[ 'RA' . $i] = $art;
+            $i++;
+          }
+      
+        switch(count($arts)){
+          case 1:
+            $artCol["RA2"] = $this->defaultDisplayContent();
+            $artCol['RA3'] = $this->defaultDisplayContent();
+            break;
+          case 2:
+            $artCol['RA3'] = $this->defaultDisplayContent();
+        }
 
-        $i++;
+        
+      } else {
+        $artCol["RA1"] = $this->defaultDisplayContent();
+        $artCol["RA2"] = $this->defaultDisplayContent();
+        $artCol["RA3"] = $this->defaultDisplayContent();
       }
-
+      
       return $artCol;
+      
     } else {
-      return false;
+      
+      $artCol["RA1"] = $this->defaultDisplayContent();
+      $artCol["RA2"] = $this->defaultDisplayContent();
+      $artCol["RA3"] = $this->defaultDisplayContent();
+      
+     return $artCol;    
     }
+  }
+  
+  private function defaultDisplayContent(){
+    $headline = "This is where the Article Headline would be displayed";
+    $tagline = "A blub about you article will be displayed here, we refer them as taglines";
+    
+    return array('headline' => $headline, 'tagline' => $tagline, 'thumbnail' => 'https://placeimg.com/300/300/tech/grayscale');
   }
 
   public function getId(){
