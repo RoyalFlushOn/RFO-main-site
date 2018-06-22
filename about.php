@@ -7,12 +7,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-		 <link rel="stylesheet" href="css/theme.css">
+  <!--   <link rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
+        crossorigin="anonymous">
+   <link rel="stylesheet" href="css/theme.css">
 
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+			    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+          integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+          crossorigin="anonymous"></script> -->
+  
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/theme.css">
+  
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
  
   
 	
@@ -21,27 +34,7 @@
   
   <body>
     
-    	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
-          <!-- sets up the menu toggle when page is viewed on a small screen id mobile. -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navOptions">
-                      <span class="sr-only">Toggle navigation</span>
-                      <span class="icon-bar"></span>
-                    </button>
-            <a class="navbar-brand" href=".">Royalflush</a>
-            <!-- adds the home logo link to bar -->
-          </div>
-          <!-- adds the navigation links -->
-          <div class="collapse navbar-collapse" id="navOptions">
-            <ul class="nav navbar-nav">
-              <!--<li><a href="#">About</a></li>
-              <li><a href="#">Contact Us</a></li>-->
-
-            </ul>
-				
-          </div>
-        </div>
+    	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar" name="navbar">
       </nav>
     
     <h1>
@@ -87,11 +80,10 @@
      </div>
     </div>
             
-<hr/>
+<!-- <hr/>
     
       <div class="row">
     <div class="col-md-4 col-sm-6 col-xs-12 fb-comments" data-href="https://www.facebook.com/royalflush.online/" data-numposts="5">
-<!--     <span class="fb-comments" data-href="https://www.facebook.com/royalflush.online/" data-numposts="5"></span> -->
     </div>
     <div class="col-md-4 col-sm-6 col-xs-12">
     <a class="twitter-timeline" 
@@ -103,7 +95,7 @@
     </div>
   </div>
 	
-	<hr/>
+	<hr/> -->
 	
 	<div class="row">
 		<div class="col-sm-6 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-offset-3 col-lg-6">
@@ -123,11 +115,10 @@
 
   <div class="row">
     <footer class="container">
-      <p>&COPY; 2016 Royalflush </p>
+      <p>&COPY; <?php echo date('Y'); ?> Royalflush </p>
     </footer>
-            </div>
-        
-
-        
+  </div>      
     
   </body>
+<script src="js/navbar.js"></script>
+</html>

@@ -5,7 +5,7 @@
 // $log->startLog();
 
 
-if(!isset($_SESSION['topArticles'])){
+if(isset($_SESSION['topArticles'])){
 
     // $artCol = new Collection();
     // $log->logEntry('session is not null, collection being retrived');

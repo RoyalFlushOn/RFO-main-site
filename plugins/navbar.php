@@ -12,7 +12,7 @@
         <!-- adds the navigation links -->
         <div class="collapse navbar-collapse" id="navOptions">
           <ul class="nav navbar-nav">
-            <li><a href="#">About</a></li>
+            <li><a href="about.php">About</a></li>
             <li><a href="#">Contact Us</a></li>
             <?php 
                 

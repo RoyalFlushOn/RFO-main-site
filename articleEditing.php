@@ -294,7 +294,8 @@
     print_r($res);
 
 		if($res->flag){
-      if($userDetails->level == 99){
+      
+      if($userLevel == 99){
         $message = new Message('Article has been uploaded successfully, please review below\'s Article highlights.', 'success');
 			  $message->addMessageToSession();
 			  header('location: index.php');
@@ -405,8 +406,7 @@ and open the template in the editor.
 		<div class="btn-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4
 								col-xl-4 col-xl-offset-4 col-sm-4 col-sm-offset-4" role="group">
 			<button class="btn btn-success" id="uploadBtn" onclick="openPnl(this)">Upload</button>
-			<button class="btn btn-success disabled" id="createBtn" onclick="openPnl(this)"
-					>Create</button>
+			<button class="btn btn-success disabled" id="createBtn" >Create</button> <!-- once enabled add onclick -->
 			
 		</div>
 		<br/>
