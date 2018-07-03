@@ -315,11 +315,13 @@ and open the template in the editor.
 								move_uploaded_file($_FILES['disPic']['tmp_name'], $targetFile);
 							}
 							
-							$res = $member->sendAct($email);
+							$json = $member->sendAct($email);
+              
+              $res = json_decode($json);
 							
-							if($res['status']){
+							if($res->status){
                 
-                $message = new Message("You details has been logged in our system, Yay!! To complete the process please check you email and activate your account. ***Please note that at present our emails are getting suck in peoples junk mail so, double check there.***", "success");
+                $message = new Message("You details has been logged in our system, Yay!! To complete the process please check you email and activate your account. ***Please note that at present our emails are getting stuck in peoples junk mail so, double check there.***", "success");
 								header('Location: index.php', true);
 							
 							} else {

@@ -1,6 +1,12 @@
 <?php
-  
-require 'email/PHPMailerAutoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
+require 'Responce.php';
+
+
 
 class Email{
   
@@ -10,14 +16,9 @@ class Email{
   private $HTMLbody;
   private $bodyAlt;
   private $subject;
-  
-  private $server = 'n1plcpnl0104.prod.ams1.secureserver.net';
-	private $SMTPAuth = true;
-	private $Username = 'admin@royalflush.online';
-	private $Password = 'FullHouse1985';
-	private $SMTPSecure = 'ssl';
-	private $Port = '465';
   private $html = true;
+  
+  private $mail;  
   
   function __construct(){
     $a = func_get_args();
@@ -41,32 +42,61 @@ class Email{
     
   }
   
+  private function setSMTPServer(){
+    
+    $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] ."/private/emailConfig.json");
+    
+    $obj = json_decode($json);
+    $emailConfig = $obj->email;
+    
+    $this->mail = new PHPMailer(true);
+    
+    $this->mail->isSMTP();
+    $this->mail->Host = $emailConfig->server;
+    $this->mail->SMTPAuth = $emailConfig->SMTPAuth;
+    $this->mail->Username = $emailConfig->Username;
+    $this->mail->Password = $emailConfig->Password;
+    $this->mail->SMTPSecure = $emailConfig->SMTPSecure;
+    $this->mail->Port = $emailConfig->Port;
+  }
+  
   public function sendEmail(){
     
+    $this->setSMTPServer();
+    
+    try{
 		
-		$mail = new PHPMailer;
-		
-		/*$mail->isSMTP();
-		$mail->Host = $this->server;
-		$mail->SMTPAuth = $this->SMTPAuth;
-		$mail->Username = $this->Username;
-		$mail->Password = $this->Password;
-		$mail->SMTPSecure = $this->SMTPSecure;
-		$mail->Port = $this->Port;*/
-		
-		$mail->setFrom($this->from, $this->fName);
-		$mail->addAddress($this->to, $this->tName);
-		$mail->isHTML($this->html);
-		
-		$mail->Subject = $this->subject;
-		$mail->Body = $this->HTMLbody;
-		$mail->AltBody = $this->bodyAlt;
-		
-		
-		if(!$mail->send()){
-			return array('status' => false, 'error' => $mail->ErrorInfo);
-		} else {
-			return array('status' => true);
-		}
+      $this->mail->setFrom($this->from, $this->fName);
+      $this->mail->addAddress($this->to, $this->tName);
+      
+      if ($this->html){
+        $this->mail->isHTML($this->html);
+        $this->mail->Subject = $this->subject;
+        $this->mail->Body = $this->HTMLbody;
+        $this->mail->AltBody = $this->bodyAlt;
+      } else {
+        $this->mail->Subject = $this->subject;
+        $this->mail->Body = $this->HTMLbody;
+      }
+      
+      $this->mail->send();
+      
+      $responce = new Responce();
+      $responce->status = true;
+      
+      return json_encode($responce);
+//       return true;
+      
+    } catch (Exception $e){
+      
+      $responce = new Responce();
+      $responce->status = false;
+      $responce->errMsg = $this->mail->ErrorInfo;
+      
+      return json_encode($responce);
+      
+//       return $this->mail->ErrorInfo;
+      
+    }
   }
 }

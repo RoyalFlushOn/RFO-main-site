@@ -1,11 +1,9 @@
 <?php  session_start();
-	include "appClass/Autoloader.php" ?>
+// 	include "appClass/Autoloader.php" ?>
 
 <html>
 
  <?php 
-
-  unset($_SESSION['topArticles']);
 	//namespace Emojione;
 	// session_start();
 	
@@ -33,10 +31,22 @@
 				
 	</head>
   <?php 
-
-
-  echo __DIR__;
-  echo '</br>' . $_SERVER['DOCUMENT_ROOT'];
+  
+//   require 'appClass/Email.php';
+  include 'appClass/Autoloader.php';
+  
+  
+//   $email = new Email(
+//                       'admin@royalflush.online',
+//                       'Royal Flush',
+//                       'gavin.v.mitchell@hotmail.co.uk',
+//                       'You',
+//                       'testing',
+//                       '<h1>Hello Smeg head mark 2 </h1>',
+//                       'alt - hello smeg head');
+  
+// $responce = $email->sendEmail();
+//   print_r($responce);
 // include 'appClass/Autoloader.php';
 
 // if($_SERVER['REQUEST_METHOD'] == 'POST'){
