@@ -161,7 +161,7 @@ require('plugins/SetupPage.php');
           <div class="form-group">
             <div class="col-md-10 col-md-offset-4">
               <input type="submit" value="Login" class="btn btn-success" /> 
-							<a href="forgotPassword.php?em=yes" class="btn-sm btn-success ">Forgot Password</a>
+							<a href="forgotPassword.php?em=yes" class="btn btn-success ">Forgot Password</a>
             </div>
             
           </div>
@@ -178,7 +178,7 @@ require('plugins/SetupPage.php');
     </section>
     <hr />
     <footer class="container">
-      <p>&COPY; 2016 Royalflush </p>
+      <p>&COPY; <?php echo date('Y'); ?> Royalflush </p>
     </footer>
   </div>
 </body>

@@ -97,8 +97,19 @@
     public function nonReturnQuery($query){
       
       $this->dbConnection();
-      $this->dbConn->query($query);
-      $this->dbConn = null;
+      try{
+        $this->dbConn->query($query);
+        $this->dbConn = null;
+        
+        return true;
+      } catch( Exception $ex){
+        
+        $this->dbConn = null;
+        
+        return false;
+      }
+      
+      
     }
     
     function usrChk($user){

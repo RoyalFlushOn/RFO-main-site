@@ -56,8 +56,7 @@
 		//header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']));
 		//dev only
 		// header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php');
-		$link =  htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php';
-		header('location:http://' . $link);
+		header('location: index.php');
 	
 	}
 
@@ -474,27 +473,29 @@ and open the template in the editor.
 						</div>
 				</div>-->
 
-		<div class="form-group" id="iRobot">
+		  <div class="form-group" id="iRobot">
 				<div class="col-md-10 col-md-offset-4" id="recaptchaDiv">
 					<div class="g-recaptcha" data-sitekey="<?php echo $recaptDetails->siteKey; ?>"
 										data-theme="dark" data-callback="iRobot"></div>
 				</div>
 			</div>
-		<!-- <div class="form-group" id="rstBtnDiv" hidden="true">
-			<div class="col-md-10 col-md-offset-4">
-              <a role="button" id="rfshRct" onclick="refreshRecp(this)">
-			  	<img src="images/site-images/file-uploads/appbar.refresh.png" id="refreshImg" class="img">
-			</a>
-            </div> -->
+      <div class="form-group" id="submitButton" hidden="true">
+               <div class="col-md-10 col-md-offset-4">
+                <input type="submit" class="btn btn-success" value="Submit" 
+                name="sbmtBtn" id="sbmtBtn" >
+              </div>
+
+
+        </div>
 		</div>			
-          <div class="form-group" id="submitButton" hidden="true">
+<!--           <div class="form-group" id="submitButton" hidden="true">
            	 <div class="col-md-10 col-md-offset-4">
               <input type="submit" class="btn btn-success" value="Submit" 
 							name="sbmtBtn" id="sbmtBtn" >
             </div>
 
 				
-			</div>
+			</div> -->
 		</form>
 	</div>
 

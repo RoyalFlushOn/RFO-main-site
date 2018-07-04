@@ -13,7 +13,7 @@
         <div class="collapse navbar-collapse" id="navOptions">
           <ul class="nav navbar-nav">
             <li><a href="about.php">About</a></li>
-            <li><a href="#">Contact Us</a></li>
+            <li><a href="contactUs.php">Contact Us</a></li>
             <?php 
                 
                 if(isset($_SESSION['user'])){
