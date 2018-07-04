@@ -1,0 +1,21 @@
+{
+    "dev" : {
+            "serverName":"localhost",
+            "username":"root",
+            "password":"root",
+            "dbName":"RFO"
+        },
+    "sit" : {
+            "serverName":"localhost",
+            "username":"root",
+            "password":"Crowswth2014",
+            "dbName":"RFO"
+        },
+    "prod" : {
+            "serverName":"localhost",
+            "username":"royalflushonline",
+            "password":"FullHouse1985",
+            "dbName":"RFO"
+        }
+
+}   

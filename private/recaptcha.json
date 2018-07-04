@@ -1,0 +1,10 @@
+{
+  "sit" : {
+          "siteKey" : "6LdHgF8UAAAAAPGymsF62Aqj-YgPiVqYTdMSw52k",
+          "secretKey" : "6LdHgF8UAAAAAA9qv2FUgzeulSIazaw2fZfTFttI"
+  },
+  "prod" : {
+         "siteKey" : "6LdHgF8UAAAAAPGymsF62Aqj-YgPiVqYTdMSw52k",
+         "secretKey" : ""
+  }
+}
