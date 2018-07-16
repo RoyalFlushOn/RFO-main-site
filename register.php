@@ -6,8 +6,6 @@ $server = $_SERVER['SERVER_NAME'];
 
 $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] ."/private/recaptcha.json");
 
-echo $json;
-
 $obj = json_decode($json);
 
 $recaptDetails = new RecaptDetails();
@@ -38,22 +36,19 @@ and open the template in the editor.
 		<meta charset="UTF-8">
 		<title></title>
 
-<!-- 		<link rel="stylesheet" 
+		<link rel="stylesheet" 
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
-        crossorigin="anonymous"> -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+        crossorigin="anonymous">
    <link rel="stylesheet" href="css/theme.css">
 
 
-<!--   <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
 			    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 			    crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
           integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
-          crossorigin="anonymous"></script> -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>  
+          crossorigin="anonymous"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>	
 		
 

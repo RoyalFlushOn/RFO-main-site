@@ -5,12 +5,11 @@ require_once '../appClass/Autoloader.php';
 $responce = new Responce();
 
 
-
 if(!empty($_POST['subject'])){
   if(!empty($_POST['contact'])){
     if(!empty($_POST['content'])){
       
-      $contact = ContactUs($_POST['subject'], $_POST['contDets'], $_POST['msgTxtBx']);
+      $contact = new ContactUs($_POST['subject'], $_POST['contact'], $_POST['content']);
     
       if($contact->store()){
         $responce->status = true;
@@ -30,5 +29,7 @@ if(!empty($_POST['subject'])){
   $responce->status = false;
   $responce->errormsg = 'subject';
 }
+
+echo json_encode($responce);
 
 ?>

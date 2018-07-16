@@ -2,6 +2,26 @@
   session_start();
 	require('appClass/Autoloader.php');
 
+$server = $_SERVER['SERVER_NAME'];
+
+$json = file_get_contents($_SERVER['DOCUMENT_ROOT'] ."/private/recaptcha.json");
+
+$obj = json_decode($json);
+
+$recaptDetails = new RecaptDetails();
+
+switch ($server){
+  case "localhost":
+      $recaptDetails = $obj->dev;
+    break;
+  case "rfo-main-site-admin73522.codeanyapp.com":
+      $recaptDetails = $obj->sit;
+  break;
+  case "www.royalflush.online":
+      $recaptDetails = $obj->prod;
+  break;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -17,21 +37,21 @@ and open the template in the editor.
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-			<link rel="stylesheet" href="css/theme.css">
-			<link rel="stylesheet" href="css/dropzone.css">
+
+    <link rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
+        crossorigin="anonymous">
+   <link rel="stylesheet" href="css/theme.css">
 
 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+			    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+          integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+          crossorigin="anonymous"></script>
     
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/theme.css">
-  
-  <script src="js/jquery-3.3.1.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
 		<script src="https://www.google.com/recaptcha/api.js" async defer></script>	
 
   
@@ -98,7 +118,7 @@ and open the template in the editor.
                         data-theme="dark" data-callback="iRobot"></div>
             </div>
           </div>
-          <div class="form-group" id="submitButton">
+          <div class="form-group" id="submitButton" hidden="true">
                <div class="col-md-10 col-md-offset-4">
                 <input type="button" class="btn btn-success" value="Submit" 
                 name="sbmtBtn" id="sbmtBtn" >

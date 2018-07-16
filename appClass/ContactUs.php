@@ -1,7 +1,7 @@
 <?php 
-require_once '../appClass/Autoloader.php'; 
+require_once 'Autoloader.php'; 
 
-class ContactUs {
+class ContactUs{
   
   private $subject;
   private $contact;
@@ -24,13 +24,13 @@ class ContactUs {
   
   public function __construct3($a1, $a2, $a3){
     $this->subject = $a1;
-    $this->contact = $a2
+    $this->contact = $a2;
     $this->content = $a3;
   }
   
   public function __construct4($a1, $a2, $a3, $a4){
     $this->subject = $a1;
-    $this->contact = $a2
+    $this->contact = $a2;
     $this->content = $a3;
     $this->status = $a4;
   }
@@ -38,15 +38,20 @@ class ContactUs {
   
   public function store(){
     
-    $dtAcc = DataAccess();
+    $dtAcc = new DataAccess();
     
-    $res = $dtAcc->nonReturnQuery('insert into Conact(subject, contact, content, status) 
-                                    Values ('. $this->subject. ',' . 
-                                                $this->contact. ',' . 
-                                                $this->content. ',' .
+    $json = $dtAcc->nonReturnQuery('insert into Contact(subject, contact, content, status) 
+                                    Values ("'. $this->subject. '","' . 
+                                                $this->contact. '","' . 
+                                                $this->content. '",' .
                                                 '"unread")');
+    $res = json_decode($json);
     
-    return $res;
+    if(!$res->status){
+      echo $res->errorMsg;
+    }
+    
+    return $res->status;
     
   }
   

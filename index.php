@@ -11,7 +11,7 @@ require('appClass/Autoloader.php');
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!--   <link rel="stylesheet" 
+  <link rel="stylesheet" 
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
         crossorigin="anonymous">
@@ -23,13 +23,7 @@ require('appClass/Autoloader.php');
 			    crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
           integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
-          crossorigin="anonymous"></script> -->
-  
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/theme.css">
-  
-  <script src="js/jquery-3.3.1.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
+          crossorigin="anonymous"></script>
  
   <?php 
   
@@ -48,26 +42,26 @@ require('appClass/Autoloader.php');
     }
 
   
-  if(isset($_SESSION['message'])){
-    $message = json_decode($_SESSION['message']);
+//   if(isset($_SESSION['message'])){
+//     $message = json_decode($_SESSION['message']);
     
-    if($message->type != null){
-      if($message->content != null){
+//     if($message->type != null){
+//       if($message->content != null){
 
-        echo  '<div class="alert alert-' . $message->type .  ' fade-out">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Notice</strong> ' . $message->content .'
-        </div>';
-      } else {
-        echo 'hmmm';
-      }
-    } else {
-      //record in the log error with messages
-      echo 'thats not right';
-    }
-    unset($_SESSION['message']);
+//         echo  '<div class="alert alert-' . $message->type .  ' fade-out">
+// 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+//         <strong>Notice</strong> ' . $message->content .'
+//         </div>';
+//       } else {
+//         echo 'hmmm';
+//       }
+//     } else {
+//       //record in the log error with messages
+//       echo 'thats not right';
+//     }
+//     unset($_SESSION['message']);
 		
-  }
+//   }
 	?>
 	
 </head>

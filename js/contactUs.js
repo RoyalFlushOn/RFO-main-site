@@ -49,7 +49,7 @@ $('#sbmtBtn').on('click', function(){
 function storeMessage(subject, contact, content){
   
   $.post(
-       'service/contact.php',
+       'services/contact.php',
         {
           subject : subject,
           contact : contact,
@@ -57,7 +57,7 @@ function storeMessage(subject, contact, content){
         },
         function(data){
           if(data.status){
-            message('success', 'Thank you for contactinh us, if a reply is warrented then please allow a few days for a responce please.');
+            message('success', 'Thank you for contacting us, if a reply is warrented then please allow a few days for a responce thank you.');
             window.location = 'index.php';
           }else{
             $('#submitErr').css('color', '#E74C3C');
@@ -72,10 +72,10 @@ function storeMessage(subject, contact, content){
 function message(type, text){
   
   $.post(
-        'service/message.php',
+        'services/message.php',
         {
-            message : 'Error logging out please try again',
-            type : 'warning'
+            message : text,
+            type : type
         },
         function(data){
         },

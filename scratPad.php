@@ -35,6 +35,13 @@
 //   require 'appClass/Email.php';
   include 'appClass/Autoloader.php';
   
+  $dtAcc = new DataAccess();
+  
+  $temp = $dtAcc->returnQuery("select * from Contact");
+  
+  $resp = $temp->fetchAll();
+  
+  print_r($resp);
   
 //   $email = new Email(
 //                       'admin@royalflush.online',

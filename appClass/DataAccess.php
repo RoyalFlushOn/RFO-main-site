@@ -1,4 +1,5 @@
 <?php
+require 'Autoloader.php';
 
   class DataAccess{
     
@@ -96,19 +97,24 @@
     
     public function nonReturnQuery($query){
       
+      $responce = new Responce();
+      
       $this->dbConnection();
       try{
         $this->dbConn->query($query);
         $this->dbConn = null;
         
-        return true;
+        $responce->status = true;
+        
       } catch( Exception $ex){
         
         $this->dbConn = null;
         
-        return false;
+        $responce->errorMsg = $ex->getMessage();
+        $responce->status = false;
       }
       
+      return json_encode($responce);
       
     }
     

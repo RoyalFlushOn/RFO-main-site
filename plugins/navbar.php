@@ -1,4 +1,7 @@
-<?php session_start();?>
+<?php session_start();
+
+
+?>
       <div class="container">
         <!-- sets up the menu toggle when page is viewed on a small screen id mobile. -->
         <div class="navbar-header">
@@ -57,4 +60,28 @@
 
       </div>
   </nav>
+<?php 
+
+ if(isset($_SESSION['message'])){
+    $message = json_decode($_SESSION['message']);
+    
+    if($message->type != null){
+      if($message->content != null){
+
+        echo  '<div class="alert alert-' . $message->type .  ' fade-out">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Notice</strong> ' . $message->content .'
+        </div>';
+      } else {
+        echo 'hmmm';
+      }
+    } else {
+      //record in the log error with messages
+      echo 'thats not right';
+    }
+    unset($_SESSION['message']);
+		
+  }
+
+?>
   
