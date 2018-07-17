@@ -1,0 +1,10 @@
+{
+  "email" : {
+      "server" : "royalflush.online",
+      "SMTPAuth" : "true",
+      "Username" : "admin@royalflush.online",
+      "Password" : "FullHouse1985",
+      "SMTPSecure" : "ssl",
+      "Port" : "46"
+  }
+}

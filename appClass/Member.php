@@ -1,21 +1,19 @@
 <?php 
 
-  require_once('appData/DataAccess.php');
-	require_once('appClass/Email.php');
-	include 'appClass/EmailContent.php';
+  include 'appClass/Autoloader.php';
 
   class Member{
     
     private $firstName;
     private $lastName;
-	private $dob;
+	  private $dob;
     private $email;
     private $disPic;
     private $userName;
     private $password;
-	private $creation;
-	private $status;
-	private $level;
+	  private $creation;
+	  private $status;
+	  private $level;
     
     
     
@@ -135,31 +133,12 @@
 			
 			
 			$mainBody = '<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
 
 <head>
   <title>Activation</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<!-- 		 <link rel="stylesheet" href="css/theme.css"> -->
-
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  
-  <style>' .
-// 				. $css->getTemp() . 
-//     body {
-//       margin: 70px;
-//     }
-  '</style>
 </head>
   
  <body>

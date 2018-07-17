@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+  <head>
+  <title>Royalflush</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		 <link rel="stylesheet" href="/theme.css">
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!--<script src="css/theme.css"></script>-->
+  
+	
+</head>
+
+  <body>
+    
+  
+  
+  	<div class="container">
+      <div class="row">
+      
+      <!-- use this part for the title of the article, as it says from the style="" it controls the size of the text, the part of the class="" that creates the oragne box is bg-warning, you can also have primary, success, info, danger and muted. If you dont want it then drop it or if you want to just change the colour of the test then replace the bg with text eg text-success. -->
+        <span class="bg-warning col-sm-offset-2 col-md-offset-4 col-lg-offset-4" style="font-size:500%;">Main title</span>        
+      </div>
+      <div id="mainContent">
+		<div class="row">
+        
+        	<!-- This can be use to have a single large image at the start of the artical. Point to look at is the style='hieght:400ps; width:500px;' this as you would guess controls the size of the image, so if its a large image from source then you can control the look of it from there. --> 
+           <img class="img-responsive col-xs-12 col-sm-10 col-md-10 col-lg-10 col-sm-offset-3 col-md-offset-3 col-lg-offset-3" atl="Main Artical Img" src="http://6iee.com/data/uploads/19/623777.jpg"
+           style="hieght:400px; width:500px;"> 
+        </div>
+        <div class="row">
+        
+        <!-- This is a paragraph is slightly different in that all the text with in here will be slightly bigger and bold.-->
+        	<div class="col-sm-offset-2 col-md-offset-2 col-lg-offset-2 col-md-8 col-lg-8 col-sm-8">
+            	<p class="lead">
+                	main paragraph
+                </p>
+            </div>
+            
+            <!-- Use this section for just standard paragraph -->
+            <div class="col-sm-offset-2 col-md-offset-2 col-lg-offset-2 col-md-8 col-lg-8 col-sm-8">
+            	<p>
+                	normal paragraph
+                </p>
+            </div>
+            
+            <!-- The below from div to div can be used to have a picture with in the text, this particular one is for a picture that sits on the left the main phrase is the pull-left in the class=''. Change the src with either a url or if you want a static pic then we can add it to the server and just put the path to that pic in there instead.-->
+            <div class="col-sm-offset-2 col-md-offset-2 col-lg-offset-2 col-md-8 col-lg-8 col-sm-8"> 
+            	<p>
+                	normal paragraph with a left pulling picture.
+                	<br/>The rest of this text is to show how you the text molds to the picture:</p>
+                    
+                <img class="pull-left img-responsive col-md-8 col-lg-6" src="https://lh3.googleusercontent.com/c7c8qmmZKfwKimk1Wsf-VjscXevP9euS8DsQvTru8Hzl9bL6ewG1wC1RK7zQCTN5qiUwwR1whA=s630-fcrop64=1,09d84564ffffcfb4">
+                    
+                <p>We've already had a handful of great flicks in this year, namely Deadpool, 	
+                    Zootopia, and Captain America: Civil War, but there's so much more ahead: a new 
+                    Star Wars! Another Marvel flick! Things that aren't part of gargantuan, proven 
+                    franchises! We're starting to get a sense of what next year's likely Oscar 
+                    contenders will be, as well.
+                    
+                    The lineup for the rest of the year looks superb, and we can't wait to take in 
+                    these hopeful cinematic wonders (while stuffing our faces with popcorn, 
+                    obviously). These are the flicks which we're most looking forward to for the rest 
+                    of this year, in expected release-date order:
+                    
+                    Read more at <a href="http://www.stuff.tv/features/best-movies-watch#SKd74gcQ4F7cvFxo.99">Best Movies Stuff</a>
+            </p>
+                
+           </div>
+           
+           <!-- Similar as above only difference is the image on the right. -->
+             <div class="col-sm-offset-2 col-md-offset-2 col-lg-offset-2 col-md-8 col-lg-8 col-sm-8"> 
+             
+             
+          
+            	<p>
+                	normal paragraph with a right pulling picture.
+                	<br/>The rest of this text is to show how you the text molds to the picture:</p>
+                    
+                <img class="pull-right img-responsive col-md-8 col-lg-6" src="https://lh3.googleusercontent.com/c7c8qmmZKfwKimk1Wsf-VjscXevP9euS8DsQvTru8Hzl9bL6ewG1wC1RK7zQCTN5qiUwwR1whA=s630-fcrop64=1,09d84564ffffcfb4">
+                    
+                <p>We've already had a handful of great flicks in this year, namely Deadpool, 	
+                    Zootopia, and Captain America: Civil War, but there's so much more ahead: a new 
+                    Star Wars! Another Marvel flick! Things that aren't part of gargantuan, proven 
+                    franchises! We're starting to get a sense of what next year's likely Oscar 
+                    contenders will be, as well.
+                    
+                    The lineup for the rest of the year looks superb, and we can't wait to take in 
+                    these hopeful cinematic wonders (while stuffing our faces with popcorn, 
+                    obviously). These are the flicks which we're most looking forward to for the rest 
+                    of this year, in expected release-date order:
+                    
+                    Read more at <a href="http://www.stuff.tv/features/best-movies-watch#SKd74gcQ4F7cvFxo.99">Best Movies Stuff</a>
+            </p>
+            </div>
+            
+            <!-- stand alone image, the phrase in the class="" is what controls the size of he image in this case, if you require to make it smaller thern you need to use the style"" from above. -->
+            <div class="col-sm-offset-2 col-md-offset-2 col-lg-offset-2 col-md-8 col-lg-8 col-sm-8">
+            	<img class="img-responsive" src="https://sites.duke.edu/lit80s_02_f2013_augrealities/files/2013/12/gaymers.jpg">
+            </div>
+                
+           </div>
+           
+           <p> best place for typography and other bootstrap stuff go to <a href="www.w3schools.com/bootstrap/bootstrap_typography.asp">W3Schools</a>
+        </div>
+      </div>
+    
+  </body>
+  <script src='js/site.js'></script>
+</html>

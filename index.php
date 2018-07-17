@@ -1,9 +1,9 @@
+<?php 
+session_start();
+require('appClass/Autoloader.php');
+?>
+
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
 
 <head>
@@ -11,103 +11,64 @@ and open the template in the editor.
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-		 <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
+        crossorigin="anonymous">
+   <link rel="stylesheet" href="css/theme.css">
 
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+			    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+          integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+          crossorigin="anonymous"></script>
  
   <?php 
   
-  		session_start();
   		
-		include('plugins/CommentsPlugin.php');
-		include('plugins/UserStatusPlugin.php');
+    
+    include('plugins/CommentsPlugin.php');
+    
+    if(!isset($_SESSION['user'])){
 
-		$login = pageload();
-		$regStat = '';
-	
-				
-		if($login['login']){
-			
-			if($login['regStat']){
-				
-				$loginStat = '<script>$("#login a").hide(); 
-				$("#reg a").hide();</script>';	
-			} else {
-				$loginStat = '<script>$("#logout a").hide();</script>';
-				$regStat = '<div class="alert alert-warning fade in">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Notice</strong> This account is registered but not activated. Please check email or click on this link, <a href="activation.php">Activate</a>
-			</div>';
-				}
-		} else {
-			
-			$loginStat = '<script>$("#logout a").hide();
-			$("#login a").show();
-			$("#reg a").show();</script>';
-		}
-	
-	$page = $_SERVER['PHP_SELF'];
-	
-	echo $regStat;
+      if(isset($_SESSION['login_location'])){
+        unset($_SESSION['login_location']);
+      }
+
+      $_SESSION['login_location'] = htmlspecialchars($_SERVER['PHP_SELF']);
   
-  if(isset($_GET['msg'])){
-		$msg = htmlspecialchars($_GET['msg']);	 // look into alt as format
-		$type = htmlspecialchars($_GET['type']); // of messages are changed
-		
-		echo  '<div class="alert alert-' . $type .  ' fade-out">
+    }
+
+  
+  if(isset($_SESSION['message'])){
+    $message = json_decode($_SESSION['message']);
+    
+    if($message->type != null){
+      if($message->content != null){
+
+        echo  '<div class="alert alert-' . $message->type .  ' fade-out">
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Notice</strong> ' . $msg .'
-			</div>';
+        <strong>Notice</strong> ' . $message->content .'
+        </div>';
+      } else {
+        echo 'hmmm';
+      }
+    } else {
+      //record in the log error with messages
+      echo 'thats not right';
+    }
+    unset($_SESSION['message']);
 		
-	}
+  }
 	?>
 	
 </head>
 
 <body>
 	
-	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
-      <!-- sets up the menu toggle when page is viewed on a small screen id mobile. -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navOptions">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                </button>
-        <a class="navbar-brand" href=".">Royalflush</a>
-        <!-- adds the home logo link to bar -->
-      </div>
-      <!-- adds the navigation links -->
-      <div class="collapse navbar-collapse" id="navOptions">
-        <ul class="nav navbar-nav">
-          <li><a href="about.php">About</a></li>
-          <!--<li><a href="#">Contact Us</a></li>-->
-          
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-					<li id="login"><a href="loginPage.php?page=<?php echo $page; ?>" 
-								 data-toggle="tooltip" 
-								 data-placement="bottom" 
-								 title="Log In">
-							<span class="glyphicon glyphicon-log-in"></span></a></li>
-					<li id="reg"><a href="register.php"
-								 data-toggle="tooltip" 
-								 data-placement="bottom" 
-								 title="Register"><span class="glyphicon glyphicon-user"></span></a></li>
-					<li id="logout"><a href="plugins/logout.php?page=<?php echo $page; ?>" 
-								 data-toggle="tooltip" 
-								 data-placement="bottom" 
-								 title="Log Out">
-							<span class="glyphicon glyphicon-log-out"></span></a></li>
-					
-				</ul>
-				
-      </div>
-
-    </div>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar" name="navbar">
   </nav>
   <!-- custom addition to bootstrap, business-header -->
   <header class="business-header">
@@ -157,45 +118,67 @@ and open the template in the editor.
     </div>
 
   </div>
-
+  <?php include('plugins/articleTopThree.php'); ?>
   <hr/>
 
   <div class="row" id="newsFeed">
     <div class="col-sm-4">
-      <img class="img-circle img-responsive img-center" src="http://placehold.it/300x300" alt="">
-      <h2>Recent Announcement #1</h2>
-      <p>Snap shot of current, up and coming events, projects, new etc.
-        <br/> Will be displayed here.
+      <img class="img-circle img-responsive img-center artImg" src="<?php echo $ra1['thumbnail']; ?>" alt="https://placeimg.com/300/300/tech/grayscale"
+        style="height:300px; width:300px;">
+      <h2><?php echo $ra1['headline']; ?></h2>
+      <p><?php echo $ra1['tagline']; ?>
       </p>
+      <a role="button" class="btn btn-success" href="articleDisplay.php?id=<?php echo $ra1['article_id']; ?>">View Article</a>
     </div>
     <div class="col-sm-4">
-      <img class="img-circle img-responsive img-center" src="http://placehold.it/300x300" alt="">
-      <h2>Recent Announcement #2</h2>
-      <p>Snap shot of current, up and coming events, projects, new etc.
-        <br/> Will be displayed here.
+      <img class="img-circle img-responsive img-center" src="<?php echo $ra2['thumbnail']; ?>" alt="https://placeimg.com/300/300/tech/grayscale"
+        style="height:300px; width:300px;"> 
+      <h2><?php echo $ra2['headline'] ?></h2>
+      <p><?php echo $ra2['tagline']; ?>
       </p>
+      <a role="button" class="btn btn-success" href="articleDisplay.php?id=<?php echo $ra2['article_id']; ?>">View Article</a>
     </div>
     <div class="col-sm-4">
-      <img class="img-circle img-responsive img-center" src="http://placehold.it/300x300" alt="">
-      <h2>Recent Announcement #3</h2>
-      <p>Snap shot of current, up and coming events, projects, new etc.
-        <br/> Will be displayed here.
+      <img class="img-circle img-responsive img-center" src="<?php echo $ra3['thumbnail']; ?>" alt="https://placeimg.com/300/300/tech/grayscale" 
+        style="height:300px; width:300px;">
+      <h2><?php echo $ra3['headline'] ?></h2>
+      <p><?php echo $ra3['tagline']; ?>
       </p>
+      <a role="button" class="btn btn-success" href="articleDisplay.php?id=<?php echo $ra3['article_id']; ?>">View Article</a>
     </div>
   </div>
   
   <hr/>
   
   <div class="row">
-    <div class="col-md-4 col-sm-6 col-xs-12 fb-comments" data-href="https://www.facebook.com/royalflush.online/" data-numposts="5">
-<!--     <span class="fb-comments" data-href="https://www.facebook.com/royalflush.online/" data-numposts="5"></span> -->
-    </div>
+  <div class="col-md-4 col-sm-6 col-xs-12"></div>
+  <!-- facebook feed -->
+  <div class="col-md-4 col-sm-6 col-xs-12">
+<!--                             <div id="fb-root"></div>
+                            <script>(function(d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0];
+                                if (d.getElementById(id)) return;
+                                js = d.createElement(s); js.id = id;
+                                js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.10";
+                                fjs.parentNode.insertBefore(js, fjs);
+                                }(document, 'script', 'facebook-jssdk'));</script>
+                            <div class="fb-page" data-href="https://www.facebook.com/royalflush.online" 
+                                    data-tabs="timeline" data-small-header="true" 
+                                    data-adapt-container-width="true" data-hide-cover="true" 
+                                    data-show-facepile="false" data-height="350">
+                                <blockquote cite="https://www.facebook.com/royalflush.online" 
+                                            class="fb-xfbml-parse-ignore">
+                                <a href="https://www.facebook.com/royalflush.online">RoyalFlush.Online</a>
+                                </blockquote>
+                            </div> -->
+
+                        </div>
     <div class="col-md-4 col-sm-6 col-xs-12">
-    <a class="twitter-timeline" 
+<!--     <a class="twitter-timeline" 
 					 data-height="350"
 					 data-theme="dark" 
 					 href="https://twitter.com/RoyalFlushOn_">Tweets by RoyalFlushOn_</a>
-			<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+			<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script> -->
 			</div>
     </div>
   </div>
@@ -220,12 +203,12 @@ and open the template in the editor.
 
   <div class="row">
     <footer class="container">
-      <p>&COPY; 2016 Royalflush </p>
+      <p>&COPY; <?php echo date('Y'); ?> Royalflush </p>
     </footer>
-            </div>
+  </div>
 </body>
 
 
-<script src="js/site.js"></script>
-<?php echo $loginStat; ?>
+
+<script src="js/navbar.js"></script>
 </html>

@@ -1,6 +1,5 @@
 <?php
-
-require('appClass/Comments.php');
+//require('appClass/Comments.php');
 
 //session_start();
 
@@ -48,9 +47,9 @@ function commentsFeed($page, $limit){
 					return displayFeed($page);
 // 					return 'time is true';
 				} else {
-// 					setCommentSession($page, $limit);
+					setCommentSession($page, $limit);
 					
-// 					return displayFeed($page);
+					return displayFeed($page);
 					return 'time is false';
 				}
 			} else{
@@ -128,14 +127,15 @@ function commentsFeed($page, $limit){
 //Using a set of predeifned funciton with section of the overall format, these a call with in //different foreach loops to iterate throught the data coming in.
 function displayFeed($pageIn){  
 
-    $comments = $_SESSION['comments_'.$pageIn];
+		$commentsCol = new Collection();
+    $commentsCol = $_SESSION['comments_'.$pageIn];
     $commFeed = '';
       
 
     $entry = '';
     $subEntry = '';
 
-    foreach($comments->getCollection() as $key=>$val){
+    foreach($commentsCol->getCollection() as $key=>$val){
 
       $entry .= entryDisPic($val->getDisPic());
 
@@ -173,7 +173,7 @@ function displayFeed($pageIn){
 
       return $commFeed;
   
-  return $colComm;
+  //return $colComm;
 
     
 }
