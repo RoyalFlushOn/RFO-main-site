@@ -9,7 +9,7 @@ if(!empty($_POST['subject'])){
   if(!empty($_POST['contact'])){
     if(!empty($_POST['content'])){
       
-      $contact = new ContactUs($_POST['subject'], $_POST['contact'], $_POST['content']);
+      $contact = new ContactUs(htmlspecialchars($_POST['subject']), htmlspecialchars($_POST['contact']), htmlspecialchars($_POST['content']));
     
       if($contact->store()){
         $responce->status = true;

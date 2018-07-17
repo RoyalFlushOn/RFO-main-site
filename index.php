@@ -42,26 +42,26 @@ require('appClass/Autoloader.php');
     }
 
   
-//   if(isset($_SESSION['message'])){
-//     $message = json_decode($_SESSION['message']);
+  if(isset($_SESSION['message'])){
+    $message = json_decode($_SESSION['message']);
     
-//     if($message->type != null){
-//       if($message->content != null){
+    if($message->type != null){
+      if($message->content != null){
 
-//         echo  '<div class="alert alert-' . $message->type .  ' fade-out">
-// 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-//         <strong>Notice</strong> ' . $message->content .'
-//         </div>';
-//       } else {
-//         echo 'hmmm';
-//       }
-//     } else {
-//       //record in the log error with messages
-//       echo 'thats not right';
-//     }
-//     unset($_SESSION['message']);
+        echo  '<div class="alert alert-' . $message->type .  ' fade-out">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Notice</strong> ' . $message->content .'
+        </div>';
+      } else {
+        echo 'hmmm';
+      }
+    } else {
+      //record in the log error with messages
+      echo 'thats not right';
+    }
+    unset($_SESSION['message']);
 		
-//   }
+  }
 	?>
 	
 </head>
