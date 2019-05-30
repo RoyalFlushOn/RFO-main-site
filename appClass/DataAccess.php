@@ -18,6 +18,8 @@ require 'Autoloader.php';
     function dbConnection(){
       
       $server = $_SERVER['SERVER_NAME'];
+      
+      echo $server;
 
       $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] ."/private/dbConfig.json");
 
@@ -27,7 +29,7 @@ require 'Autoloader.php';
         case "localhost":
             $dbDetails = $obj->dev;
           break;
-        case "rfo-main-site-admin73522.codeanyapp.com":
+        case "rfo_uat-gavinvmitchell345269.codeanyapp.com":
             $dbDetails = $obj->sit;
         break;
         case "www.royalflush.online":
