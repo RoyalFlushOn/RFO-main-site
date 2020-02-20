@@ -9,6 +9,7 @@ error_log
 
 /dnd
 /dndpn
+/.vscode
 landing.php
 semanticTest.html
 view.html
