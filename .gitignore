@@ -10,6 +10,7 @@ error_log
 /dnd
 /dndpn
 /.vscode
+/private
 landing.php
 semanticTest.html
 view.html
