@@ -1,19 +1,31 @@
 <?php // session_start();
-// 	include "appClass/Autoloader.php" ?>
+	include "appClass/Autoloader.php" ?>
 
 <html>
 
  <?php 
 	//namespace Emojione;
-	// session_start();
+// 	session_start();
 	
-	// session_destroy();
+// 	session_destroy();
 
 	// if(!$_GET['npsw'] == null ){
 	// 	  echo 'found get';
 	//   } else {
 	// 	  header("Location:index.php?msg=Ooow+sorry+that+is+not+allowed.+Bye&type=info");
 	//   }
+    
+    
+//    unlink('images/articles/AR/bearded sckull.png');
+//    rmdir('images/articles/user1');
+// //     rmdir('images/articles/AR');
+//         mkdir('images/articles', 0775);
+    
+    
+    $setup = new SetupPage();
+    
+echo $setup->BOOTSTRAP_CSS_OFFLINE;
+    
 ?>
 	
 	<head>
@@ -51,11 +63,38 @@
 	<!--<script src="js/site.js"></script>-->
   
   <?php
-    echo password_hash('Password1', PASSWORD_DEFAULT);
+    
   ?>
   
    <script>
-      var quill = new Quill('#editor', { theme: 'snow' });
+//       var quill = new Quill('#editor', { theme: 'snow' });
+     
+     $().ready(function(){
+       
+       let queryString = window.location.search
+       queryString = queryString.substr(1)
+       let firstSplit = queryString.split('&');
+       
+       if(firstSplit.length > 1){
+         console.log("search error");
+       } else {
+        
+         let finalSplit = firstSplit[0].split('=');
+         
+         if(finalSplit[0] === 'id'){
+           let regex = /^[0-9a-zA-Z]+$/;
+           let id = encodeURI(finalSplit[1]);
+           
+           if(id.match(regex)){
+             console.log(id);
+           } else {
+             console.log('id error');
+           }
+           
+         }
+       }
+       
+     })
     </script>
 	
 </html>

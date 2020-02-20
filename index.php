@@ -40,6 +40,7 @@ require('appClass/Autoloader.php');
       $_SESSION['login_location'] = htmlspecialchars($_SERVER['PHP_SELF']);
   
     }
+  
 
   
   if(isset($_SESSION['message'])){
@@ -120,7 +121,9 @@ require('appClass/Autoloader.php');
   </div>
   <?php include('plugins/articleTopThree.php'); ?>
   <hr/>
-
+  <h1>
+    Recent Articles
+  </h1>
   <div class="row" id="newsFeed">
     <div class="col-sm-4">
       <img class="img-circle img-responsive img-center artImg" src="<?php echo $ra1['thumbnail']; ?>" alt="https://placeimg.com/300/300/tech/grayscale"
@@ -145,6 +148,15 @@ require('appClass/Autoloader.php');
       <p><?php echo $ra3['tagline']; ?>
       </p>
       <a role="button" class="btn btn-success" href="articleDisplay.php?id=<?php echo $ra3['article_id']; ?>">View Article</a>
+    </div>
+    <div class="row">
+      <div class="col-md-2 col-md-offset-10">
+        <a href="articleDisplay.php">
+          <h3>
+            See More
+          </h3>
+        </a>
+      </div>
     </div>
   </div>
   

@@ -1,6 +1,6 @@
 <?php
 
-//$ra1 = $ra2 = $ra3 = new Article();
+// //$ra1 = $ra2 = $ra3 = new Article();
 // $log = new Logger();
 // $log->startLog();
 
@@ -8,9 +8,7 @@
 if(isset($_SESSION['topArticles'])){
 
     // $artCol = new Collection();
-    // $log->logEntry('session is not null, collection being retrived');
     $artCol = $_SESSION['topArticles'];
-    // $log->logEntry('Collection passed to artCol');
 
 } else {
   
@@ -63,6 +61,7 @@ if(isset($_SESSION['topArticles'])){
   $ra1 = $artCol["RA1"];
   $ra2 = $artCol["RA2"];
   $ra3 = $artCol["RA3"]; 
+
 
     // $log->logEntry('Article ' . $ra1['article_id'] . ' retrived');
 

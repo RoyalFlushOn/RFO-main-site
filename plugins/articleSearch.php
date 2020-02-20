@@ -1,7 +1,7 @@
 <div class="row" id="srchRow">
-    <div class="col-md-offset-2 col-md-6 ">
+    <div class="col-md-offset-2 col-md-6">
         <div class="input-group">
-            <input type="text" name="srchTxtBx" id="srchTxtBx" class="form-control" placeHolder="Head Line...">
+            <input type="text" name="srchTxtBx" id="srchTxtBx" class="form-control" placeHolder="Search...">
             <span class="input-group-btn">
                 <button class="btn btn-default dropdwn-toggle"
                         type="button"

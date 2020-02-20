@@ -5,13 +5,13 @@ class Article{
   
   private $artID;
   private $headline;
-  private $mainText;
+  private $content;
   private $author;
   private $publish;
   private $tags; // <----- in place to further dev later, this extends to any other references.
   private $commId;
-  private $thumbnail;
   private $tagline;
+  private $thumbnail;
   private $isValidated;
   
   
@@ -38,7 +38,7 @@ class Article{
     $this->tagline = $a5;
     $this->thumbnail = $a6;
     $this->commId = null;
-    $this->mainText = null;
+    $this->content = null;
     $this->tags = null;
   }
 
@@ -46,7 +46,7 @@ class Article{
     
     $this->artID = $this->createID();
     $this->headline = $a1;
-    $this->mainText = $a2;
+    $this->content = $a2;
     $this->author = $a3;
     $this->publish = date('Y/m/d');
     $this->tags = $a4;
@@ -56,11 +56,12 @@ class Article{
 
   }
 
+  //constuctor for new article being created
   public function __construct9($a1, $a2, $a3, $a4,$a5, $a6, $a7, $a8, $a9){
     
     $this->artID = $a1;
     $this->headline = $a2;
-    $this->mainText = $a3;
+    $this->content = $a3;
     $this->author = $a4;
     $this->publish = date('Y/m/d');
     $this->tags = $a5;
@@ -70,12 +71,13 @@ class Article{
     $this->isValidated = $a9;
 
   }
-
+  
+  //contructor for retrieving an article for display
   public function __construct10($a1, $a2, $a3, $a4,$a5, $a6, $a7, $a8, $a9, $a10){
     
     $this->artID = $a1;
     $this->headline = $a2;
-    $this->mainText = $a3;
+    $this->content = $a3;
     $this->author = $a4;
     $this->publish = $a5;
     $this->tags = $a6;
@@ -91,16 +93,16 @@ class Article{
     $dtAcc = new DataAccess();
     
     $preID = $dtAcc->returnQuery("select max(article_id) as 'article_id' from Recent_Articles");
+    $temp = $preID->fetch(PDO::FETCH_ASSOC);
     
-     if($preID != null ){
+     if($temp['article_id'] != null){
 
-        $temp = $preID->fetch(PDO::FETCH_ASSOC);
-
-        $oldID = substr($temp["article_id"],2);
+       $oldID = substr($temp["article_id"],2);
 
         $oldID++;
 
         $newId = 'AR' .  $oldID;
+        
       } else {
         $newId = 'AR1001';
       }
@@ -123,13 +125,14 @@ class Article{
 
         $article = new Article($a['article_id'],
                                 $a['headline'],
-                                $a['main_content'],
+                                $a['content'],
                                 $a['author'],
                                 $a['publish'],
                                 $a['tags'],
                                 $a['comm_id'],
                                 $a["tagline"],
-                                $a['thumbnail']
+                                $a['thumbnail'],
+                               $a['is_validated']
                               );
         
       }
@@ -138,18 +141,27 @@ class Article{
     return $article;
   }
 
-  Public function insertArticle($article, $userLevel){
+  public function insertArticle($article, $userLevel){
 
     // $log = new Logger();
     // $log->startLog();
-    
+    $trackerId = 0;
     $responce = new Responce();
 
     $dtAcc = new DataAccess();
-    $temp = $dtAcc->returnQuery("select min(tracker_id) as 'min' from Recent_Articles");
+    
+     $temp = $dtAcc->returnQuery("select min(tracker_id) as 'min', count(tracker_id) as 'count' from Recent_Articles");
 
-    $trkId = $temp->fetch(PDO::FETCH_ASSOC);
+      $trkId = $temp->fetch(PDO::FETCH_ASSOC);
+    
+    if($trkId['count'] == 3 ){
+     
+        $trackerId = $trkId['min'];
+      
+    }
     // $log->logEntry('ID = ' .$trkId['min']);
+    
+    
 
     $dtAcc->dbConnection();
 
@@ -184,7 +196,10 @@ class Article{
 
       //using the minimum Recent_articles id from above to delete that entry from the recent_articles 
       //table
-      $trans->exec("delete from Recent_Articles where tracker_id =" . $trkId['min']);
+        if($trackerId != 0){
+          $trans->exec("delete from Recent_Articles where tracker_id =" . $trackerId);
+        }
+      
       }
       // $log->logEntry('Record deleted from Recent_Articles');
 
@@ -267,6 +282,27 @@ class Article{
     }
   }
   
+  public function getTenMostRecentArticles(){
+    
+    $dtAcc = new DataAccess();
+    $artCol = array();
+
+    $temp = $dtAcc->returnQuery("select article_id, headline,tagline, thumbnail ".
+                                "from Articles order by publish desc limit 1, 10");
+    
+    $temp->setFetchMode(PDO::FETCH_ASSOC);
+    
+    $arts = $temp->fetchAll();
+    
+    $i = 1;
+
+    if(is_array($arts)){
+      return $arts;
+    } else {
+      return false;
+    }
+  }
+  
   private function defaultDisplayContent(){
     $headline = "This is where the Article Headline would be displayed";
     $tagline = "A blub about you article will be displayed here, we refer them as taglines";
@@ -296,7 +332,7 @@ class Article{
 
   public function getMaintext(){
 
-    return $this->mainText;
+    return $this->content;
   }
 
   public function getTags(){

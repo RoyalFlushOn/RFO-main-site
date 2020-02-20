@@ -1,8 +1,5 @@
 <?php
     require_once '../appClass/Autoloader.php';
-    $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] .'/private/paths.json');
-    $jsonObj = json_decode($json);
-    $articlePath = $jsonObj->articles;
     $criteria = $column = $noOfResults = $val = ' ';
     $results = array();
 
@@ -45,14 +42,14 @@
             if($column != 'tag'){
                 $dtAcc = new DataAccess();
 
-                $temp = $dtAcc->returnQuery("Select article_id, author, file_name, headline From Articles where " . 
+                $temp = $dtAcc->returnQuery("Select article_id, author, content, headline From Articles where " . 
                                             $column . " like '%" . $criteria . "%'");
                 
             }else{
                 $dtAcc = new DataAccess();
 
-                $temp = $dtAcc->returnQuery('Select article_id, author, is_validated, file_name From Articles where ' . 
-                                            $column . "in " . $criteria . " and is_validated = 'Y' ");
+                $temp = $dtAcc->returnQuery('Select article_id, author, is_validated, content From Articles where ' . 
+                                            $column . " in " . $criteria . " and is_validated = 'Y' ");
             }
             
             if($temp != null ){
@@ -64,21 +61,20 @@
                 
                 if(is_array($article)){
                     if(count($article) > 0){
-                        $responce->location = $articlePath->validated;
-                        $responce->exist = true;
+                        $responce->exists = true;
                         $responce->results = $article;
                         $responce->found = count($article);
                     } else {
-                        $responce->exist = false;
+                        $responce->exists = false;
                     }
                     
                 } else {
-                    $responce->exist = false;
+                    $responce->exists = false;
                 }
                 
             } else {
 
-                $responce->exist = false;
+                $responce->exists = false;
             }
 
             echo json_encode($responce);
