@@ -27,12 +27,12 @@ $("#srchBtn").on("click", function(){
     errorLabel.hide();
     searchText = searchTextbox.val();
 
-    console.log('Search value is: ' + searchText);
+    console.log('Search value is: ' + searchText + ' and search type is: ' + searchCriteria);
 
     if(searchText === ""){
         errorMsg('please enter text, before searching');
     } else {
-        getArticleLocation(searchText, searchCriteria);
+        getArticle(searchText, searchCriteria);
     }
 
 });

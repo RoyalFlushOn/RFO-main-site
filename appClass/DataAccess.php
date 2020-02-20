@@ -19,7 +19,7 @@ require 'Autoloader.php';
       
       $server = $_SERVER['SERVER_NAME'];
       
-      echo $server;
+//       echo $server;
 
       $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] ."/private/dbConfig.json");
 

@@ -1,20 +1,20 @@
 <?php
 session_start();
 require('appClass/Autoloader.php');
-require('plugins/SetupPage.php');
+// require('plugins/SetupPage.php');
 
-$search = false;
+// $search = false;
 
-if(isset($_GET['id'])){
+// if(isset($_GET['id'])){
 
-  $id = htmlspecialchars($_GET['id']);
+//   $id = htmlspecialchars($_GET['id']);
 
-} else {
-  $search = true;
-}
+// } else {
+//   $search = true;
+// }
 
 
-include('plugins/CommentsPlugin.php');
+// include('plugins/CommentsPlugin.php');
         
 ?>
 <!DOCTYPE html>
@@ -35,11 +35,13 @@ and open the template in the editor.
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
         crossorigin="anonymous">
    <link rel="stylesheet" href="css/theme.css">
+   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
 
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-			    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-			    crossorigin="anonymous"></script>
+  <script
+			  src="https://code.jquery.com/jquery-3.4.1.min.js"
+			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			  crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
           integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
           crossorigin="anonymous"></script>
@@ -49,16 +51,20 @@ and open the template in the editor.
   <body>
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar" name="navbar">
   </nav>
-  	<div class="container" id="articleContent">
+  	<div class="container">
+      <div id="articleContent" >
+        
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-offset-2 col-md-6">
+          <?php require("plugins/articleTenRecent.php"); ?>
+        </div>
+      </div>
     </div>
     
   </body>
   <script src='js/navbar.js'></script>
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
   <script src='js/articleDisplay.js'></script>
-  <?php if($search){
-          echo "<script> search(); </script>";     
-        } else {
-          echo "<script> getArticleContent('". $id ."'); </script>";
-        }
-  ?>
 </html>

@@ -2,9 +2,23 @@
 /article-files/
 scratPad.php
 *.old
+*.new
 error_log
 /logs
 /images/articles/
+
+/dnd
+/dndpn
+/.vscode
+/private
+landing.php
+semanticTest.html
+view.html
+group.html
+editorPage.html
+editor.html
+.htaccess
+
 
 /js/bootstrap.js
 /js/boostrap.min.js

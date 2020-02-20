@@ -1,7 +1,0 @@
-{
-    "articles": {
-        "unvalidated" : "article-files/unvalidated",
-        "validated" : "article-files/validated",
-        "images" : "images/articles"
-    }
-}

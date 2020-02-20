@@ -1,9 +1,11 @@
 <?php session_start();
 	require('appClass/Autoloader.php');
+  require('plugins/SetupPage.php');
 
   $server = $_SERVER['SERVER_NAME'];
 
   $json = file_get_contents($_SERVER['DOCUMENT_ROOT'] ."/private/recaptcha.json");
+  $_SERVER['DOCUMENT_ROOT'] ."/private/recaptcha.json";
 
   $obj = json_decode($json);
 
@@ -13,7 +15,7 @@
     case "localhost":
         $recaptDetails = $obj->dev;
       break;
-    case "rfo-main-site-admin73522.codeanyapp.com":
+    case "RFO_UAT-gavinvmitchell345269.codeanyapp.com":
         $recaptDetails = $obj->sit;
     break;
     case "www.royalflush.online":
@@ -21,9 +23,9 @@
     break;
   }
 
-	$user = $userDetails = $headline = $tagline = $page = $finalImgPth = $artFilePath = $imagePath = $finalArtFile = '';
+	$user = $userDetails = $headline = $tagline = $page = $finalImgPth = $artFilePath = $imagePath = $url =  $finalArtFile = '';
 
-	$hdLnErr = $artFlErr = $thmbErr = $tagErr = $upldFrmErr = '';
+	$hdLnErr = $thmbErr = $tagErr = $upldFrmErr = $artConErr = '';
 
 	$fileNms = $tmpLoc = $errors = array();
 
@@ -38,12 +40,6 @@
 
 			$message = new Message('You must have the right user level to access page, if you wish to please contact admin@royalflush.online.', 'info');
 			$message->addMessageToSession();
-
-			//header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']));
-			//dev only
-			// header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php');
-			// $link =  htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php';
-			// header('location:' . $link);
 			header('location: index.php');
 	
 		}
@@ -52,25 +48,14 @@
 
 		$message = new Message('Sorry you must logged in to use this page.', 'warning');
 		$message->addMessageToSession();
-
-		//header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']));
-		//dev only
-		// header('location:' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/RFO-main-site/index.php');
+    
 		header('location: index.php');
 	
 	}
 
 	if($_SERVER['REQUEST_METHOD'] == 'POST'){
-
-		if(!empty($_POST['form'])){
-
-			if($_POST['form'] == 'upload'){
-				uploadForm();
-			} else {
-				createForm();
-			}
-		}
-
+    
+    uploadForm();
 	} else {
 		echo '<script> var hdLnErr = "";
 					var artFlErr = "";
@@ -90,121 +75,73 @@
 		$articlePaths = $paths->articles;
 		
 		$articleID = new Article();
-		$artId = $articleID->createID();
+		echo 'article id: ' . $artId = $articleID->createID();
+    
 
+		$user = $userDetails->user;
+		$userDetails->level;
 
-		echo $user = $userDetails->user;
-		echo $userDetails->level;
-
-		if(!empty($_POST['headline'])){
-			$headline = htmlspecialchars($_POST['headline']);
+		if(!empty($_POST['articleTitleTxtBx'])){
+			$headline = htmlspecialchars($_POST['articleTitleTxtBx']);
 
 			$formStat = true;
-
+      echo 'title passed </br>';
 		} else {
-			$hdLnErr = 'Please enter the headline of your article please.';
+			echo $hdLnErr = 'Please enter the headline of your article please.';
 
 			$formStat = false;
+      echo 'title failed </br>';
 		}
+    
+    if($_POST['artTmbChoice'] == 'url'){
+      echo 'this is an URL </br>';
+      if(!empty($_POST['articleThumbnailUrl'])){
+         echo 'url post is not empty </br>';
+        $url = filter_var($_POST['articleThumbnailUrl'], FILTER_SANITIZE_URL);
+        echo '$url </br>';
+        if(!filter_var($url, FILTER_VALIDATE_URL) === false){
+          echo $dbImagePath = $url;
+        } else {
+          $formStat = false;
+        $thmbErr =  'There is an issue please review your URL for proper formating.';
+        }
+      } else {
+        $formStat = false;
+        $thmbErr =  'Please make sure there is a link present if';
+      }
+    } else if($_POST['artTmbChoice'] == 'file') {
+      if(!empty($_FILES['articleThumbnailFile'])){
 
-		if(!empty($_FILES['file'])){
-
-			$nameArr = $_FILES['file']['name'];
-			$tmp_name = $_FILES['file']['tmp_name'];
-			$errArr = $_FILES['file']['error'];
-			$size = $_FILES['file']['size'];
-
-
-			if($size[0] > 0){
-
-				$temp = basename($nameArr[0]);
-				$ext = pathinfo($temp, PATHINFO_EXTENSION);
-
-				if($ext == "html"){
-					$extStat = false;
-				} else if ($ext == 'txt'){
-					$extStat = false;
-				} else {
-					$extStat = true;
-				}
-
-				if($extStat){
-					$artFlErr = 'Correct file format needed either .txt or .html please.';
-
-					$formStat = false;
-				} else {
-				
-					if($userDetails->level == 99){
-						$artFilePath = $baseDir . '/'. $articlePaths->validated .'/' . $user;
-					} else {
-						$artFilePath = $baseDir . '/'. $articlePaths->unvalidated .'/' . $user;
-					}
-					
-					if(!is_dir($artFilePath)){
-						mkdir($artFilePath);
-					}
-
-					$artFilePath = $artFilePath . '/' . $artId;
-					
-					if(!is_dir($artFilePath)){
-						mkdir($artFilePath);
-					}
-
-					$finalArtFile = $artFilePath . '/' . $nameArr[0];
-
-					if(!file_exists($finalArtFile)){
-
-						if($formStat){
-							if(move_uploaded_file($tmp_name[0], $finalArtFile)){
-								$formStat  = true;
-							} else {
-								$formStat = false;
-
-								$artFlErr = 'Error with file upload please try again. If persists please contact admin.';
-								
-							}
-						}
-
-						
-					} else {
-						$formStat = false;
-
-						$artFlErr = 'Error file aready exists, please upload differet file. If you' .
-										' think this is wrong please contact admin for support';
-					}
-				}
-
-			} else {
-				$artFlErr = 'File not preset, please make sure one is selected';
-			}
-
-			
-
-			
-
-			if(getimagesize($tmp_name[1])){
+			$nameArr = $_FILES['articleThumbnailFile']['name'];
+			$tmp_name = $_FILES['articleThumbnailFile']['tmp_name'];
+			$errArr = $_FILES['articleThumbnailFile']['error'];
+			$size = $_FILES['articleThumbnailFile']['size'];
+      
+			if(getimagesize($tmp_name)){
 
 				$imagePath = $baseDir. '/'. $articlePaths->images .'/' . $user;
 
 				if(!is_dir($imagePath)){
-					mkdir($imagePath);
+					mkdir($imagePath, 0775);
 				}
 
 				$imagePath = $imagePath . '/' . $artId;
 
 				if(!is_dir($imagePath)){
-					mkdir($imagePath);
+					mkdir($imagePath, 0775);
 				}
 
-				$finalImgPth = $imagePath . '/' . $nameArr[1];
+				$finalImgPth = $imagePath . '/' . $nameArr;
 		
 
 				if($formStat){
-					if(move_uploaded_file($tmp_name[1], $finalImgPth)){
+					if(move_uploaded_file($tmp_name, $finalImgPth)){
 						$formStat  = true;
-						$dbImagePath = $articlePaths->images .'/' . $user . '/' . $artId . '/' . $nameArr[1];
+            echo 'pic passed </br>';
+						$dbImagePath = $articlePaths->images .'/' . $user . '/' . $artId . '/' . $nameArr;
 					} else {
 						$formStat = false;
+            echo 'pic failed upload </br>';
 
 						$thmbErr = 'Error with file uploading please try again. If persists please contact admin.';
 
@@ -213,6 +150,7 @@
 				}
 			} else {
 				$formStat = false;
+        echo 'pic failed before upload </br>';
 
 				$thmbErr ='Error with image, please ensure you have selected a image file.';
 				
@@ -220,29 +158,52 @@
 
 			
 		} else {
-			$formStat = false;
+        $formStat = false;
+        echo 'pic failed no file </br>';
 
-			$thmbErr = $artFlErr =  'Files not found please Try again, if persistes contact us';
-		}
+        $thmbErr =  'Files not found please Try again, if persistes contact us';
+      }
+    } else{
+      $formStat = false;
+      $thmbErr =  'Please choose either file or url to uplaod with article please.';
+    }
 
-		if(!empty($_POST['taglineTxtBx'])){
-			$tagline = htmlspecialchars($_POST['taglineTxtBx']);
+		
+
+		if(!empty($_POST['articleTaglineTxtBx'])){
+			echo $tagline = htmlspecialchars($_POST['articleTaglineTxtBx']);
 
 			if($formStat){
 					$formStat  = true;
+          echo '</br> tag passed </br>';
 				}
 		} else {
 			$tagErr = 'Please add a tagline, this is for display purposes';
-
+      echo 'tag failed </br>';
 			$formStat = false;
 			
 		}
+    
+    if(!empty($_POST['articleContent'])){
+      $articleContent = $_POST['articleContent'];
+      
+      if($formStat){
+					$formStat  = true;
+          echo 'article content passed </br>';
+				}
+      
+    } else {
+      $artConErr = 'Please add text into the article before is it submitted for vetting';
+      echo 'article content failed </br>';
+			$formStat = false;
+    }
 
 		if($userDetails->level == 99){
 			$isValid = 'Y';
 		} else {
 			$isValid = 'N';
 		}
+      
 
 		
 
@@ -250,25 +211,26 @@
 		if($formStat){
 			$article = new Article(	$artId,
 									$headline,
-									$nameArr[0],
+									$articleContent,
 									$user,
 									null,
 									null,
-									$dbImagePath,
 									$tagline,
+									$dbImagePath,
 									$isValid
 									);
 			
 
 			
-			insert($article, 'upload', $userDetails->level, $finalArtFile, $finalImgPth);
+			insert($article, $userDetails->level, true, $finalImgPth);
+//       var_dump($article); //testing
 			
 		} else {
 
 			$upldFrmErr = 'Errors preset with your upload, please select upload to option to see details';
 
 			echo '<script> var hdLnErr = "' . $hdLnErr . '";
-					var artFlErr = "'. $artFlErr . '";
+					var artConErr = "'. $artConErr . '";
 					var thmbErr = "'. $thmbErr . '";
 					var tagErr = "' . $tagErr . '";
 					var upldErr = "'. $upldFrmErr .'";
@@ -280,11 +242,8 @@
 		}
 	}
 
-	function createForm(){
-		//linked to the second disabled button
-	}
 
-	function insert($article, $InserType, $userLevel, $articlePath, $imagePath){
+	function insert($article, $userLevel, $filePresent, $imagePath){
 
 		$inArt = new Article();
 
@@ -305,7 +264,9 @@
       }
 			
 		} else {
-			removeFiles($articlePath, $imagePath);
+			if($filePresent){
+        removeFiles($imagePath);
+      }
 			if( $res == 'upload'){
 				echo '<script type="text/javascript">
 					alert("There has been a problem with the saving of your article, please click ok and go back to the upload article screen");
@@ -320,19 +281,11 @@
 
 	}
 
-	function removeFiles($article, $image){
+	function removeFiles($image){
 		try{
 			unlink($image);
 			rmdir(substr($image, 0, strrpos($image, '/')));
 		}
-		catch(Exception $ex){
-			echo $ex->getMessage();
-		}
-
-		try{
-			unlink($article);
-			rmdir(substr($article, 0, strrpos($article, '/')));
-		} 
 		catch(Exception $ex){
 			echo $ex->getMessage();
 		}
@@ -356,23 +309,12 @@ and open the template in the editor.
 		<title>Royalflush</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-			<link rel="stylesheet" href="css/theme.css">
-			<link rel="stylesheet" href="css/dropzone.css">
-
-
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
     
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/theme.css">
-  
-  <script src="js/jquery-3.3.1.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-		<script src="https://www.google.com/recaptcha/api.js" async defer></script>	
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="<?php echo BOOTSTRAP_CSS_THEME; ?>">
+    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.snow.css">
+    
+    <script src="https://kit.fontawesome.com/a56dda08bc.js"></script>
 
   
 	
@@ -385,180 +327,112 @@ and open the template in the editor.
 	  </nav>
 
 	  <div class="container" id="choiceDiv">
-		<p>Welcome to the article createtion pages!! </br> There are two options to 
-				getting you article onto our site, upload and create.</p>
-		<p>Uploading is for those who already have a existing html page for 
-			their article. It allows you to upload your page to our site and once approved 
-			it will be displayed. The other option create is for those who may not be fully
-			comfortable with HTML language, so we have created a simple but effective tool for
-			creating articles of your choice. Again same story once completed and submitted 
-			it will be vetted and approved. </p>
-			<p>Note on approval criteria, this will be checked for any subjects deemed not 
-				appropriat for our site eg racial, hateful etc. Also these will be checked for
-				malious code, especially users that use the uploaded form, so please keep the JS
-				a minimum if any at all.</p>
-				<p>Now after all that please choose you method and we look forward to hearing
-					what you have to say.
-					</br> RFO.
-				</p>
-
-		<div class="btn-group col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4
-								col-xl-4 col-xl-offset-4 col-sm-4 col-sm-offset-4" role="group">
-			<button class="btn btn-success" id="uploadBtn" onclick="openPnl(this)">Upload</button>
-			<button class="btn btn-success disabled" id="createBtn" >Create</button> <!-- once enabled add onclick -->
-			
-		</div>
-		<br/>
-		<br/>
-
-		<div class=" col-md-offset-2 col-lg-offset-2 col-xl-offset-2 col-sm-offset-2">
-			<p id="upldFrmErr" class="text-warning"></p>
-			<script>
-					$('#upldFrmErr').text(upldErr);
-			</script>
-		</div>
-
-		
-
-		<!--<div class="col-md-2 col-md-offset-1">
-			<button class="btn btn-success" id="createBtn">Create</button>
-		</div>-->
-
-	</div>
+      <p><h3>Welcome to the article createtion pages!!</h3> </br> Please user the below editor to compose your article. Once completed and saved this will be 
+       translated into a html page for you and displayed as once vetted.</p>
+        <p>Note on approval criteria, this will be checked for any subjects deemed not 
+          appropriat for our site eg racial, hateful etc.</p>
+          <p>Now after all that please choose you method and we look forward to hearing
+            what you have to say.
+            </br> RFO.
+          </p>
+    </div>
 
 
-	<div class="container" id="uploadDiv" hidden="true">
-		<form class="form-horizontal" method="post" action="articleEditing.php" enctype="multipart/form-data">
-			<div class="panel col-md-10 col-md-offset-1" id="uploadPnl">
+    <div class="container" id="articleDiv">
+      <form method="post" action="articleEditing.php" enctype="multipart/form-data" id="articleForm">
 
-				<div class="col-sm-offset-11 col-xs-offset-11 ">
-					<a role="button" id="clsUpPnl" onclick="closePnl(this)"><span class="glyphicon glyphicon-remove"></span></a>
-					<input type="hidden" name="pnlType" id="pnlType">
-				</div>
-
-				<div id="formContent">
-					
-				</div>
-
-				<!--<div class="form-group">
-						<label class="control-label col-md-3" for="headline">Headline</label>
-						<div class="col-md-8">
-							<input type="text" class="form-control" id="headline" name="headline" placeholder="Add headline here" value="<?php echo $headline; ?>">
-						</div>
-					</div>
-
-				<div class="form-group">
-							<label class="control-label col-md-3" for="artFile" id="artFileLbl">Article Content - </br> (Upload .HTML files only)</label> 
-							<div class="col-md-6">
-								<input type="file" name="artFile" id="artFile" class="form-control-file" onchange="uploadArticle(this)">
-								<img src="images/site-images/file-uploads/appbar.page.check.png" class="img" id="artFileUpload" hidden="true">
-								<input type="hidden" name="artText" id="artText" class="form-control">
-							</div>
-							<label id="artFileErr" class="control-label"></label>
-				</div>
-
-				<div class="form-group">
-							<label class="control-label col-md-3" for="thmbnlPic" id="thmbnlPicLbl">Thumbnail</label> 
-							<div class="col-md-6">
-								<input type="file" name="thmbFile" id="thmbFile" class="form-control-file" onchange="imgPost()">
-							</div>
-							<label id="thmbErr" class="control-label"><?php //echo $thmbErr; ?></label>
-				</div>
-
-				<div class="form-group">
-						<label class="control-label col-md-3" for="taglineTxtBx">Tag Line</label>
-          <div class="col-md-6">
-            <textarea class="form-control" id="taglineTxtBx" placeholder="Preview text ie tagline here"
-    									name="taglineTxtBx" value="<?php //echo $tagline; ?>"></textarea>
-						</div>
-				</div>-->
-
-		  <div class="form-group" id="iRobot">
-				<div class="col-md-10 col-md-offset-4" id="recaptchaDiv">
-					<div class="g-recaptcha" data-sitekey="<?php echo $recaptDetails->siteKey; ?>"
-										data-theme="dark" data-callback="iRobot"></div>
-				</div>
-			</div>
-      <div class="form-group" id="submitButton" hidden="true">
-               <div class="col-md-10 col-md-offset-4">
-                <input type="submit" class="btn btn-success" value="Submit" 
-                name="sbmtBtn" id="sbmtBtn" >
-              </div>
-
-
+        <div class="form-group">
+          <div class="col-md-8">
+            <label class="control-label" for="articleTitleTxtBx">Article Title</label>
+            <input type="text" class="form-control" name="articleTitleTxtBx" id="articleTitleTxtBx" placeholder="Please enter Article title"/>
+            <label class="control-label" id="hdLnErr"><?php echo $hdLnErr; ?></label>
+          </div>
         </div>
-		</div>			
-<!--           <div class="form-group" id="submitButton" hidden="true">
-           	 <div class="col-md-10 col-md-offset-4">
-              <input type="submit" class="btn btn-success" value="Submit" 
-							name="sbmtBtn" id="sbmtBtn" >
+
+        <div class="form-group">
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-4">
+                  <label for="articleThumbnail">Article thumbnail</label>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label class="control-label" id="articleThumbnailSubLbl">Format: </label>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="btn-group" role="group" id="articleThumbnailChoiceBtns">
+                        <button type="button" class="btn btn-default" id="artThmbFileBtn">File</button>
+                        <button type="button" class="btn btn-warning" disabled="disabled">or</button>
+                        <button type="button" class="btn btn-default" id="artThmbURLBtn">URL</button>
+                      </div>
+                      <label class="control-label" id="formatLbl"></label>
+                    </div>
+                  </div>
+              </div>
+              <div class="col-md-8">
+               <div class="row">
+                   <div class="col-md-offset-11">
+                        <a class="btn btn-default btn-sm" onclick="closeTumbnailChoice()" id="closeChoiceBtn">
+                          <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="panel panel-default" id="articleThumbnailPnl">
+                    <div class="panel-body">
+                        <input type="file" name="articleThumbnailFile" id="articleThumbnailFile" 
+                               class="form-control-file" onchange="articleImgcheck(this)"/>
+                        <input type="text" name="articleThumbnailUrl" id="articleThumbnailUrl" 
+                               class="form-control" onchange="articleImageUrlCheck(this)"/>
+                        <input type="hidden" name="artTmbChoice" id="artTmbChoice">
+                    </div>
+                    <div class="panel-footer" id="errorFooterPnl">
+                         <label class="control-label" id="thmbErr"><?php echo $thmbErr; ?></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div> 
+        </div>
+        
+        <div class="form-group">
+          <div class="col-md-8">
+            <label for="articleTaglineTxtBx">Article Summary/Tagline</label>
+            <textarea name="articleTaglineTxtBx"  id="articleTaglineTxtBx" class="form-control"
+                    placeholder="Here is where you will put a brief summery or hook that will be displayed in the search page and home page" rows="5"></textarea>
+            <label class="control-label" id="tagErr"><?php echo $tagErr; ?></label>
+           </div>
+        </div>
 
-				
-			</div> -->
-		</form>
-	</div>
+        <div class="form-group">
+          <div class="col-md-8">
+            <label for="articleEditor">Article Content Editor</label>
+          </div>
+          <div id="articleEditor" style="background-color:#f2f3f2; color:black"></div>
+            <input type="hidden" name="articleContent" id="articleContent">
+            <label class="control-label" id="artConErr"><?php echo $artConErr; ?></label>
+          </div>
 
-  	<!-- <div class="container" id="createDiv" hidden="true"> -->
-			
-			<!--<div class="row">
-	
-				<form class="form-horizontal" id="artForm" style="padding: 100px" method="post" action="https://localhost:8888/testing/articleEditing.php">
-					
-					
-					
-					<div class="panel col-md-8 col-md-offset-1" id="artPnl">
-						<div class="col-sm-offset-11 col-xs-offset-11 ">
-							<a role="button" id="clsArtPnl" onclick="closePnl(this)"><span class="glyphicon glyphicon-remove"></span></a>
-						</div>
-						
-						<div class="form-group">
-							<label class="control-label col-md-2" for="headline">Headline</label>
-							<div class="col-md-10">
-								<input type="text" class="form-control" id="headline" placeholder="Add headline here" onchange="updateArr(this,2)">
-							</div>
-						</div>
+        <button type="button" class="btn btn-default" id="articleSubmitBtn">
+          Submit
+        </button>
+        <label class="control-label" id="upldFrmErr"><?php echo $upldFrmErr; ?></label>
+      </form>
+    </div>
 
-						<div class="form-group">
-							<label class="control-label col-md-2" for="headLnPic" id="headLnPicLbl">Title Picture</label> 
-							<div class="col-md-6">
-								<input type="file" name="headLnPic" id="headLnPic" class="form-control-file" onchange="updateArr(this,5)">
-                                <label><input type="checkbox" onchange="removePic()" id="headLnPicChkBx">Check to Remove</label>
-							</div>
-						</div>
-						
-					</div>
-					
-					
-				</form>
-			</div>-->
-		<!-- </div> -->
+<script
+			  src="https://code.jquery.com/jquery-3.4.1.min.js"
+			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			  crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 
-		<!-- <div class="col-md-4 col-md-offset-1" hidden="true" id="preDiv">
-				<button role="button" class="btn btn-success" id="preBtn" >
-					Preview
-				</button>
-		</div>
-			
-		<div class="row">
-				<p id="runOrd">
-					
-				</p>
-				<div class="panel panel-default" id="preVwPnl" hidden="true">
-					
-				</div>
-		</div> -->
-				
-			
-			
-		
-		</div>
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+	<script src="js/login.js"></script>
+<!-- 	<script src="js/navbar.js"></script> -->
+	<script src="js/articleForms/upload.js"></script>
+<!-- 	<script src="js/recaptcha.js"></script> -->
 		
   </body>
-	<!-- <script src="js/login.js"></script> -->
-	<script src="js/navbar.js"></script>
-	<script src="js/articleEdit.js"></script>
-	<script src="js/articleForms/upload.js"></script>
-	<script src="js/recaptcha.js"></script>
-	<!--<script src="js/articleForms/create.js"></script>-->
+  
+
 </html>
