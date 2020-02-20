@@ -12,10 +12,10 @@
             "dbName":"RFO"
         },
     "prod" : {
-            "serverName":"localhost",
-            "username":"royalflushonline",
-            "password":"FullHouse1985",
-            "dbName":"RFO"
+            "serverName":"sql300.epizy.com",
+            "username":"epiz_23882938",
+            "password":"mJ2eLelS2Y7",
+            "dbName":"epiz_23882938_RFO"
         }
 
 }   

@@ -38,10 +38,10 @@
             ?>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li id="reg"><a href="register.php"
+            <li id="reg" class="disabled"><a href="register.php"
                   data-toggle="tooltip" 
                   data-placement="bottom" 
-                  title="Register"><span class="glyphicon glyphicon-user"></span></a></li>
+                  title="Register(Under Review)"><span class="glyphicon glyphicon-user"></span></a></li>
             <li id="login"><a href="loginPage.php" 
                   data-toggle="tooltip" 
                   data-placement="bottom" 
